@@ -1,0 +1,110 @@
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Eye, EyeOff } from "lucide-react"
+import { userLoginSchema, type userLoginType } from "@/validation"
+// Assuming userAuthService is imported from somewhere, leaving it as is.
+// import { userAuthService } from "@/services"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
+
+export const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<userLoginType>({
+    resolver: zodResolver(userLoginSchema),
+  })
+
+  const onSubmit = async (data: userLoginType) => {
+    try {
+      // const result = await userAuthService.login(data as userLoginType)
+      // if (!result.success) {
+      //   throw new Error(result.error, { cause: result.code })
+      // }
+      
+      // toast.success(result.message)
+      // navigate('/select-profile', { state: { identities: result.data } })
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause })
+    }
+  }
+
+  return (
+    <div className="w-full space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <div className="flex flex-col gap-6 sm:flex-row">
+          <div className="flex-1 space-y-2">
+            <Label htmlFor="email" className="text-base font-normal">
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              className="h-10 rounded-lg"
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="text-sm text-destructive">{errors.email.message}</p>
+            )}
+          </div>
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password" className="text-base font-medium">
+                Password
+              </Label>
+              <a href="#" className="text-md text-primary hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+                className="h-10 rounded-lg pr-10"
+                {...register("password")}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute top-0 right-0 h-full px-3 text-muted-foreground hover:bg-transparent hover:text-foreground"
+                onClick={() => setShowPassword((prev) => !prev)}
+                tabIndex={-1}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+            {errors.password && (
+              <p className="text-sm text-destructive">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <Button
+            type="submit"
+            className="text-base h-10 rounded-lg px-10"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Logging in..." : "Log in"}
+          </Button>
+        </div>
+      </form>
+    </div>
+  )
+}
