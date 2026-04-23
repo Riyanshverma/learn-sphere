@@ -1,4 +1,4 @@
-export const adminSignin = async () => {
+export const adminSignup = async () => {
   try {
     console.log("Hello");
     

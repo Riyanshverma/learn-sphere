@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
-import { adminSignin } from "../../controllers";
+import { adminSignup } from "../../controllers";
 
 const adminAuthRoutes = new Elysia({ prefix: "/auth" })
 
-adminAuthRoutes.post("/sign-up", adminSignin)
+adminAuthRoutes.post("/sign-up", adminSignup)
 
 export { adminAuthRoutes }

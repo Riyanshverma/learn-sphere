@@ -9,3 +9,9 @@ export const userLoginSchema = z.strictObject({
   password: password,
 })
 export type userLoginType = z.infer<typeof userLoginSchema>
+
+export const adminSignupSchema = z.strictObject({
+  email: email,
+  password: password,
+  
+})

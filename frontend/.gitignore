@@ -58,3 +58,6 @@ config.headers
 
 # TypeScript
 *.tsbuildinfo
+
+# AI Agents / Skills
+.agents/skills/
