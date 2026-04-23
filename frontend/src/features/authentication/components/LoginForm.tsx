@@ -6,8 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Eye, EyeOff } from "lucide-react"
 import { userLoginSchema, type userLoginType } from "@/validation"
-// Assuming userAuthService is imported from somewhere, leaving it as is.
-// import { userAuthService } from "@/services"
+import { userAuthService } from "@/services"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 
@@ -25,12 +24,12 @@ export const LoginForm = () => {
 
   const onSubmit = async (data: userLoginType) => {
     try {
-      // const result = await userAuthService.login(data as userLoginType)
-      // if (!result.success) {
-      //   throw new Error(result.error, { cause: result.code })
-      // }
+      const result = await userAuthService.login(data as userLoginType)
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code })
+      }
       
-      // toast.success(result.message)
+      toast.success(result.message)
       // navigate('/select-profile', { state: { identities: result.data } })
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
@@ -38,9 +37,9 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className="w-full space-y-6">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="flex flex-col gap-6 sm:flex-row">
+    <div className="w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="flex flex-col gap-6">
           <div className="flex-1 space-y-2">
             <Label htmlFor="email" className="text-base font-normal">
               Email
@@ -61,7 +60,7 @@ export const LoginForm = () => {
               <Label htmlFor="password" className="text-base font-medium">
                 Password
               </Label>
-              <a href="#" className="text-md text-primary hover:underline">
+              <a href="#" className="text-base text-primary hover:underline">
                 Forgot password?
               </a>
             </div>
@@ -98,7 +97,7 @@ export const LoginForm = () => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="text-base h-10 rounded-lg px-10"
+            className="text-base h-10 rounded-full px-10"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Logging in..." : "Log in"}

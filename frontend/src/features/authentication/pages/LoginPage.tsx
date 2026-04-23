@@ -1,15 +1,35 @@
-import { LoginForm } from "@/features/authentication"
+import { Footer } from "../components/Footer"
+import Aurora from "@/components/Aurora"
+import { LoginForm } from ".."
 
 export const LoginPage = () => {
   return (
-    <div className="min-h-screen w-full bg-foreground flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-background text-foreground rounded-2xl shadow-2xl p-8 md:p-12 border border-border">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-heading mb-2 tracking-tight">Welcome Back</h1>
-          <p className="text-muted-foreground text-lg font-sans">Sign in to your account to continue</p>
+    <div className="flex min-h-screen flex-col bg-foreground text-foreground overflow-hidden">
+      <main className="relative flex flex-1 flex-col items-center justify-center">
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Aurora
+            colorStops={["#7cff67", "#B497CF", "#5227FF"]}
+            blend={0.5}
+            amplitude={1.0}
+            speed={1}
+          />
         </div>
-        {/* <LoginForm /> */}
-      </div>
+
+        <div className="relative z-10 w-full max-w-xl space-y-8">
+          <div className="text-center space-y-2">
+            <h1 className="text-5xl font-heading text-white">
+              Welcome back
+            </h1>
+            <p className="text-xl text-white/50 font-sans">
+              Log in to your account
+            </p>
+          </div>
+          <div className="rounded-2xl bg-white border-2 border-primary px-6 py-4">
+            <LoginForm />
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   )
 }
