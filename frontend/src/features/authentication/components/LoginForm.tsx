@@ -97,7 +97,7 @@ export const LoginForm = () => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="text-base h-10 rounded-full px-10"
+            className="text-base h-10 rounded-full px-8"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Logging in..." : "Log in"}
