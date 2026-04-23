@@ -1,9 +1,8 @@
 import { Elysia } from "elysia";
+import { adminSignin } from "../../controllers";
 
 const adminAuthRoutes = new Elysia({ prefix: "/auth" })
 
-adminAuthRoutes.get("/identity-details", () => ({ message: "Admin identity details" }))
-
-adminAuthRoutes.post("/sign-up", () => ({ message: "Admin signed up successfully" }))
+adminAuthRoutes.post("/sign-up", adminSignin)
 
 export { adminAuthRoutes }
