@@ -1,7 +1,8 @@
-import { type userLoginType } from "../validations";
+import { type Context } from "elysia";
 import { userSignin } from "../services";
+import { type userLoginType } from "../validations";
 
-export const login = async ({ body }: { body: userLoginType }) => {
+export const login = async ({ body }: Context<{ body: userLoginType }>) => {
   try {
     const { email, password } = body
     
