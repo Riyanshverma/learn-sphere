@@ -14,7 +14,7 @@ export const Footer = () => {
         
         <div className="flex">
           <NavigationMenu>
-            <NavigationMenuList className="gap-8">
+            <NavigationMenuList className="gap-8 font-sans cursor-pointer">
               <NavigationMenuItem>
                 <NavigationMenuLink className="text-base font-light text-muted-foreground hover:text-foreground hover:bg-transparent">
                   Privacy Policy

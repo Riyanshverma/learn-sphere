@@ -41,26 +41,26 @@ export const LoginForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col gap-6">
           <div className="flex-1 space-y-2">
-            <Label htmlFor="email" className="text-base font-normal">
+            <Label htmlFor="email" className="text-base font-normal font-heading">
               Email
             </Label>
             <Input
               id="email"
               type="email"
               placeholder="m@example.com"
-              className="h-10 rounded-lg"
+              className="h-10 rounded-lg font-sans"
               {...register("email")}
             />
             {errors.email && (
-              <p className="text-sm text-destructive">{errors.email.message}</p>
+              <p className="text-sm text-destructive font-sans">{errors.email.message}</p>
             )}
           </div>
           <div className="flex-1 space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-base font-medium">
+              <Label htmlFor="password" className="text-base font-normal font-heading">
                 Password
               </Label>
-              <a href="#" className="text-base text-primary hover:underline">
+              <a href="#" className="text-base font-normal font-heading">
                 Forgot password?
               </a>
             </div>
@@ -69,7 +69,7 @@ export const LoginForm = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter password"
-                className="h-10 rounded-lg pr-10"
+                className="h-10 rounded-lg font-sans"
                 {...register("password")}
               />
               <Button
@@ -88,7 +88,7 @@ export const LoginForm = () => {
               </Button>
             </div>
             {errors.password && (
-              <p className="text-sm text-destructive">
+              <p className="text-sm text-destructive font-sans">
                 {errors.password.message}
               </p>
             )}
@@ -97,7 +97,7 @@ export const LoginForm = () => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="text-base h-10 rounded-full px-8"
+            className="text-base font-sans h-10 rounded-full px-8"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Logging in..." : "Log in"}
