@@ -8,11 +8,11 @@ import { Eye, EyeOff } from "lucide-react"
 import { userLoginSchema, type userLoginType } from "@/validation"
 import { userAuthService } from "@/services"
 import { toast } from "sonner"
-// import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const {
     register,
@@ -28,9 +28,9 @@ export const LoginForm = () => {
       if (!result.success) {
         throw new Error(result.error, { cause: result.code })
       }
-      
+
       toast.success(result.message)
-      // navigate('/select-profile', { state: { identities: result.data } })
+      navigate('/select-profile', { state: { identities: result.data } })
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
     }

@@ -118,3 +118,10 @@ export interface createAdminResponse {
     account_type: account_type;
   };
 }
+
+export interface getUserIdentitiesResponse {
+  identity_id: string;
+  role: role;
+  verified: boolean;
+  active: boolean;
+}

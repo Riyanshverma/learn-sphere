@@ -1,7 +1,7 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
 import { type userLoginType } from '../validations';
-import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse } from '../types';
+import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse } from '../types';
 
 export const userSignin = async ({ email, password }: userLoginType): Promise<Session> => {
   try {
@@ -55,14 +55,14 @@ export const uploadDocument = async ({ name, buffer, mime_type }: uploadDocument
   }
 }
 
-export const getDocumentURL = async (document_path: string) => {
+export const getDocumentURL = async (document_path: string): Promise<string> => {
   try {
-    const { data } = supabaseAdmin.storage.from('learn-sphere').getPublicUrl(document_path);
+    const { data } = supabaseAdmin.storage.from('learn-sphere').getPublicUrl(document_path)
 
-    return data.publicUrl as string;
+    return data.publicUrl
   } catch (error: any) {
-    console.error(error.message);
-    throw error;
+    console.error(error.message)
+    throw error
   }
 }
 
@@ -98,6 +98,21 @@ export const createAdmin = async (params: createAdminType): Promise<createAdminR
     return data as createAdminResponse;
   } catch (error: any) {
     console.error(error.message);
-    throw error;
+    throw error
+  }
+}
+
+export const getUserIdentities = async (user_id: string): Promise<getUserIdentitiesResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.from('identity').select('identity_id:id, role, verified, active').eq('user_id', user_id)
+
+    if(error) {
+      throw error
+    }
+
+    return data as getUserIdentitiesResponse[]
+  } catch (error: any) {
+    console.error(error.message);
+    throw error
   }
 }

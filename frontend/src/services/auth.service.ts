@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
-import type { ApiSuccessResponse, ApiErrorResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, userLoginResponse } from "@/types";
 import { type userLoginType } from "@/validation";
 
 class UserAuthService {
@@ -13,9 +13,9 @@ class UserAuthService {
     });
   }
 
-  async login(data: userLoginType): Promise<ApiSuccessResponse<any> | ApiErrorResponse> {
+  async login(data: userLoginType): Promise<ApiSuccessResponse<userLoginResponse[]> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.post<ApiSuccessResponse<any>>('/auth/log-in', data);
+      const response = await this.apiClient.post<ApiSuccessResponse<userLoginResponse[]>>('/auth/log-in', data);
 
       return response.data;
     } catch (error: any) {
