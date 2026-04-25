@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
 import { MoveLeft } from "lucide-react"
 
 export const Header = ({ onLoginPage = false }: { onLoginPage?: boolean}) => {
+  const navigate = useNavigate()
+
   return (
     <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
       <div className="flex items-center justify-between px-6 py-3 bg-background/40 backdrop-blur-md border border-white/60 rounded-full w-full max-w-7xl pointer-events-auto">
@@ -42,11 +44,12 @@ export const Header = ({ onLoginPage = false }: { onLoginPage?: boolean}) => {
         {/* CTA */}
         <div className="flex items-center">
           {onLoginPage ? (
-            <Button className="rounded-full px-8 h-10 bg-foreground text-base font-sans text-background hover:bg-muted-foreground">
-              <Link to="/" className="flex items-center gap-2">
-                <MoveLeft className="w-4 h-4" />
-                Back
-              </Link>
+            <Button 
+              onClick={() => navigate(-1)}
+              className="rounded-full px-8 h-10 bg-foreground text-base font-sans text-background hover:bg-muted-foreground flex items-center gap-2"
+            >
+              <MoveLeft className="w-4 h-4" />
+              Back
             </Button>
           ) : (
             <Button asChild className="rounded-full bg-primary text-base text-foreground px-8 h-10">

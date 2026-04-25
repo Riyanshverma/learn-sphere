@@ -30,7 +30,7 @@ export const LoginForm = () => {
       }
 
       toast.success(result.message)
-      navigate('/select-profile', { state: { identities: result.data } })
+      navigate('/select-identity', { state: { identities: result.data } })
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
     }
