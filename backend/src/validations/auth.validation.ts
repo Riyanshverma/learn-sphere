@@ -10,6 +10,7 @@ const word = z.string().trim().min(3, 'Invalid').toLowerCase()
 const number = z.coerce.number().int('Invalid').min(0, 'Invalid') as z.ZodNumber
 const pincode = z.coerce.number().int().refine((val) => /^\d{6}$/.test(String(val)), { message: 'Must be 6 digits' })
 const days = z.array(z.enum(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])).min(1, 'Select at least one day');
+const uuid = z.uuid('Invalid')
 
 const time = z.iso.time('Invalid')
 const file = z.instanceof(File).refine((file) => file.size > 0, 'Invalid')
@@ -57,3 +58,9 @@ export const adminSignupSchema = z.strictObject({
 })
 
 export type adminSignupType = z.infer<typeof adminSignupSchema>
+
+export const identityIdSchema = z.strictObject({
+  identity_id: uuid,
+})
+
+export type identityIdType = z.infer<typeof identityIdSchema>

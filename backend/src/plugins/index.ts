@@ -1,2 +1,5 @@
-import { validationErrorPlugin } from "./validation.plugin";
-export { validationErrorPlugin }
+import { validationPlugin } from "./validation.plugin";
+export { validationPlugin }
+
+import { authenticationPlugin } from "./authentication.plugin";
+export { authenticationPlugin }

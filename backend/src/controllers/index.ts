@@ -1,2 +1,2 @@
-import { adminSignup } from "./admin/auth.controller";
-export { adminSignup }
+import { adminSignup, adminIdentityDetails } from "./admin/auth.controller";
+export { adminSignup, adminIdentityDetails }

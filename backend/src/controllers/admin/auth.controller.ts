@@ -1,5 +1,5 @@
 import { type Context } from "elysia";
-import { adminSignupType } from "../../validations";
+import type { adminSignupType, identityIdType } from "../../validations";
 import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin } from "../../services";
 
 export const adminSignup = async (context: Context<{ body: adminSignupType }>) => {
@@ -31,3 +31,13 @@ export const adminSignup = async (context: Context<{ body: adminSignupType }>) =
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
   }
 };
+
+
+export const adminIdentityDetails = async (context: Context<{ query: identityIdType }>) => {
+  try {
+    
+    
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+  }
+}

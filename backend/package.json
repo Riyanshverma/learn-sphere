@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
+    "@elysiajs/jwt": "^1.4.2",
     "@supabase/supabase-js": "^2.99.2",
     "elysia": "latest",
     "zod": "^4.3.6"

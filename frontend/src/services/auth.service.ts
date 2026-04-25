@@ -22,6 +22,16 @@ class UserAuthService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
+
+  async getIdentityDetails(identity_id: string, role: string): Promise<ApiSuccessResponse<any> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse<any>>(`/${role}/auth/identity-details`, { params: { identity_id } })
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
 }
 
 export const userAuthService = new UserAuthService();

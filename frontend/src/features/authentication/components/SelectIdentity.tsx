@@ -2,11 +2,27 @@ import { type userLoginResponse } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
+import { userAuthService } from "@/services"
 
 export const SelectIdentity = ({ identities }: { identities: userLoginResponse[] }) => {
-  const handleSelect = (identity: userLoginResponse) => {
-    // TODO: Implement selection logic (set active identity/role)
-    console.log("Selected identity:", identity)
+  const navigate = useNavigate()
+
+  const handleIdentitySelect = async (identity: userLoginResponse) => {
+    try {
+      const result = await userAuthService.getIdentityDetails(identity.identity_id, identity.role)
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code })
+      }
+
+      // TODO: Set the store suitably...
+
+      toast.success(result.message)
+      navigate(`/${identity.role}/dashboard`)
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause })
+    }
   }
 
   return (
@@ -34,7 +50,7 @@ export const SelectIdentity = ({ identities }: { identities: userLoginResponse[]
             <CardFooter className="bg-muted/5">
               <Button
                 className="w-full bg-primary/20 hover:bg-primary text-primary text-lg font-heading tracking-widest hover:text-foreground transition-all duration-300 rounded-lg h-12"
-                onClick={() => handleSelect(identity)}
+                onClick={() => handleIdentitySelect(identity)}
               >
                 Continue
               </Button>

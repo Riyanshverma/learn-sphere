@@ -116,3 +116,20 @@ export const getUserIdentities = async (user_id: string): Promise<getUserIdentit
     throw error
   }
 }
+
+export const getUser = async (token: string): Promise<User> => {
+  try {
+    const { data, error } = await supabaseAdmin.auth.getUser(token);
+
+    if (error) {
+      throw error;
+    } else if (!data.user) {
+      throw new CustomAuthError('Invalid or expired token', 'TokenInvalidError', 401, 'token_invalid');
+    }
+
+    return data.user;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

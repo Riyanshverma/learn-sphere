@@ -5,8 +5,11 @@ import { staffRouter } from "./staff";
 import { teacherRouter } from "./teacher";
 import { userLogin } from "../utils";
 import { userLoginSchema } from "../validations";
+import { validationPlugin } from "../plugins";
 
 const apiRouter = new Elysia({ prefix: "/api" })
+
+apiRouter.use(validationPlugin)
 
 apiRouter.post('/auth/log-in', userLogin, { body: userLoginSchema })
 

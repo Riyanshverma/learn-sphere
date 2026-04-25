@@ -1,7 +1,6 @@
 import { Elysia } from "elysia";
 import { apiRouter } from "./routes";
 import { cors } from '@elysiajs/cors'
-import { validationErrorPlugin } from "./plugins";
 
 const app = new Elysia()
 
@@ -13,7 +12,6 @@ app.use(cors({
   maxAge: 600,
 }))
 
-app.use(validationErrorPlugin)
 
 app.use(apiRouter)
 
