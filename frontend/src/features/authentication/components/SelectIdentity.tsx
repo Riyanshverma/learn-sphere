@@ -1,54 +1,46 @@
 import { type userLoginResponse } from "@/types"
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ShieldCheck, User, Users, GraduationCap, HardHat } from "lucide-react"
 
+export const SelectIdentity = ({ identities }: { identities: userLoginResponse[] }) => {
+  const handleSelect = (identity: userLoginResponse) => {
+    // TODO: Implement selection logic (set active identity/role)
+    console.log("Selected identity:", identity)
+  }
 
-const roleConfig = {
-  admin: { icon: ShieldCheck, color: "text-red-400", bg: "bg-red-400/10", border: "border-red-400/20" },
-  teacher: { icon: GraduationCap, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20" },
-  staff: { icon: HardHat, color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/20" },
-  parent: { icon: Users, color: "text-green-400", bg: "bg-green-400/10", border: "border-green-400/20" },
-  student: { icon: User, color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20" },
-}
-
-export const SelectIdentity = ({ identities }: { identities: userLoginResponse[]}) => {
   return (
-    <div className="grid grid-cols-1 gap-4">
-      {identities.map((identity) => {
-        const config = roleConfig[identity.role as keyof typeof roleConfig] || roleConfig.student
-        const Icon = config.icon
-
-        return (
-          <button
-            key={identity.identity_id}
-            className={`group relative flex items-center gap-4 p-4 rounded-2xl border ${config.border} ${config.bg} hover:bg-white/5 transition-all duration-300 text-left`}
-          >
-            <div className={`p-3 rounded-xl ${config.bg} ${config.color}`}>
-              <Icon size={24} />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-heading capitalize text-foreground">
-                  {identity.role}
-                </h3>
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {identities.map((identity) => (
+          <Card key={identity.identity_id} className="relative mx-auto w-full overflow-hidden bg-background/20 backdrop-blur-xl border-foreground/10">
+            <CardHeader className="relative aspect-video w-full bg-primary flex items-center justify-center p-6 rounded-none overflow-hidden">
+              <div className="absolute top-2 right-2 flex flex-row gap-2 z-20">
                 {identity.verified && (
-                  <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+                  <Badge className="text-foreground rounded-none font-sans text-base font-light bg-background">
                     Verified
                   </Badge>
                 )}
+                {identity.active && (
+                  <Badge className="text-foreground rounded-none font-sans text-base font-light bg-background">
+                    Active
+                  </Badge>
+                )}
               </div>
-              <p className="text-sm text-muted-foreground font-sans">
-                {identity.active ? "Active account" : "Inactive account"}
-              </p>
-            </div>
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                 →
-               </div>
-            </div>
-          </button>
-        )
-      })}
+              <span className={`text-5xl font-heading font-normal text-foreground uppercase tracking-widest animate-in fade-in zoom-in duration-1000`}>
+                {identity.role}
+              </span>
+            </CardHeader>
+
+            <CardFooter className="bg-muted/5">
+              <Button
+                className="w-full bg-primary/20 hover:bg-primary text-primary text-lg font-heading tracking-widest hover:text-foreground transition-all duration-300 rounded-lg h-12"
+                onClick={() => handleSelect(identity)}
+              >
+                Continue
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
     </div>
   )
 }

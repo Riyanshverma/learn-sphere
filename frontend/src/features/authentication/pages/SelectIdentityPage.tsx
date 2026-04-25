@@ -33,17 +33,17 @@ export const SelectIdentityPage = () => {
           />
         </div>
 
-        <div className="relative z-10 w-full max-w-2xl px-6 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out fill-mode-both">
-          <div className="text-center space-y-4">
+        <div className="relative z-10 w-full space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out fill-mode-both">
+          <div className="text-center space-y-4 max-w-2xl mx-auto">
             <h1 className="text-6xl font-heading font-normal text-foreground">
               Select your <span className="text-primary">identity</span>
             </h1>
-            <p className="text-2xl text-muted-foreground font-sans font-light max-w-lg mx-auto leading-relaxed">
+            <p className="text-2xl text-muted-foreground font-sans font-light mx-auto leading-relaxed">
               Choose the account you want to use.
             </p>
           </div>
           
-          <div className="rounded-3xl bg-background/40 backdrop-blur-xl border border-foreground/20 px-6 py-8">
+          <div className="max-w-7xl mx-auto w-full rounded-3xl bg-background/40 backdrop-blur-xl border border-foreground/20 px-6 py-8">
             <SelectIdentity identities={identities} />
           </div>
         </div>
