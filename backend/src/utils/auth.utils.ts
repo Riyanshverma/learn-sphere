@@ -2,9 +2,9 @@ import { type Context } from "elysia";
 import { userSignin } from "../services";
 import { type userLoginType } from "../validations";
 
-export const login = async ({ body }: Context<{ body: userLoginType }>) => {
+export const login = async (context: Context<{ body: userLoginType }>) => {
   try {
-    const { email, password } = body
+    const { email, password } = context.body
     
     const session = await userSignin({ email, password })
 
