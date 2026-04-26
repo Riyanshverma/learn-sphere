@@ -1,16 +1,28 @@
 import { Elysia } from 'elysia';
-import { CustomAuthError } from '@supabase/supabase-js';
+import { CustomAuthError, User } from '@supabase/supabase-js';
 import { getUser } from '../services/auth.service';
+import { type JWTPayloadSpec, jwt } from '@elysiajs/jwt';
+import { verifyJWT } from '../utils';
 
 export const authenticationPlugin = (app: Elysia) =>
-  app.error({ AUTHENTICATION: CustomAuthError }).derive(async ({ cookie: { access_token }, request }) => {
+  app.use(jwt({name: 'jwt', secret: 'placeholder'})).derive(async ({ cookie: { access_token }, request, jwt }) => {
     const token = access_token.value ?? (request.headers.get('Authentication')?.startsWith('Bearer ') ? request.headers.get('Authentication')?.slice(7) : undefined)
+    
 
-    if (!token || token === 'null' || token === 'undefined') {
-      throw new CustomAuthError('Missing or malformed token', 'UnauthenticatedError', 401, 'unauthenticated');
+    if (!token || token === 'null' || token === 'undefined') {            
+      throw new CustomAuthError('Missing or malformed token', 'UnauthenticatedError', 401, 'AUTHENTICATION');
     }
+    
+    let user: User | JWTPayloadSpec    
 
-    const user = await getUser(token as string);
+    if(request.url.includes('resend-invite')) {
+      user = await verifyJWT(jwt, token as string) as JWTPayloadSpec
+      if (!user) {
+        throw new CustomAuthError('Invalid or expired token', 'TokenError', 401, 'invalid_token');
+      }
+    } else {
+      user = await getUser(token as string) as User
+    }
 
     return { user };
   });

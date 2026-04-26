@@ -3,3 +3,6 @@ export { userLogin }
 
 import { setAuthCookies, setIdentityRoleCookie, clearAuthCookies } from "./cookie.utils";
 export { setAuthCookies, setIdentityRoleCookie, clearAuthCookies }
+
+import { signJWT, verifyJWT } from "./jwt.utils";
+export { signJWT, verifyJWT }

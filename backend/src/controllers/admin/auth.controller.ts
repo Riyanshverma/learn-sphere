@@ -1,6 +1,7 @@
 import { type Context } from "elysia";
 import type { adminSignupType, identityIdType } from "../../validations";
 import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin } from "../../services";
+import { type User } from "@supabase/supabase-js";
 
 export const adminSignup = async (context: Context<{ body: adminSignupType }>) => {
   try {
@@ -33,9 +34,8 @@ export const adminSignup = async (context: Context<{ body: adminSignupType }>) =
 };
 
 
-export const adminIdentityDetails = async (context: Context<{ query: identityIdType }>) => {
-  try {
-    
+export const adminIdentityDetails = async (context: Context<{ query: identityIdType, user: User }>) => {
+  try {    
     
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
