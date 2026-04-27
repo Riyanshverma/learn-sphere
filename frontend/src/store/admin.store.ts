@@ -1,13 +1,13 @@
 import { create } from "zustand"
 import { devtools, persist } from "zustand/middleware"
-import type { createAdminResponse } from "@/types"
+import type { CreateAdminResponse } from "@/types"
 
 type adminState = {
-  admin: createAdminResponse | null
+  admin: CreateAdminResponse | null
 }
 
 type adminActions = {
-  setAdmin: (admin: createAdminResponse) => void
+  setAdmin: (admin: CreateAdminResponse) => void
   reset: () => void
 }
 

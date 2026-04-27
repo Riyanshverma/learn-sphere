@@ -3,12 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { Header, Footer } from "@/features/landing"
 import Aurora from "@/components/Aurora"
 import { SelectIdentity } from ".."
-import { type userLoginResponse } from "@/types"
+import type { UserLoginResponse } from "@/types"
 
 export const SelectIdentityPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const identities = location.state?.identities as userLoginResponse[]
+  const identities = location.state?.identities as UserLoginResponse[]
 
   useEffect(() => {
     if (!identities) {        

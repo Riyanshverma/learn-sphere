@@ -1,4 +1,4 @@
-import { type userLoginResponse } from "@/types"
+import type { UserLoginResponse, CreateAdminResponse } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -6,13 +6,12 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { userAuthService } from "@/services"
 import { useAdminStore } from "@/store"
-import type { createAdminResponse } from "@/types"
 
-export const SelectIdentity = ({ identities }: { identities: userLoginResponse[] }) => {
+export const SelectIdentity = ({ identities }: { identities: UserLoginResponse[] }) => {
   const setAdmin = useAdminStore((state) => state.setAdmin)
   const navigate = useNavigate()
 
-  const handleIdentitySelect = async (identity: userLoginResponse) => {
+  const handleIdentitySelect = async (identity: UserLoginResponse) => {
     try {
       const result = await userAuthService.getIdentityDetails(identity.identity_id, identity.role)
       if (!result.success) {
@@ -20,7 +19,7 @@ export const SelectIdentity = ({ identities }: { identities: userLoginResponse[]
       }
 
       if(result.data.role === 'admin') {
-        setAdmin(result.data as createAdminResponse)
+        setAdmin(result.data as CreateAdminResponse)
       } else if(result.data.role === 'teacher') {
         // TODO: Set the store for teacher...
       } else if(result.data.role === 'staff') {

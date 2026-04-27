@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
-import type { ApiSuccessResponse, ApiErrorResponse, userLoginResponse, createAdminResponse } from "@/types";
-import { type userLoginType } from "@/validation";
+import type { ApiSuccessResponse, ApiErrorResponse, UserLoginResponse, CreateAdminResponse } from "@/types";
+import { type UserLoginType } from "@/validation";
 
 class UserAuthService {
   apiClient: AxiosInstance;
@@ -13,9 +13,9 @@ class UserAuthService {
     });
   }
 
-  async login(data: userLoginType): Promise<ApiSuccessResponse<userLoginResponse[]> | ApiErrorResponse> {
+  async login(data: UserLoginType): Promise<ApiSuccessResponse<UserLoginResponse[]> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.post<ApiSuccessResponse<userLoginResponse[]>>('/auth/log-in', data);
+      const response = await this.apiClient.post<ApiSuccessResponse<UserLoginResponse[]>>('/auth/log-in', data);
 
       return response.data;
     } catch (error: any) {
@@ -23,9 +23,9 @@ class UserAuthService {
     }
   }
 
-  async getIdentityDetails(identity_id: string, role: string): Promise<ApiSuccessResponse<createAdminResponse | any> | ApiErrorResponse> {
+  async getIdentityDetails(identity_id: string, role: string): Promise<ApiSuccessResponse<CreateAdminResponse | any> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.get<ApiSuccessResponse<createAdminResponse | any>>(`/${role}/auth/identity-details`, { params: { identity_id } })
+      const response = await this.apiClient.get<ApiSuccessResponse<CreateAdminResponse | any>>(`/${role}/auth/identity-details`, { params: { identity_id } })
 
       return response.data;
     } catch (error: any) {

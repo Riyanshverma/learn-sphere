@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Eye, EyeOff } from "lucide-react"
-import { userLoginSchema, type userLoginType } from "@/validation"
+import { UserLoginSchema, type UserLoginType } from "@/validation"
 import { userAuthService } from "@/services"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
@@ -18,13 +18,13 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<userLoginType>({
-    resolver: zodResolver(userLoginSchema),
+  } = useForm<UserLoginType>({
+    resolver: zodResolver(UserLoginSchema),
   })
 
-  const onSubmit = async (data: userLoginType) => {
+  const onSubmit = async (data: UserLoginType) => {
     try {
-      const result = await userAuthService.login(data as userLoginType)
+      const result = await userAuthService.login(data as UserLoginType)
       if (!result.success) {
         throw new Error(result.error, { cause: result.code })
       }

@@ -8,14 +8,14 @@ type gender = "male" | "female" | "other";
 
 type blood_group = "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
 
-export interface userLoginResponse {
+export interface UserLoginResponse {
   identity_id: string;
   role: role;
   verified: boolean;
   active: boolean;
 }
 
-export interface createAdminResponse {
+export interface CreateAdminResponse {
   email: string;
   phone: string;
   date_of_birth: Date;
