@@ -50,14 +50,14 @@ export const SelectIdentity = ({ identities }: { identities: UserLoginResponse[]
                   </Badge>
                 )}
               </div>
-              <span className={`text-5xl font-heading font-normal text-foreground uppercase tracking-widest animate-in fade-in zoom-in duration-1000`}>
+              <span className={`text-5xl font-heading font-normal text-foreground uppercase tracking-widest`}>
                 {identity.role}
               </span>
             </CardHeader>
 
             <CardFooter className="bg-muted/5">
               <Button
-                className="w-full bg-primary/20 hover:bg-primary text-primary text-lg font-heading tracking-widest hover:text-foreground transition-all duration-300 rounded-lg h-12"
+                className="w-full bg-primary/20 hover:bg-primary text-primary text-lg font-heading tracking-widest hover:text-foreground rounded-lg h-12"
                 onClick={() => handleIdentitySelect(identity)}
               >
                 Continue

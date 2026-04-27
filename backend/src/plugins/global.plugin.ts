@@ -2,7 +2,7 @@ import { type Elysia } from 'elysia';
 import { CustomAuthError } from '@supabase/supabase-js';
 
 export const globalPlugin = (app: Elysia) => 
-  app.error({ AUTHENTICATION: CustomAuthError }).onError(({ code, error, status }) => {
+  app.error({ UNAUTHENTICATED: CustomAuthError, UNAUTHORIZED: CustomAuthError }).onError(({ code, error, status }) => {
     if (code === 'VALIDATION') {      
       return status(400, {
         success: false,
@@ -14,11 +14,19 @@ export const globalPlugin = (app: Elysia) =>
       });
     }
 
-    if (code === 'AUTHENTICATION') {      
+    if (code === 'UNAUTHENTICATED') {      
       return status(401, {
         success: false,
         error: error.message,
         code: 'unauthenticated'
+      });
+    }
+
+    if(code === "UNAUTHORIZED") {
+      return status(403, {
+        success: false,
+        error: error.message,
+        code: 'unauthorized'
       });
     }
 

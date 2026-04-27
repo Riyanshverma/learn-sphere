@@ -1,7 +1,7 @@
 import { type Context } from "elysia";
-import { userSignin, getUserIdentities } from "../services";
+import { userSignin, getUserIdentities, userSignout } from "../services";
 import { type userLoginType } from "../validations";
-import { setAuthCookies } from "../utils";
+import { setAuthCookies, clearAuthCookies } from "../utils";
 
 export const userLogin = async (context: Context<{ body: userLoginType }>) => {
   try {
@@ -19,3 +19,17 @@ export const userLogin = async (context: Context<{ body: userLoginType }>) => {
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
   }
 };
+
+export const userLogout = async (context: Context) => {
+  try {
+    const token = context.cookie.access_token.value as string
+
+    await userSignout(token);
+
+    clearAuthCookies(context);
+
+    return context.status(200, { success: true, message: 'Logged out successfully' });
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+  }
+}

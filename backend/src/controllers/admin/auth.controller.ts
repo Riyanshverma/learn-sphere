@@ -3,7 +3,7 @@ import type { adminSignupType, identityIdType } from "../../validations";
 import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getAdminIdentityDetails } from "../../services";
 import { type User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
-import { setIdentityRoleCookie } from "../../utils";
+import { setRoleCookie } from "../../utils";
 
 export const adminSignup = async (context: Context<{ body: adminSignupType }>) => {
   try {
@@ -43,7 +43,7 @@ export const adminIdentityDetails = async (context: Context<{ query: identityIdT
 
     const admin = await getAdminIdentityDetails(identity_id, user_id)
 
-    setIdentityRoleCookie(context, admin.role)
+    setRoleCookie(context, admin.role)
 
     return context.status(200, { success: true, message: 'Logged in successfully', data: admin })
   } catch (error: any) {

@@ -1,4 +1,5 @@
 import { type Context } from "elysia";
+import type { role } from "../types";
 
 export const setAuthCookies = (context: Context, access_token: string, refresh_token: string): void => {
   const { cookie } = context;
@@ -22,11 +23,11 @@ export const setAuthCookies = (context: Context, access_token: string, refresh_t
   });
 };
 
-export const setIdentityRoleCookie = (context: Context, role: string): void => {
+export const setRoleCookie = (context: Context, role: role): void => {
   const { cookie } = context;
   
-  cookie.identity_role.value = role;
-  cookie.identity_role.set({
+  cookie.role.value = role;
+  cookie.role.set({
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
@@ -40,5 +41,5 @@ export const clearAuthCookies = (context: Context): void => {
   
   cookie.access_token.remove();
   cookie.refresh_token.remove();
-  cookie.identity_role.remove();
+  cookie.role.remove();
 };

@@ -18,7 +18,7 @@ export const LoginPage = () => {
           />
         </div>
 
-        <div className="relative z-10 w-full max-w-xl px-6 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out fill-mode-both">
+        <div className="relative z-10 w-full max-w-xl px-6 space-y-8">
           <div className="text-center space-y-4">
             <h1 className="text-6xl font-heading font-normal text-foreground">
               Welcome <span className="text-primary">back</span>

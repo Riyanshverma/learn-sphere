@@ -10,7 +10,7 @@ export const authenticationPlugin = (app: Elysia) =>
     
 
     if (!token || token === 'null' || token === 'undefined') {            
-      throw new CustomAuthError('Missing or malformed token', 'UnauthenticatedError', 401, 'AUTHENTICATION');
+      throw new CustomAuthError('Missing or malformed token', 'UnauthenticatedError', 401, 'UNAUTHENTICATED');
     }
     
     let user: User | JWTPayloadSpec    

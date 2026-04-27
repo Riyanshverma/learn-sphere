@@ -33,7 +33,7 @@ export const SelectIdentityPage = () => {
           />
         </div>
 
-        <div className="relative z-10 w-full space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out fill-mode-both">
+        <div className="relative z-10 w-full space-y-8">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <h1 className="text-6xl font-heading font-normal text-foreground">
               Select your <span className="text-primary">identity</span>
