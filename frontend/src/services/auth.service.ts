@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
-import type { ApiSuccessResponse, ApiErrorResponse, userLoginResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, userLoginResponse, createAdminResponse } from "@/types";
 import { type userLoginType } from "@/validation";
 
 class UserAuthService {
@@ -23,9 +23,9 @@ class UserAuthService {
     }
   }
 
-  async getIdentityDetails(identity_id: string, role: string): Promise<ApiSuccessResponse<any> | ApiErrorResponse> {
+  async getIdentityDetails(identity_id: string, role: string): Promise<ApiSuccessResponse<createAdminResponse | any> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.get<ApiSuccessResponse<any>>(`/${role}/auth/identity-details`, { params: { identity_id } })
+      const response = await this.apiClient.get<ApiSuccessResponse<createAdminResponse | any>>(`/${role}/auth/identity-details`, { params: { identity_id } })
 
       return response.data;
     } catch (error: any) {

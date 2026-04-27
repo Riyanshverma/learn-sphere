@@ -16,12 +16,9 @@ export const authenticationPlugin = (app: Elysia) =>
     let user: User | JWTPayloadSpec    
 
     if(request.url.includes('resend-invite')) {
-      user = await verifyJWT(jwt, token as string) as JWTPayloadSpec
-      if (!user) {
-        throw new CustomAuthError('Invalid or expired token', 'TokenError', 401, 'invalid_token');
-      }
+      user = await verifyJWT(jwt, token as string)
     } else {
-      user = await getUser(token as string) as User
+      user = await getUser(token as string)
     }
 
     return { user };

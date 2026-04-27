@@ -133,3 +133,18 @@ export const getUser = async (token: string): Promise<User> => {
     throw error;
   }
 }
+
+export const getAdminIdentityDetails = async (identity_id: string, user_id: string): Promise<createAdminResponse> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_admin_identity_details', { p_identity_id: identity_id, p_user_id: user_id });
+
+    if (error) {
+      throw error;
+    }
+    
+    return data as createAdminResponse;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error
+  }
+}

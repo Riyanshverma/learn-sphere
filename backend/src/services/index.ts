@@ -1,2 +1,2 @@
-import { userSignin, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities } from "./auth.service";
-export { userSignin, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities }
+import { userSignin, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities, getAdminIdentityDetails } from "./auth.service";
+export { userSignin, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities, getAdminIdentityDetails }

@@ -5,8 +5,11 @@ import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { userAuthService } from "@/services"
+import { useAdminStore } from "@/store"
+import type { createAdminResponse } from "@/types"
 
 export const SelectIdentity = ({ identities }: { identities: userLoginResponse[] }) => {
+  const setAdmin = useAdminStore((state) => state.setAdmin)
   const navigate = useNavigate()
 
   const handleIdentitySelect = async (identity: userLoginResponse) => {
@@ -16,7 +19,13 @@ export const SelectIdentity = ({ identities }: { identities: userLoginResponse[]
         throw new Error(result.error, { cause: result.code })
       }
 
-      // TODO: Set the store suitably...
+      if(result.data.role === 'admin') {
+        setAdmin(result.data as createAdminResponse)
+      } else if(result.data.role === 'teacher') {
+        // TODO: Set the store for teacher...
+      } else if(result.data.role === 'staff') {
+        // TODO: Set the store for staff...
+      }
 
       toast.success(result.message)
       navigate(`/${identity.role}/dashboard`)

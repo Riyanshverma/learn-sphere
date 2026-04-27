@@ -1,7 +1,9 @@
 import { type Context } from "elysia";
 import type { adminSignupType, identityIdType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin } from "../../services";
+import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getAdminIdentityDetails } from "../../services";
 import { type User } from "@supabase/supabase-js";
+import { type JWTPayloadSpec } from "@elysiajs/jwt";
+import { setIdentityRoleCookie } from "../../utils";
 
 export const adminSignup = async (context: Context<{ body: adminSignupType }>) => {
   try {
@@ -34,9 +36,16 @@ export const adminSignup = async (context: Context<{ body: adminSignupType }>) =
 };
 
 
-export const adminIdentityDetails = async (context: Context<{ query: identityIdType, user: User }>) => {
-  try {    
-    
+export const adminIdentityDetails = async (context: Context<{ query: identityIdType }> & { user: User | JWTPayloadSpec }) => {
+  try {
+    const { identity_id } = context.query
+    const { id: user_id } = context.user as User
+
+    const admin = await getAdminIdentityDetails(identity_id, user_id)
+
+    setIdentityRoleCookie(context, admin.role)
+
+    return context.status(200, { success: true, message: 'Logged in successfully', data: admin })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
   }
