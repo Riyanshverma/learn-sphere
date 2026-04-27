@@ -148,3 +148,17 @@ export const getAdminIdentityDetails = async (identity_id: string, user_id: stri
     throw error
   }
 }
+
+export const userSignout = async (token: string): Promise<void> => {
+  try {
+    const client = createUserClient(token);
+    const { error } = await client.auth.signOut();
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

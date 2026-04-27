@@ -36,7 +36,7 @@ export default function AdminDashboard() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      <main className="w-full max-w-7xl mx-auto">
+      <main className="w-full max-w-5xl mx-auto">
         {renderContent()}
       </main>
     </div>

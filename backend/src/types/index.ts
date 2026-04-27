@@ -1,2 +1,2 @@
-import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse } from "./auth.types";
-export type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse }
+import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse, role } from "./auth.types";
+export type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse, role }

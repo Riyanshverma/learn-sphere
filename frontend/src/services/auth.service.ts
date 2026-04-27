@@ -32,6 +32,16 @@ class UserAuthService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
+
+  async logout() {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/auth/log-out');
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
 }
 
 export const userAuthService = new UserAuthService();

@@ -6,7 +6,7 @@ type account_type = "savings" | "current";
 
 type days = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
-type role = "admin" | "teacher" | "staff" | "parent" | "student";
+export type role = "admin" | "teacher" | "staff" | "parent" | "student";
 
 export interface createDatabaseUserType {
   email: string;

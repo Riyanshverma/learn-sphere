@@ -8,7 +8,7 @@ export const Header = ({ onLoginPage = false }: { onLoginPage?: boolean}) => {
 
   return (
     <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      <div className="flex items-center justify-between px-6 py-3 bg-background/40 backdrop-blur-md border border-foreground/60 rounded-full w-full max-w-7xl pointer-events-auto">
+      <div className="flex items-center justify-between px-6 py-3 bg-background/40 backdrop-blur-md border border-foreground/60 rounded-full w-full max-w-5xl pointer-events-auto">
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center">
             <span className="font-heading font-normal text-xl">
@@ -22,17 +22,17 @@ export const Header = ({ onLoginPage = false }: { onLoginPage?: boolean}) => {
             <NavigationMenu>
               <NavigationMenuList className="gap-4">
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#problem" className="text-base font-normal text-muted-foreground hover:text-foreground hover:bg-transparent px-6">
+                  <NavigationMenuLink href="#problem" className="text-base font-normal text-muted-foreground hover:text-foreground hover:bg-transparent px-4">
                     The Problem
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#how-it-works" className="text-base font-normal text-muted-foreground hover:text-foreground hover:bg-transparent px-6">
+                  <NavigationMenuLink href="#how-it-works" className="text-base font-normal text-muted-foreground hover:text-foreground hover:bg-transparent px-4">
                     How it Works
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#features" className="text-base font-normal text-muted-foreground hover:text-foreground hover:bg-transparent px-6">
+                  <NavigationMenuLink href="#features" className="text-base font-normal text-muted-foreground hover:text-foreground hover:bg-transparent px-4">
                     Features
                   </NavigationMenuLink>
                 </NavigationMenuItem>

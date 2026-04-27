@@ -11,4 +11,4 @@ adminAuthRoutes.use(authenticationPlugin).get("/identity-details", adminIdentity
 
 export { adminAuthRoutes }
 
-// ! .use(jwtPlugin(identityIdSchema)) add this in resend invite route
+// ! .use(jwtPlugin(ZodOject)) add this in resend invite route
