@@ -2,7 +2,7 @@ import { z } from "zod"
 
 const email = z.string().trim().toLowerCase().email('Invalid email')
 const password = z.string().trim().min(6, 'Must be at least 6 characters long').regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).*$/, 'Must contain at least an uppercase letter, a number, and a special character')
-const phone = z.string().regex(/^[6-9]\d{9}$/, 'Invalid')
+const phone = z.string().trim().regex(/^[6-9]\d{9}$/, 'Invalid')
 const blood_group = z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'Invalid')
 const gender = z.enum(['male', 'female', 'other'], 'Invalid')
 const date = z.coerce.date({ error: 'Invalid' })
@@ -15,11 +15,19 @@ const uuid = z.uuid('Invalid')
 const time = z.iso.time('Invalid')
 const file = z.instanceof(File).refine((file) => file.size > 0, 'Invalid')
 
-export const userLoginSchema = z.strictObject({
-  email: email,
+export const UserLoginWithPasswordSchema = z.object({
+  email: email.or(z.literal('')),
+  phone: phone.or(z.literal('')),
   password: password,
 })
-export type userLoginType = z.infer<typeof userLoginSchema>
+export type UserLoginWithPasswordType = z.infer<typeof UserLoginWithPasswordSchema>
+
+
+export const UserLoginWithOtpSchema = z.object({
+  email: email.or(z.literal('')),
+  phone: phone.or(z.literal('')),
+})
+export type UserLoginWithOtpType = z.infer<typeof UserLoginWithOtpSchema>
 
 export const adminSignupSchema = z.strictObject({
   email: email,

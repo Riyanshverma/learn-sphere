@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Eye, EyeOff } from "lucide-react"
-import { UserLoginSchema, type UserLoginType } from "@/validation"
+import { UserLoginWithPasswordSchema, type UserLoginWithPasswordType } from "@/validation"
 import { userAuthService } from "@/services"
+import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 
-export const LoginForm = () => {
+export const LoginFormWithPassword = () => {
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
 
@@ -18,13 +19,13 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<UserLoginType>({
-    resolver: zodResolver(UserLoginSchema),
+  } = useForm<UserLoginWithPasswordType>({
+    resolver: zodResolver(UserLoginWithPasswordSchema),
   })
 
-  const onSubmit = async (data: UserLoginType) => {
-    try {
-      const result = await userAuthService.login(data as UserLoginType)
+  const onSubmit = async (data: UserLoginWithPasswordType) => {
+    try {      
+      const result = await userAuthService.loginWithPassword(data)
       if (!result.success) {
         throw new Error(result.error, { cause: result.code })
       }
@@ -40,20 +41,43 @@ export const LoginForm = () => {
     <div className="w-full">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col gap-6">
-          <div className="flex-1 space-y-2">
-            <Label htmlFor="email" className="text-base font-normal font-heading">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              className="h-10 rounded-lg font-sans"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-sm text-destructive font-sans">{errors.email.message}</p>
-            )}
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="flex-1 w-full space-y-2">
+              <Label htmlFor="email" className="text-base font-normal font-heading">
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                className="h-10 rounded-lg font-sans"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-sm text-destructive font-sans">{errors.email.message}</p>
+              )}
+            </div>
+
+            <div className="flex items-center justify-center pt-8">
+              <Separator orientation="vertical" className="md:block h-16 bg-foreground" />
+            </div>
+
+            <div className="flex-1 w-full space-y-2">
+              <Label htmlFor="phone" className="text-base font-normal font-heading">
+                Phone Number
+              </Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="9876543210"
+                maxLength={10}
+                className="h-10 rounded-lg font-sans"
+                {...register("phone")}
+              />
+              {errors.phone && (
+                <p className="text-sm text-destructive font-sans">{errors.phone.message}</p>
+              )}
+            </div>
           </div>
           <div className="flex-1 space-y-2">
             <div className="flex items-center justify-between">

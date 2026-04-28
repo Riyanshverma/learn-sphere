@@ -1,2 +1,2 @@
-import { UserLoginSchema, type UserLoginType } from "./auth.validation"
-export { UserLoginSchema, type UserLoginType }
+import { UserLoginWithPasswordSchema, type UserLoginWithPasswordType, UserLoginWithOtpSchema, type UserLoginWithOtpType } from "./auth.validation"
+export { UserLoginWithPasswordSchema, type UserLoginWithPasswordType, UserLoginWithOtpSchema, type UserLoginWithOtpType }

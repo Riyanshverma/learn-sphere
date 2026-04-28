@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, UserLoginResponse, CreateAdminResponse } from "@/types";
-import { type UserLoginType } from "@/validation";
+import type { UserLoginWithPasswordType, UserLoginWithOtpType } from "@/validation";
 
 class UserAuthService {
   apiClient: AxiosInstance;
@@ -13,9 +13,9 @@ class UserAuthService {
     });
   }
 
-  async login(data: UserLoginType): Promise<ApiSuccessResponse<UserLoginResponse[]> | ApiErrorResponse> {
+  async loginWithPassword(data: UserLoginWithPasswordType): Promise<ApiSuccessResponse<UserLoginResponse[]> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.post<ApiSuccessResponse<UserLoginResponse[]>>('/auth/log-in', data);
+      const response = await this.apiClient.post<ApiSuccessResponse<UserLoginResponse[]>>('/auth/log-in-with-password', data);
 
       return response.data;
     } catch (error: any) {
@@ -36,6 +36,16 @@ class UserAuthService {
   async logout() {
     try {
       const response = await this.apiClient.post<ApiSuccessResponse>('/auth/log-out');
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async loginWithOtp(data: UserLoginWithOtpType): Promise<ApiSuccessResponse<UserLoginResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse<UserLoginResponse[]>>('/auth/log-in-with-otp', data);
 
       return response.data;
     } catch (error: any) {

@@ -1,9 +1,9 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
-import { type userLoginType } from '../validations';
+import { type UserLoginWithPasswordType, UserLoginWithOtpType } from '../validations';
 import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse } from '../types';
 
-export const userSignin = async ({ email, password }: userLoginType): Promise<Session> => {
+export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {
   try {
     const { data, error } = await supabaseUser.auth.signInWithPassword({ email, password })
 
@@ -15,6 +15,50 @@ export const userSignin = async ({ email, password }: userLoginType): Promise<Se
 
     return data.session
   } catch (error: any) {
+    console.error(error.message)
+    throw error
+  }
+}
+
+export const userSigninWithPhonePassword = async ({ password, phone }: UserLoginWithPasswordType): Promise<Session> => {
+  try {
+    const { data, error } = await supabaseUser.auth.signInWithPassword({ phone, password })
+
+    if(error) {
+      throw error
+    } else if (!data.session) {
+      throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
+    }
+
+    return data.session
+  } catch (error: any) {    
+    console.error(error.message)
+    throw error
+  }
+}
+
+export const userSigninWithEmailOtp = async ({ email }: UserLoginWithOtpType): Promise<void> => {
+  try {
+
+    const { error } = await supabaseUser.auth.signInWithOtp({ email, options: { shouldCreateUser: false }})
+
+    if(error) {
+      throw error
+    }
+  } catch (error: any) {    
+    console.error(error.message)
+    throw error
+  }
+}
+
+export const userSigninWithPhoneOtp = async ({ phone }: UserLoginWithOtpType): Promise<void> => {
+  try {
+    const { error } = await supabaseUser.auth.signInWithOtp({ phone, options: { shouldCreateUser: false }})
+
+    if(error) {
+      throw error
+    }
+  } catch (error: any) {    
     console.error(error.message)
     throw error
   }

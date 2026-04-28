@@ -3,9 +3,18 @@ import { z } from "zod"
 const email = z.string().trim().toLowerCase().email('Invalid')
 const password = z.string().trim().min(6, 'Must be at least 6 characters long').regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).*$/,
 'Must contain at least an uppercase letter, a number, and a special character')
+const phone = z.string().regex(/^[6-9]\d{9}$/, 'Invalid')
 
-export const UserLoginSchema = z.strictObject({
-  email: email,
+export const UserLoginWithPasswordSchema = z.object({
+  email: email.optional().or(z.literal('')),
+  phone: phone.optional().or(z.literal('')),
   password: password,
 })
-export type UserLoginType = z.infer<typeof UserLoginSchema>
+export type UserLoginWithPasswordType = z.infer<typeof UserLoginWithPasswordSchema>
+
+export const UserLoginWithOtpSchema = z.object({
+  email: email.optional().or(z.literal('')),
+  phone: phone.optional().or(z.literal('')),
+})
+
+export type UserLoginWithOtpType = z.infer<typeof UserLoginWithOtpSchema>
