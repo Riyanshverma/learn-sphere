@@ -1,0 +1,1 @@
+export interface HeaderProps { activeTab: string; setActiveTab: (tab: string) => void; }

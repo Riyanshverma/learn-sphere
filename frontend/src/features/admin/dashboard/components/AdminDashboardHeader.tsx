@@ -6,8 +6,9 @@ import { useAdminStore } from "@/store"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { userAuthService } from "@/services"
+import type { HeaderProps } from "@/types"
 
-export const AdminDashboardHeader = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (tab: string) => void }) => {
+export const AdminDashboardHeader = ({ activeTab, setActiveTab }: HeaderProps) => {
   const reset = useAdminStore((state) => state.reset)
   const navigate = useNavigate()
 

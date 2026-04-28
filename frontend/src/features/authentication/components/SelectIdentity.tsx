@@ -50,7 +50,7 @@ export const SelectIdentity = ({ identities }: { identities: UserLoginResponse[]
                   </Badge>
                 )}
               </div>
-              <span className={`text-5xl font-heading font-normal text-foreground uppercase tracking-widest`}>
+              <span className={`text-5xl font-heading font-normal text-background uppercase tracking-widest`}>
                 {identity.role}
               </span>
             </CardHeader>
