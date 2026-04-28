@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { AdminDashboardHeader, AdminHome, SchoolPeople, Academics, Finance, AdminSettings } from "@/features/admin"
+import { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings } from "@/features/admin"
 
 export default function AdminDashboard() {
   const location = useLocation()
@@ -20,9 +20,9 @@ export default function AdminDashboard() {
       case "people":
         return <SchoolPeople />
       case "academics":
-        return <Academics />
+        return <SchoolAcademics />
       case "finance":
-        return <Finance />
+        return <SchoolFinance />
       case "settings":
         return <AdminSettings />
       default:

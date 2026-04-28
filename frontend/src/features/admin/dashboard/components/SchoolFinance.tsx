@@ -1,4 +1,4 @@
-export const Finance = () => {
+export const SchoolFinance = () => {
   return (
     <div className="pt-32 pb-16 w-full space-y-6">
       <h1 className="text-4xl font-heading">Finance Management</h1>
