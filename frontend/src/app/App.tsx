@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoginPage, SelectIdentityPage } from '@/features/authentication';
 import { LandingPage } from '@/features/landing';
-import { AdminDashboard } from '@/features/admin';
+import { AdminDashboard, AddSchoolStaffPage } from '@/features/admin';
 import { Toaster } from '@/components/ui/sonner';
 
 const App = () => {
@@ -18,6 +18,7 @@ const App = () => {
           <Route path="/admin/*" element={
             <Routes>
               <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="add-school-staff" element={<AddSchoolStaffPage />} />
             </Routes>
           } />
 
