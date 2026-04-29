@@ -1,5 +1,5 @@
-import { userLoginWithPassword, userLogout, userLoginWithOtp } from "./auth.utils";
-export { userLoginWithPassword, userLogout, userLoginWithOtp }
+import { userLoginWithPassword, userOtpVerification, userLogout, userLoginWithOtp } from "./auth.utils";
+export { userLoginWithPassword, userOtpVerification, userLogout, userLoginWithOtp }
 
 import { setAuthCookies, setRoleCookie, clearAuthCookies } from "./cookie.utils";
 export { setAuthCookies, setRoleCookie, clearAuthCookies }

@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
-import { type UserLoginWithPasswordType, UserLoginWithOtpType } from '../validations';
+import { type UserLoginWithPasswordType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
 import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse } from '../types';
 
 export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {
@@ -59,6 +59,40 @@ export const userSigninWithPhoneOtp = async ({ phone }: UserLoginWithOtpType): P
       throw error
     }
   } catch (error: any) {    
+    console.error(error.message)
+    throw error
+  }
+}
+
+export const verifyEmailOtp = async ({ email, otp }: UserOtpVerificationType): Promise<Session> => {
+  try {
+    const { data, error } = await supabaseUser.auth.verifyOtp({ email, token: otp, type: 'email' })
+
+    if(error) {
+      throw error
+    } else if (!data.session) {
+      throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
+    }
+
+    return data.session
+  } catch (error: any) {
+    console.error(error.message)
+    throw error
+  }
+}
+
+export const verifyPhoneOtp = async ({ phone, otp }: UserOtpVerificationType): Promise<Session> => {
+  try {
+    const { data, error } = await supabaseUser.auth.verifyOtp({ phone, token: otp.slice(0, 6), type: 'sms' })
+
+    if(error) {
+      throw error
+    } else if (!data.session) {
+      throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
+    }
+
+    return data.session
+  } catch (error: any) {
     console.error(error.message)
     throw error
   }

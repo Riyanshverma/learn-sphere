@@ -7,8 +7,13 @@ import { UserLoginWithOtpSchema, type UserLoginWithOtpType } from "@/validation"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { userAuthService } from "@/services"
+import { useState, useRef } from "react"
+import { InputOtpDialog } from ".."
 
 export const LoginWithOtp = () => {
+  const [inputOtpDialog, setInputOtpDialog] = useState<boolean>(false)
+  const userLoginData = useRef<UserLoginWithOtpType | null>(null)
+
   const {
     register,
     handleSubmit,
@@ -19,15 +24,18 @@ export const LoginWithOtp = () => {
 
   const onSubmit = async (data: UserLoginWithOtpType) => {
     try {
+      const id = toast.loading('Sending OTP...')
       const result = await userAuthService.loginWithOtp(data)
 
       if (!result.success) {
+        toast.dismiss(id)
         throw new Error(result.error, { cause: result.code })
       }
-      
-      toast.success(result.message)
+      userLoginData.current = data
+      setInputOtpDialog(true)
+      toast.success(result.message, { id })
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.message, { description: error.cause })
     }
   }
 
@@ -63,8 +71,8 @@ export const LoginWithOtp = () => {
               <Input
                 id="phone-otp"
                 type="tel"
-                placeholder="9876543210"
-                maxLength={10}
+                placeholder="+919876543210"
+                maxLength={13}
                 className="h-10 rounded-lg font-sans"
                 {...register("phone")}
               />
@@ -84,6 +92,12 @@ export const LoginWithOtp = () => {
           </Button>
         </div>
       </form>
+
+      <InputOtpDialog 
+        dialogOpen={inputOtpDialog} 
+        setDialogOpen={setInputOtpDialog} 
+        userLoginData={userLoginData.current} 
+      />
     </div>
   )
 }

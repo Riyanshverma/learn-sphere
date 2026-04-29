@@ -3,8 +3,8 @@ import { adminRouter } from "./admin";
 import { parentRouter } from "./parent";
 import { staffRouter } from "./staff";
 import { teacherRouter } from "./teacher";
-import { userLoginWithPassword, userLogout, userLoginWithOtp } from "../utils";
-import { UserLoginWithPasswordSchema, UserLoginWithOtpSchema } from "../validations";
+import { userLoginWithPassword, userLogout, userLoginWithOtp, userOtpVerification } from "../utils";
+import { UserLoginWithPasswordSchema, UserLoginWithOtpSchema, UserOtpVerificationSchema } from "../validations";
 import { globalPlugin, authenticationPlugin, authorizationPlugin } from "../plugins";
 
 const apiRouter = new Elysia({ prefix: "/api" })
@@ -14,6 +14,8 @@ apiRouter.use(globalPlugin)
 apiRouter.post('/auth/log-in-with-password', userLoginWithPassword, { body: UserLoginWithPasswordSchema })
 
 apiRouter.post('/auth/log-in-with-otp', userLoginWithOtp, { body: UserLoginWithOtpSchema })
+
+apiRouter.post('/auth/log-in-otp-verify', userOtpVerification, { body: UserOtpVerificationSchema })
 
 apiRouter.group('/auth', (app) => app.use(authenticationPlugin).use(authorizationPlugin('admin', 'teacher', 'staff', 'parent')).post('/log-out', userLogout))
 

@@ -30,8 +30,8 @@ export const LoginFormWithPassword = () => {
         throw new Error(result.error, { cause: result.code })
       }
 
-      toast.success(result.message)
       navigate('/select-identity', { state: { identities: result.data } })
+      toast.success(result.message)
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
     }
@@ -69,8 +69,8 @@ export const LoginFormWithPassword = () => {
               <Input
                 id="phone"
                 type="tel"
-                placeholder="9876543210"
-                maxLength={10}
+                placeholder="+919876543210"
+                maxLength={13}
                 className="h-10 rounded-lg font-sans"
                 {...register("phone")}
               />

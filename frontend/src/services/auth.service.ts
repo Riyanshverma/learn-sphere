@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, UserLoginResponse, CreateAdminResponse } from "@/types";
-import type { UserLoginWithPasswordType, UserLoginWithOtpType } from "@/validation";
+import type { UserLoginWithPasswordType, UserLoginWithOtpType, UserOtpVerificationType } from "@/validation";
 
 class UserAuthService {
   apiClient: AxiosInstance;
@@ -43,9 +43,19 @@ class UserAuthService {
     }
   }
 
-  async loginWithOtp(data: UserLoginWithOtpType): Promise<ApiSuccessResponse<UserLoginResponse[]> | ApiErrorResponse> {
+  async loginWithOtp(data: UserLoginWithOtpType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.post<ApiSuccessResponse<UserLoginResponse[]>>('/auth/log-in-with-otp', data);
+      const response = await this.apiClient.post<ApiSuccessResponse>('/auth/log-in-with-otp', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async verifyOtp(data: UserOtpVerificationType): Promise<ApiSuccessResponse<UserLoginResponse[]> | ApiErrorResponse> {
+    try {      
+      const response = await this.apiClient.post<ApiSuccessResponse<UserLoginResponse[]>>('/auth/log-in-otp-verify', data);
 
       return response.data;
     } catch (error: any) {

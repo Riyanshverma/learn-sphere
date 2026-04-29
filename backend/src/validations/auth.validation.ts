@@ -1,8 +1,8 @@
 import { z } from "zod"
 
-const email = z.string().trim().toLowerCase().email('Invalid email')
+const email = z.string().trim().toLowerCase().email('Invalid email').or(z.literal(''))
 const password = z.string().trim().min(6, 'Must be at least 6 characters long').regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).*$/, 'Must contain at least an uppercase letter, a number, and a special character')
-const phone = z.string().trim().regex(/^[6-9]\d{9}$/, 'Invalid')
+const phone = z.string().trim().regex(/^\+91[6-9]\d{9}$/, 'Invalid').or(z.literal(''))
 const blood_group = z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'Invalid')
 const gender = z.enum(['male', 'female', 'other'], 'Invalid')
 const date = z.coerce.date({ error: 'Invalid' })
@@ -11,23 +11,29 @@ const number = z.coerce.number().int('Invalid').min(0, 'Invalid') as z.ZodNumber
 const pincode = z.coerce.number().int().refine((val) => /^\d{6}$/.test(String(val)), { message: 'Must be 6 digits' })
 const days = z.array(z.enum(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])).min(1, 'Select at least one day');
 const uuid = z.uuid('Invalid')
-
+const otp = z.string().trim().length(8, 'Must be 8 digits').regex(/^[0-9]+$/, 'Invalid')
 const time = z.iso.time('Invalid')
 const file = z.instanceof(File).refine((file) => file.size > 0, 'Invalid')
 
-export const UserLoginWithPasswordSchema = z.object({
-  email: email.or(z.literal('')),
-  phone: phone.or(z.literal('')),
+export const UserLoginWithPasswordSchema = z.strictObject({
+  email: email,
+  phone: phone,
   password: password,
 })
 export type UserLoginWithPasswordType = z.infer<typeof UserLoginWithPasswordSchema>
 
-
-export const UserLoginWithOtpSchema = z.object({
-  email: email.or(z.literal('')),
-  phone: phone.or(z.literal('')),
+export const UserLoginWithOtpSchema = z.strictObject({
+  email: email,
+  phone: phone,
 })
 export type UserLoginWithOtpType = z.infer<typeof UserLoginWithOtpSchema>
+
+export const UserOtpVerificationSchema = z.strictObject({
+  email: email,
+  phone: phone,
+  otp: otp,
+})
+export type UserOtpVerificationType = z.infer<typeof UserOtpVerificationSchema>
 
 export const adminSignupSchema = z.strictObject({
   email: email,
