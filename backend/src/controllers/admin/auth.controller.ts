@@ -1,11 +1,11 @@
 import { type Context } from "elysia";
-import type { adminSignupType, identityIdType } from "../../validations";
+import type { EmployeeSignupType, identityIdType } from "../../validations";
 import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getAdminIdentityDetails } from "../../services";
 import { type User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
 import { setRoleCookie } from "../../utils";
 
-export const adminSignup = async (context: Context<{ body: adminSignupType }>) => {
+export const adminSignup = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
     const { email, password, phone, full_name, emergency_contact_name, emergency_contact_relation, emergency_contact_phone, aadhar_card_photo, pan_card_photo, bank_cancelled_cheque_photo, aadhar_card_number, pan_card_number, bank_account_holder_name, bank_branch_name, bank_name, bank_account_number, bank_ifsc_code, bank_upi_id, bank_account_type, date_of_birth, blood_group, gender, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timings_days, timings_from, timings_to } = context.body
     

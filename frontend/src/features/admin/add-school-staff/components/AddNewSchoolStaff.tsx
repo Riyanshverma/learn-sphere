@@ -12,6 +12,7 @@ import { CalendarIcon, Eye, EyeOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { EmployeeSignUpSchema, type EmployeeSignUpType } from "@/validation"
 import { toast } from "sonner"
+import { adminService } from "@/services"
 
 export const AddNewSchoolStaff = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -40,9 +41,31 @@ export const AddNewSchoolStaff = () => {
 
   const onSubmit = async (data: EmployeeSignUpType) => {
     try {
-      console.log("Form Data Submitted:", data)
+      const formData = new FormData();
+
+      Object.keys(data).forEach((key) => {
+        const value = data[key as keyof EmployeeSignUpType];
+
+        if (key.endsWith("_photo")) {
+          formData.append(key, (value as FileList)[0]);
+        } else if (Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else if (value instanceof Date) {
+          formData.append(key, value.toISOString());
+        } else {
+          formData.append(key, String(value));
+        }
+      });
+
+      const result = await adminService.addNewSchoolStaff(formData);
+
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code });
+      }
+
+      toast.success(result.message);
     } catch (error: any) {
-      toast.error(error.message, { description: error.cause })
+      toast.error(error.message, { description: error.cause });
     }
   }
 
@@ -352,8 +375,8 @@ export const AddNewSchoolStaff = () => {
           </div>
         </section>
 
-        <div className="flex justify-center pt-8">
-          <Button type="submit" className="text-base font-sans h-12 rounded-full px-12" disabled={isSubmitting}>
+        <div className="flex justify-center">
+          <Button type="submit" className="text-base font-sans h-10 rounded-full px-8" disabled={isSubmitting}>
             {isSubmitting ? "Creating Staff Profile..." : "Submit Registration"}
           </Button>
         </div>

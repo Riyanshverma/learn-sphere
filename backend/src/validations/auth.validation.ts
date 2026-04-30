@@ -35,7 +35,7 @@ export const UserOtpVerificationSchema = z.strictObject({
 })
 export type UserOtpVerificationType = z.infer<typeof UserOtpVerificationSchema>
 
-export const adminSignupSchema = z.strictObject({
+export const EmployeeSignupSchema = z.strictObject({
   email: email,
   password: password,
   full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
@@ -70,7 +70,7 @@ export const adminSignupSchema = z.strictObject({
   bank_upi_id: word.optional(),
   bank_cancelled_cheque_photo: file,
 })
-export type adminSignupType = z.infer<typeof adminSignupSchema>
+export type EmployeeSignupType = z.infer<typeof EmployeeSignupSchema>
 
 export const identityIdSchema = z.strictObject({
   identity_id: uuid,

@@ -1,2 +1,4 @@
 import { adminSignup, adminIdentityDetails } from "./admin/auth.controller";
-export { adminSignup, adminIdentityDetails }
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff } from "./admin/school-academic.controller";
+
+export { adminSignup, adminIdentityDetails, addNewSchoolStaff, addExistingUserAsSchoolStaff }
