@@ -22,6 +22,17 @@ class AdminService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
+
+  async addExistingUserAsSchoolStaff(data: FormData): Promise<ApiSuccessResponse<any> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse<any>>('/school-academic/add-existing-user-as-school-staff', data, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
 }
 
 export const adminService = new AdminService();

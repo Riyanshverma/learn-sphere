@@ -2,9 +2,9 @@ type blood_group = "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
 
 type gender = "male" | "female" | "other";
 
-type account_type = "savings" | "current";
+export type account_type = "savings" | "current";
 
-type days = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+export type days = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
 export type role = "admin" | "teacher" | "staff" | "parent" | "student";
 
@@ -27,7 +27,7 @@ export interface uploadDocumentResponse {
   fullPath: string;
 }
 
-export interface createAdminType {
+export interface CreateEmployeeType {
   id: string;
   email: string;
   phone: string;
@@ -69,7 +69,7 @@ export interface createAdminType {
   };
 }
 
-export interface createAdminResponse {
+export interface CreateEmployeeResponse {
   email: string;
   phone: string;
   date_of_birth: Date;

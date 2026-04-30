@@ -1,7 +1,7 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
 import { type UserLoginWithPasswordType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
-import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, createAdminType, createAdminResponse, getUserIdentitiesResponse } from '../types';
+import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse } from '../types';
 
 export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {
   try {
@@ -13,7 +13,7 @@ export const userSigninWithEmailPassword = async ({ email, password }: UserLogin
       throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
     }
 
-    return data.session
+    return data.session;
   } catch (error: any) {
     console.error(error.message)
     throw error
@@ -30,7 +30,7 @@ export const userSigninWithPhonePassword = async ({ password, phone }: UserLogin
       throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
     }
 
-    return data.session
+    return data.session;
   } catch (error: any) {    
     console.error(error.message)
     throw error
@@ -74,7 +74,7 @@ export const verifyEmailOtp = async ({ email, otp }: UserOtpVerificationType): P
       throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
     }
 
-    return data.session
+    return data.session;
   } catch (error: any) {
     console.error(error.message)
     throw error
@@ -91,7 +91,7 @@ export const verifyPhoneOtp = async ({ phone, otp }: UserOtpVerificationType): P
       throw new CustomAuthError('No session was returned', 'SessionNotFoundError', 401, 'session_not_found');
     }
 
-    return data.session
+    return data.session;
   } catch (error: any) {
     console.error(error.message)
     throw error
@@ -108,7 +108,7 @@ export const createDatabaseUser = async ({ email, password, phone, full_name }: 
       throw new CustomAuthError('No user was returned', 'UserCreationError', 500, 'user_creation_failed')
     }
     
-    return data.user
+    return data.user;
   } catch (error: any) {
     console.error(error.message);
     throw error
@@ -126,7 +126,7 @@ export const uploadDocument = async ({ name, buffer, mime_type }: uploadDocument
       throw error;
     }
     
-    return data as uploadDocumentResponse
+    return data;
   } catch (error: any) {
     console.error(error.message)
     throw error
@@ -137,14 +137,14 @@ export const getDocumentURL = async (document_path: string): Promise<string> => 
   try {
     const { data } = supabaseAdmin.storage.from('learn-sphere').getPublicUrl(document_path)
 
-    return data.publicUrl
+    return data.publicUrl;
   } catch (error: any) {
     console.error(error.message)
     throw error
   }
 }
 
-export const createAdmin = async (params: createAdminType): Promise<createAdminResponse> => {
+export const createAdmin = async (params: CreateEmployeeType): Promise<CreateEmployeeResponse> => {
   try {
     const { data, error } = await supabaseAdmin.rpc('create_admin', {
       p_id: params.id,
@@ -173,7 +173,7 @@ export const createAdmin = async (params: createAdminType): Promise<createAdminR
       throw error;
     }
 
-    return data as createAdminResponse;
+    return data;
   } catch (error: any) {
     console.error(error.message);
     throw error
@@ -188,7 +188,7 @@ export const getUserIdentities = async (user_id: string): Promise<getUserIdentit
       throw error
     }
 
-    return data as getUserIdentitiesResponse[]
+    return data;
   } catch (error: any) {
     console.error(error.message);
     throw error
@@ -212,7 +212,7 @@ export const getUser = async (token: string): Promise<User> => {
   }
 }
 
-export const getAdminIdentityDetails = async (identity_id: string, user_id: string): Promise<createAdminResponse> => {
+export const getAdminIdentityDetails = async (identity_id: string, user_id: string): Promise<CreateEmployeeResponse> => {
   try {
     const { data, error } = await supabaseAdmin.rpc('get_admin_identity_details', { p_identity_id: identity_id, p_user_id: user_id });
 
@@ -220,7 +220,7 @@ export const getAdminIdentityDetails = async (identity_id: string, user_id: stri
       throw error;
     }
     
-    return data as createAdminResponse;
+    return data;
   } catch (error: any) {
     console.error(error.message);
     throw error
