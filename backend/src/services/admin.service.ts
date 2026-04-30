@@ -18,9 +18,9 @@ export const getDatabaseUserId = async (email: string, phone: string): Promise<s
   }
 };
 
-export const createNewSchoolStaff = async (params: CreateEmployeeType): Promise<CreateEmployeeResponse> => {
+export const createNewSchoolStaff = async (params: CreateEmployeeType): Promise<void> => {
   try {
-    const { data, error } = await supabaseAdmin.rpc('create_new_school_staff', {
+    const { error } = await supabaseAdmin.rpc('create_new_school_staff', {
       p_id: params.id,
       p_email: params.email,
       p_phone: params.phone,
@@ -46,17 +46,15 @@ export const createNewSchoolStaff = async (params: CreateEmployeeType): Promise<
       await supabaseAdmin.auth.admin.deleteUser(params.id);
       throw error;
     }
-
-    return data;
   } catch (error: any) {
     console.error(error.message);
     throw error;
   }
 };
 
-export const createExistingUserAsSchoolStaff = async (params: CreateExistingUserAsSchoolStaffType): Promise<CreateEmployeeResponse> => {
+export const createExistingUserAsSchoolStaff = async (params: CreateExistingUserAsSchoolStaffType): Promise<void> => {
   try {
-    const { data, error } = await supabaseAdmin.rpc('create_existing_user_as_school_staff', {
+    const { error } = await supabaseAdmin.rpc('create_existing_user_as_school_staff', {
       p_id: params.id,
       p_qualifications: params.qualifications,
       p_specialization: params.specialization,
@@ -70,8 +68,6 @@ export const createExistingUserAsSchoolStaff = async (params: CreateExistingUser
     if (error) {
       throw error;
     }
-
-    return data;
   } catch (error: any) {
     console.error(error.message);
     throw error;

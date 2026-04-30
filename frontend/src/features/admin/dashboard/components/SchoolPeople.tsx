@@ -1,8 +1,17 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff } from "@/features/admin"
+import { useLocation } from "react-router-dom"
 
 export const SchoolPeople = () => {
+  const location = useLocation()
   const [activePeopleTab, setActivePeopleTab] = useState("school-teachers")
+
+  useEffect(() => {
+    if (location.state?.subTab) {
+      setActivePeopleTab(location.state.subTab)
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state])
 
   const renderPeopleContent = () => {
     switch (activePeopleTab) {

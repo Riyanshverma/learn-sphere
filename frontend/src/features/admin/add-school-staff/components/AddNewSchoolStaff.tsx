@@ -13,8 +13,10 @@ import { cn } from "@/lib/utils"
 import { EmployeeSignUpSchema, type EmployeeSignUpType } from "@/validation"
 import { toast } from "sonner"
 import { adminService } from "@/services"
+import { useNavigate } from "react-router-dom"
 
 export const AddNewSchoolStaff = () => {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
 
   const {
@@ -63,6 +65,7 @@ export const AddNewSchoolStaff = () => {
         throw new Error(result.error, { cause: result.code });
       }
 
+      navigate('/admin/dashboard', { state: { tab: "people", subTab: "school-staff" } });
       toast.success(result.message);
     } catch (error: any) {
       toast.error(error.message, { description: error.cause });

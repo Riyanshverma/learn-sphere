@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils"
 import { ExistingUserAsStaffSchema, type ExistingUserAsStaffType } from "@/validation"
 import { toast } from "sonner"
 import { adminService } from "@/services"
+import { useNavigate } from "react-router-dom"
 
 export const AddExistingUserStaff = () => {
+  const navigate = useNavigate()
 
   const {
     register,
@@ -56,6 +58,7 @@ export const AddExistingUserStaff = () => {
         throw new Error(result.error, { cause: result.code });
       }
 
+      navigate('/admin/dashboard', { state: { tab: "people", subTab: "school-staff" } });
       toast.success(result.message);
     } catch (error: any) {
       toast.error(error.message, { description: error.cause });
