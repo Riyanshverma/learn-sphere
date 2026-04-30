@@ -1,12 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { UserPlus, UserCheck } from "lucide-react"
+import type { HeaderProps } from "@/types"
 
-interface AddSchoolStaffSubHeaderProps {
-  activeTab: string
-  setActiveTab: (tab: string) => void
-}
 
-export const AddSchoolStaffSubHeader = ({ activeTab, setActiveTab }: AddSchoolStaffSubHeaderProps) => {
+export const AddSchoolStaffSubHeader = ({ activeTab, setActiveTab }: HeaderProps) => {
   return (
     <div className="flex items-center gap-2 rounded-full">
       {([{ name: "New Staff", key: "new-staff", icon: UserPlus }, { name: "Existing User", key: "existing-user", icon: UserCheck }] as const).map((tab) => {

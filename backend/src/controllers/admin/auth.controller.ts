@@ -7,7 +7,7 @@ import { setRoleCookie } from "../../utils";
 
 export const adminSignup = async (context: Context<{ body: adminSignupType }>) => {
   try {
-    const { email, password, phone, full_name, emergency_contact_name, emergency_contact_relation, emergency_contact_phone, aadhar_card_photo, pan_card_photo, bank_cancelled_cheque_photo, aadhar_card_number, pan_card_number, bank_account_holder_name, bank_branch_name, bank_name, bank_account_number, bank_ifsc_code, bank_upi_id, bank_account_type, date_of_birth, blood_group, gender, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timing_days, timings_from, timings_to } = context.body
+    const { email, password, phone, full_name, emergency_contact_name, emergency_contact_relation, emergency_contact_phone, aadhar_card_photo, pan_card_photo, bank_cancelled_cheque_photo, aadhar_card_number, pan_card_number, bank_account_holder_name, bank_branch_name, bank_name, bank_account_number, bank_ifsc_code, bank_upi_id, bank_account_type, date_of_birth, blood_group, gender, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timings_days, timings_from, timings_to } = context.body
     
     const user = await createDatabaseUser({ email, password, phone, full_name })
     
@@ -19,7 +19,7 @@ export const adminSignup = async (context: Context<{ body: adminSignupType }>) =
 
     const emergency_contact = { name: emergency_contact_name, relation: emergency_contact_relation, phone: emergency_contact_phone }
 
-    const timings = { days: timing_days, from: timings_from, to: timings_to }
+    const timings = { days: timings_days, from: timings_from, to: timings_to }
 
     const identity_proof = { aadhar_card: { number: aadhar_card_number, url: aadhar_card_url }, pan_card: { number: pan_card_number, url: pan_card_url }}
 

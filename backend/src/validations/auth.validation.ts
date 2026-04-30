@@ -8,7 +8,7 @@ const gender = z.enum(['male', 'female', 'other'], 'Invalid')
 const date = z.coerce.date({ error: 'Invalid' })
 const word = z.string().trim().min(3, 'Invalid').toLowerCase()
 const number = z.coerce.number().int('Invalid').min(0, 'Invalid') as z.ZodNumber
-const pincode = z.coerce.number().int().refine((val) => /^\d{6}$/.test(String(val)), { message: 'Must be 6 digits' })
+const pincode = z.coerce.number().int('Invalid').refine((val) => /^\d{6}$/.test(String(val)), { message: 'Must be 6 digits' })
 const days = z.array(z.enum(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])).min(1, 'Select at least one day');
 const uuid = z.uuid('Invalid')
 const otp = z.string().trim().length(8, 'Must be 8 digits').regex(/^[0-9]+$/, 'Invalid')
@@ -54,7 +54,7 @@ export const adminSignupSchema = z.strictObject({
   specialization: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
   monthly_salary: number,
   experience_years: number,
-  timing_days: days,
+  timings_days: days,
   timings_from: time,
   timings_to: time,
   aadhar_card_number: word.regex(/^\d{12}$/, 'Must be 12 digits'),
@@ -70,7 +70,6 @@ export const adminSignupSchema = z.strictObject({
   bank_upi_id: word.optional(),
   bank_cancelled_cheque_photo: file,
 })
-
 export type adminSignupType = z.infer<typeof adminSignupSchema>
 
 export const identityIdSchema = z.strictObject({
