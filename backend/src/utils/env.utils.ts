@@ -11,5 +11,7 @@ declare module 'bun' {
     DB_URL: string;
     DB_PUBLISHABLE_KEY: string;
     DB_SECRET_KEY: string;
+    JWT_SECRET_KEY: string;
+    RESEND_API_KEY: string;
   }
 }

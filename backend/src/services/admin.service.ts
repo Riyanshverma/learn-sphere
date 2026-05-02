@@ -1,5 +1,7 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
-import type { CreateEmployeeType, CreateEmployeeResponse, CreateExistingUserAsSchoolStaffType } from "../types";
+import type { CreateEmployeeType, CreateEmployeeResponse, CreateExistingUserAsSchoolStaffType, role } from "../types";
+import { CustomAuthError, type User } from "@supabase/supabase-js";
+import { signJWT, resend, TeacherInvitationMailTemplate } from "../utils";
 
 export const getDatabaseUserId = async (email: string, phone: string): Promise<string | null> => {
   try {
@@ -73,3 +75,73 @@ export const createExistingUserAsSchoolStaff = async (params: CreateExistingUser
     throw error;
   }
 };
+
+export const checkExistingUser = async (email: string, full_name: string): Promise<{ id: string; full_name: string; } | null> => {
+  try {
+    const { data, error } = await supabaseAdmin.from("users").select("id, full_name").eq("email", email).eq("full_name", full_name).maybeSingle();
+
+    if (error) {
+      throw error;
+    } else if (!data) {
+      return null;
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const sendTeacherInvitationBySupabase = async (email: string, full_name: string): Promise<User> => {
+  try {
+    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+      redirectTo: `${Bun.env.FRONTEND_URL}/teacher-signup?invite=supabase`,
+      data: { full_name }
+    })
+
+    if (error) {
+      throw error;
+    } else if (!data.user) {
+      throw new CustomAuthError('No user returned', 'InvitationError', 500, 'invitation_failed');
+    }
+
+    return data.user;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const sendTeacherInvitationByResend = async (jwt: any, email: string, full_name: string, user_id: string): Promise<void> => {
+  try {
+    const token = await signJWT(jwt, { user_id, email, full_name });
+
+    const { error } = await resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: [email],
+      subject: 'You have been invited',
+      react: TeacherInvitationMailTemplate({ token }),
+    })
+
+    if (error) {
+      throw new CustomAuthError(error.message, 'InvitationError', error.statusCode ?? 500, error.name ?? 'invitation_failed');
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createTeacherInvitation = async (user_id: string, email: string, full_name: string, role: role): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.from("invitations").insert({ user_id, email, full_name, role });
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

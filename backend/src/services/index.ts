@@ -2,6 +2,6 @@ import { userSigninWithEmailPassword, userSigninWithPhonePassword, createDatabas
 
 export { userSigninWithEmailPassword, userSigninWithPhonePassword, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities, getAdminIdentityDetails, userSignout, userSigninWithEmailOtp, userSigninWithPhoneOtp, verifyEmailOtp, verifyPhoneOtp }
 
-import { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff } from "./admin.service";
+import { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationByResend, sendTeacherInvitationBySupabase, createTeacherInvitation } from "./admin.service";
 
-export { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff }
+export { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationByResend, sendTeacherInvitationBySupabase, createTeacherInvitation }

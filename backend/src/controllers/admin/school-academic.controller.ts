@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, SendTeacherInvitationType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -61,3 +61,26 @@ export const addExistingUserAsSchoolStaff = async (context: Context<{ body: Exis
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }
 };
+
+export const sendTeacherInvitation = async (context: Context<{ body: SendTeacherInvitationType }>) => {
+  try {
+    const { full_name, email } = context.body
+
+    const existing_user = await checkExistingUser(email, full_name)
+
+    if (existing_user) {
+      await sendTeacherInvitationByResend((context as any).jwt, email, existing_user.full_name, existing_user.id)
+
+      await createTeacherInvitation(existing_user.id, email, existing_user.full_name, "teacher")
+
+    } else {
+      const teacher = await sendTeacherInvitationBySupabase(email, full_name)
+
+      await createTeacherInvitation(teacher.id, teacher.email || email, teacher.user_metadata.full_name || full_name, "teacher")
+    }
+
+    return context.status(200, { success: true, message: "Teacher invitation sent successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}

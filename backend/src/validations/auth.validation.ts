@@ -101,3 +101,16 @@ export const ExistingUserAsStaffSchema = z.strictObject({
   bank_cancelled_cheque_photo: file,
 })
 export type ExistingUserAsStaffType = z.infer<typeof ExistingUserAsStaffSchema>
+
+export const SendTeacherInvitationSchema = z.strictObject({
+  full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  email: email,
+})
+export type SendTeacherInvitationType = z.infer<typeof SendTeacherInvitationSchema>
+
+export const TeacherInviteJWTSchema = z.strictObject({
+  user_id: uuid,
+  email: email,
+  full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+})
+export type TeacherInviteJWTType = z.infer<typeof TeacherInviteJWTSchema>

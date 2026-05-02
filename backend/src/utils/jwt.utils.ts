@@ -1,7 +1,7 @@
-import { type JWTPayloadInput, type JWTPayloadSpec } from "@elysiajs/jwt";
+import { type JWTPayloadSpec } from "@elysiajs/jwt";
 import { CustomAuthError } from "@supabase/supabase-js";
 
-export const signJWT = async (jwt: any, payload: JWTPayloadInput): Promise<string> => {
+export const signJWT = async (jwt: any, payload: Object): Promise<string> => {
   return await jwt.sign(payload);
 };
 

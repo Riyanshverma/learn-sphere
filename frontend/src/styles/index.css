@@ -134,3 +134,7 @@
     color: var(--primary-foreground);
   }
 }
+
+.toaster [data-sonner-toast] {
+  min-width: 430px;
+}

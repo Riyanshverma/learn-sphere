@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse } from "@/types";
+import type { AddTeacherInvitationType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -12,22 +13,34 @@ class AdminService {
     });
   }
 
-  async addNewSchoolStaff(data: FormData): Promise<ApiSuccessResponse<any> | ApiErrorResponse> {
+  async addNewSchoolStaff(data: FormData): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.post<ApiSuccessResponse<any>>('/school-academic/add-new-school-staff', data, {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-new-school-staff', data, {
         headers: { "Content-Type": "multipart/form-data" }
       });
+
       return response.data;
     } catch (error: any) {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
 
-  async addExistingUserAsSchoolStaff(data: FormData): Promise<ApiSuccessResponse<any> | ApiErrorResponse> {
+  async addExistingUserAsSchoolStaff(data: FormData): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.post<ApiSuccessResponse<any>>('/school-academic/add-existing-user-as-school-staff', data, {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-existing-user-as-school-staff', data, {
         headers: { "Content-Type": "multipart/form-data" }
       });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async sendTeacherInvitation(data: AddTeacherInvitationType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/send-teacher-invitation', data);
+
       return response.data;
     } catch (error: any) {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;

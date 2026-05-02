@@ -6,8 +6,8 @@ export const jwtPlugin = (schema: ZodObject) => (app: Elysia) =>
   app.use(
     jwt({
       name: 'jwt',
-      secret: Bun.env.JWT_SECRET_KEY!,
-      exp: '1d',
+      secret: Bun.env.JWT_SECRET_KEY,
+      exp: '1h',
       schema
     })
   );
