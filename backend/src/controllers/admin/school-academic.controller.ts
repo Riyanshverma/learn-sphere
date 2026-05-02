@@ -69,9 +69,9 @@ export const sendTeacherInvitation = async (context: Context<{ body: SendTeacher
     const existing_user = await checkExistingUser(email, full_name)
 
     if (existing_user) {
-      await sendTeacherInvitationByResend((context as any).jwt, email, existing_user.full_name, existing_user.id)
-
       await createTeacherInvitation(existing_user.id, email, existing_user.full_name, "teacher")
+      
+      await sendTeacherInvitationByResend((context as any).jwt, email, existing_user.full_name, existing_user.id)
 
     } else {
       const teacher = await sendTeacherInvitationBySupabase(email, full_name)

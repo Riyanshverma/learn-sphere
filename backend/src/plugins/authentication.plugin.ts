@@ -15,7 +15,7 @@ export const authenticationPlugin = (app: Elysia) =>
     
     let user: User | JWTPayloadSpec    
 
-    if(request.url.includes('resend-invite')) {
+    if(request.url.includes('resend')) {      
       user = await verifyJWT(jwt, token as string)
     } else {
       user = await getUser(token as string)

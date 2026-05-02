@@ -12,6 +12,7 @@ export const verifyJWT = async (jwt: any, token: string): Promise<JWTPayloadSpec
     if(!payload) {
       throw new CustomAuthError('Invalid or expired token', 'TokenError', 401, 'invalid_token');
     }
+    
     return payload;
   } catch (error: any) {
     console.error(error.message);

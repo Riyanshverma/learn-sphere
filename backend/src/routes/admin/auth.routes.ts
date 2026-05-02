@@ -10,5 +10,3 @@ adminAuthRoutes.post("/sign-up", adminSignup, { body: EmployeeSignupSchema })
 adminAuthRoutes.use(authenticationPlugin).get("/identity-details", adminIdentityDetails, { query: identityIdSchema })
 
 export { adminAuthRoutes }
-
-// ! .use(jwtPlugin(ZodOject)) add this in resend invite route

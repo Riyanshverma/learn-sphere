@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LoginPage, SelectIdentityPage } from '@/features/authentication';
+import { LoginPage, SelectIdentityPage, TeacherSignupPage } from '@/features/authentication';
 import { LandingPage } from '@/features/landing';
 import { AdminDashboard, AddSchoolStaffPage } from '@/features/admin';
 import { Toaster } from '@/components/ui/sonner';
@@ -12,6 +12,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/select-identity" element={<SelectIdentityPage />} />
+          <Route path="/teacher-signup" element={<TeacherSignupPage />} />
           {/* Add more routes here as you build them */}
 
           {/* Admin Routes */}

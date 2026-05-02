@@ -6,7 +6,7 @@ const app = new Elysia()
 
 app.use(cors({
   origin: Bun.env.FRONTEND_URL,
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authentication'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true,
   maxAge: 600,

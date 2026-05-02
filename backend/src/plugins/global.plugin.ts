@@ -3,7 +3,7 @@ import { CustomAuthError } from '@supabase/supabase-js';
 
 export const globalPlugin = (app: Elysia) => 
   app.error({ UNAUTHENTICATED: CustomAuthError, UNAUTHORIZED: CustomAuthError }).onError(({ code, error, status }) => {
-    if (code === 'VALIDATION') {      
+    if (code === 'VALIDATION') {   
       return status(400, {
         success: false,
         error: 'Validation failed',
