@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
 import { EmployeeSignupSchema, ExistingUserAsStaffSchema, SendTeacherInvitationSchema, TeacherInviteJWTSchema } from "../../validations";
 
@@ -12,6 +12,8 @@ adminSchoolAcademicRoutes.group("", (app) => {
     app.post("/add-existing-user-as-school-staff", addExistingUserAsSchoolStaff, { body: ExistingUserAsStaffSchema })
 
     app.use(jwtPlugin(TeacherInviteJWTSchema)).post("/send-teacher-invitation", sendTeacherInvitation, { body: SendTeacherInvitationSchema })
+
+    app.get("/teacher-invitations", fetchTeacherInvitations)
 
     return app
 })

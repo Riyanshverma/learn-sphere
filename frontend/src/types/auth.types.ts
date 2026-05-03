@@ -1,8 +1,8 @@
-type role = "admin" | "teacher" | "staff" | "parent" | "student";
+export type role = "admin" | "teacher" | "staff" | "parent" | "student";
 
 type days = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
-type account_type = "savings" | "current";
+export type account_type = "savings" | "current";
 
 type gender = "male" | "female" | "other";
 

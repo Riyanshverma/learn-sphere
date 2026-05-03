@@ -2,6 +2,6 @@ import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse
 
 export type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, role, days, account_type, UpdateDatabaseUserType, CreateExistingUserAsTeacherType }
 
-import type { CreateExistingUserAsSchoolStaffType } from "./admin.types";
+import type { CreateExistingUserAsSchoolStaffType, TeacherInvitationsResponse } from "./admin.types";
 
-export type { CreateExistingUserAsSchoolStaffType }
+export type { CreateExistingUserAsSchoolStaffType, TeacherInvitationsResponse }

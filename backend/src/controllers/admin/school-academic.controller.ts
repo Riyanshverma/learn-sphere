@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
 import type { EmployeeSignupType, ExistingUserAsStaffType, SendTeacherInvitationType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation } from "../../services";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -28,7 +28,7 @@ export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupT
 
     return context.status(201, { success: true, message: "School staff signed up successfully" })
   } catch (error: any) {
-    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error"});
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }
 };
 
@@ -39,7 +39,7 @@ export const addExistingUserAsSchoolStaff = async (context: Context<{ body: Exis
     const user_id = await getDatabaseUserId(email, phone)
     
     if(!user_id) {
-      return context.status(404, { success: false, message: "User not found", code: "user_not_found" });
+      return context.status(404, { success: false, error: "User not found", code: "user_not_found" });
     }
 
     const uploaded_documents = await Promise.all(([aadhar_card_photo, pan_card_photo, bank_cancelled_cheque_photo] as const).map(async (file) => {
@@ -58,7 +58,7 @@ export const addExistingUserAsSchoolStaff = async (context: Context<{ body: Exis
 
     return context.status(201, { success: true, message: "School staff signed up successfully" })
   } catch (error: any) {
-    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error"});
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }
 };
 
@@ -81,6 +81,16 @@ export const sendTeacherInvitation = async (context: Context<{ body: SendTeacher
 
     return context.status(200, { success: true, message: "Teacher invitation sent successfully" })
   } catch (error: any) {
-    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error" });
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const fetchTeacherInvitations = async (context: Context) => {
+  try {
+    const teacher_invitations = await getTeacherInvitations()
+    
+    return context.status(200, { success: true, message: "Teacher invitations fetched successfully", data: teacher_invitations })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }
 }

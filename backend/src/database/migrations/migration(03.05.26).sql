@@ -73,3 +73,47 @@ BEGIN
   WHERE user_id = p_id;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION get_teacher_invitations()
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_result JSONB;
+BEGIN
+  SELECT COALESCE(
+    jsonb_agg(
+      jsonb_strip_nulls(
+        jsonb_build_object(
+          'user_id', i.user_id,
+          'email', i.email,
+          'full_name', i.full_name,
+          'role', i.role,
+          'status', i.status,
+          'created_at', i.created_at,
+          'phone', u.phone,
+          'date_of_birth', u.date_of_birth,
+          'emergency_contact', u.emergency_contact,
+          'address', u.address,
+          'identity_id', id.id,
+          'qualification', e.qualification,
+          'specialization', e.specialization,
+          'experience_years', e.experience_years,
+          'identity_proof', e.identity_proof,
+          'bank_details', e.bank_details
+        )
+      )
+      ORDER BY i.created_at DESC
+    ),
+    '[]'::jsonb
+  ) INTO v_result
+  FROM invitations i
+  LEFT JOIN users u ON i.user_id = u.id AND i.status = 'accepted'
+  LEFT JOIN identity id ON i.user_id = id.user_id AND id.role = 'teacher' AND i.status = 'accepted'
+  LEFT JOIN employees e ON id.id = e.identity_id AND i.status = 'accepted'
+  WHERE i.role = 'teacher';
+
+  RETURN v_result;
+END;
+$$;

@@ -313,3 +313,20 @@ export const createExistingUserAsTeacher = async (params: CreateExistingUserAsTe
     throw error;
   }
 }
+
+export const checkTeacherInvitationAllowed = async (user_id: string): Promise<boolean> => {
+  try {
+    const { data, error } = await supabaseAdmin.from("invitations").select("status").eq("user_id", user_id).eq("role", "teacher").maybeSingle();
+
+    if (error) {
+      throw error;
+    } else if(!data) {
+      throw new CustomAuthError('No invitation found', 'InvitationNotFoundError', 404, 'invitation_not_found');
+    }
+
+    return data.status === "allowed";
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

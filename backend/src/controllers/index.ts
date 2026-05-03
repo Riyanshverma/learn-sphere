@@ -1,8 +1,8 @@
 import { adminSignup, adminIdentityDetails } from "./admin/auth.controller";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation } from "./admin/school-academic.controller";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations } from "./admin/school-academic.controller";
 
-export { adminSignup, adminIdentityDetails, addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation }
+export { adminSignup, adminIdentityDetails, addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations }
 
-import { teacherSignupWithSupabase, teacherSignupWithResend } from "./teacher/auth.controller";
+import { teacherSignupWithSupabase, teacherSignupWithResend, teacherIdentityDetails } from "./teacher/auth.controller";
 
-export { teacherSignupWithSupabase, teacherSignupWithResend }
+export { teacherSignupWithSupabase, teacherSignupWithResend, teacherIdentityDetails }

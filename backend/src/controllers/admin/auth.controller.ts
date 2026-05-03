@@ -31,7 +31,7 @@ export const adminSignup = async (context: Context<{ body: EmployeeSignupType }>
 
     return context.status(201, { success: true, message: 'Admin signed up successfully', data: admin })
   } catch (error: any) {
-    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || 'internal_server_error' });
   }
 };
 
@@ -47,6 +47,6 @@ export const adminIdentityDetails = async (context: Context<{ query: identityIdT
 
     return context.status(200, { success: true, message: 'Logged in successfully', data: admin })
   } catch (error: any) {
-    return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || 'internal_server_error' });
   }
 }

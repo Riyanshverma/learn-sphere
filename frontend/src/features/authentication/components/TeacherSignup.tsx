@@ -63,7 +63,7 @@ export const TeacherSignup = ({ access_token, invite }: { access_token: string, 
       }
 
       navigate('/login', { replace: true })
-      toast.success(result.message)
+      toast.success(result.message, { description: "Wait for admin to allow your login" })
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
     }

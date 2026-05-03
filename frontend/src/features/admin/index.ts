@@ -27,6 +27,7 @@ import { SchoolExamsAndResults } from "./dashboard/components/school-academics/S
 import { AddSchoolStaffSubHeader } from "./add-school-staff/components/AddSchoolStaffSubHeader"
 import { AddNewSchoolStaff } from "./add-school-staff/components/AddNewSchoolStaff"
 import { AddExistingUserStaff } from "./add-school-staff/components/AddExistingUserStaff"
+import { TeacherInvitations } from "./dashboard/components/school-academics/TeacherInvitations"
 
 export { 
   SchoolPeopleSubHeader, 
@@ -39,5 +40,6 @@ export {
   SchoolExamsAndResults,
   AddSchoolStaffSubHeader,
   AddNewSchoolStaff,
-  AddExistingUserStaff
+  AddExistingUserStaff,
+  TeacherInvitations
 }

@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { teacherSignupWithSupabase, teacherSignupWithResend } from "../../controllers";
+import { teacherSignupWithSupabase, teacherSignupWithResend, teacherIdentityDetails } from "../../controllers";
 import { authenticationPlugin, jwtPlugin } from "../../plugins";
-import { TeacherSignupResendSchema, TeacherSignupSupabaseSchema, TeacherInviteJWTSchema } from "../../validations";
+import { TeacherSignupResendSchema, TeacherSignupSupabaseSchema, TeacherInviteJWTSchema, identityIdSchema } from "../../validations";
 
 const teacherAuthRoutes = new Elysia({ prefix: "/auth" })
 
@@ -13,5 +13,7 @@ teacherAuthRoutes.group("", (app) => {
 
     return app
 })
+
+teacherAuthRoutes.use(authenticationPlugin).get("/identity-details", teacherIdentityDetails, { query: identityIdSchema })
 
 export { teacherAuthRoutes }

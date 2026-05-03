@@ -1,7 +1,9 @@
 import { type Context } from "elysia";
 import { TeacherInviteJWTType, type TeacherSignupResendType, type TeacherSignupSupabaseType } from "../../validations";
-import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher } from "../../services";
+import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkTeacherInvitationAllowed } from "../../services";
 import { User } from "@supabase/supabase-js";
+import { type JWTPayloadSpec } from "@elysiajs/jwt";
+import { setRoleCookie } from "../../utils";
 
 export const teacherSignupWithSupabase = async (context: Context<{body: TeacherSignupSupabaseType}>) => {
     try {
@@ -29,7 +31,7 @@ export const teacherSignupWithSupabase = async (context: Context<{body: TeacherS
       
       return context.status(201, { success: true, message: "Teacher signed up successfully" });
     } catch (error: any) {
-      return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+      return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || 'internal_server_error' });
     }
 }
 
@@ -55,6 +57,27 @@ export const teacherSignupWithResend = async (context: Context<{body: TeacherSig
 
       return context.status(201, { success: true, message: "Teacher signed up successfully" });
     } catch (error: any) {
-      return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+      return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || 'internal_server_error' });
     }
+}
+
+export const teacherIdentityDetails = async (context: Context<{}> & { user: User | JWTPayloadSpec } ) => {
+  try {
+    const { identity_id } = context.query
+    const { id: user_id } = context.user as User
+
+    const invitation_allowed = await checkTeacherInvitationAllowed(user_id);
+
+    if(!invitation_allowed) {
+      return context.status(403, { success: false, error: "Not allowed to login", code: 'invitation_not_allowed' });
+    }
+
+    const teacher: any = {} // TODO: Get the data for teacher
+
+    setRoleCookie(context, teacher.role)
+
+    return context.status(200, { success: true, message: "Logged in successfully", data: teacher })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || 'internal_server_error' });
+  }
 }

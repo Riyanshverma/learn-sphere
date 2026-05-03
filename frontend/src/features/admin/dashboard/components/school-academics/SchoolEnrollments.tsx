@@ -3,18 +3,39 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { AddTeacherInvitation } from "./AddTeacherInvitation"
+import { toast } from "sonner"
+import { adminService } from "@/services"
+import type { TeacherInvitationsResponse } from "@/types"
+import { TeacherInvitations } from "@/features/admin"
+import { Spinner } from "@/components/ui/spinner"
 
 export const SchoolEnrollments = () => {
   const navigate = useNavigate()
-  const [addTeacherInvitationFormOpen, setAddTeacherInvitationFormOpen] = useState(false)
+  const [addTeacherInvitationFormOpen, setAddTeacherInvitationFormOpen] = useState<boolean>(false)
+  const [teacherInvitations, setTeacherInvitations] = useState<TeacherInvitationsResponse[] | null>(null)
 
   const handleAddClick = (type: "staff" | "teacher" | "student") => {
     if (type === "staff") {
       navigate("/admin/add-school-staff")
     } else if (type === "teacher") {
       setAddTeacherInvitationFormOpen(true)
+      fetchTeacherInvitations()
     } else if (type === "student") {
 
+    }
+  }
+
+  const fetchTeacherInvitations = async () => {
+    try {
+      const result = await adminService.getTeacherInvitations()
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code });
+      }
+
+      setTeacherInvitations(result.data)
+      toast.success(result.message);
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause})
     }
   }
 
@@ -35,6 +56,22 @@ export const SchoolEnrollments = () => {
       
       {addTeacherInvitationFormOpen && (
         <AddTeacherInvitation />
+      )}
+
+      {addTeacherInvitationFormOpen && (
+        teacherInvitations === null ? (
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <Spinner className="size-8 text-primary" />
+          </div>
+        ) : teacherInvitations.length === 0 ? (
+          <div className="flex min-h-[50vh]">
+            <p className="text-muted-foreground font-sans font-light text-xl">
+              No teacher invitations currently exist.
+            </p>
+          </div>
+        ) : (
+          <TeacherInvitations teacherInvitations={teacherInvitations} />
+        )
       )}
     </div>
   )

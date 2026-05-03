@@ -1,5 +1,5 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
-import type { CreateEmployeeType, CreateEmployeeResponse, CreateExistingUserAsSchoolStaffType, role } from "../types";
+import type { CreateEmployeeType, CreateEmployeeResponse, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, TeacherInvitationMailTemplate } from "../utils";
 
@@ -140,6 +140,21 @@ export const createTeacherInvitation = async (user_id: string, email: string, fu
     if (error) {
       throw error;
     }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getTeacherInvitations = async (): Promise<TeacherInvitationsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_teacher_invitations');
+
+    if (error) {
+      throw error;
+    }
+
+    return data as TeacherInvitationsResponse[];
   } catch (error: any) {
     console.error(error.message);
     throw error;
