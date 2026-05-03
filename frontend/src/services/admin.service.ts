@@ -56,6 +56,16 @@ class AdminService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
+  
+  async updateTeacherInvitationStatus(user_id: string, new_status: "allowed" | "revoked"): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try{
+      const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-teacher-invitation-status', { user_id, new_status });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
 }
 
 export const adminService = new AdminService();

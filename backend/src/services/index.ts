@@ -1,7 +1,5 @@
 import { userSigninWithEmailPassword, userSigninWithPhonePassword, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities, getAdminIdentityDetails, userSignout, userSigninWithEmailOtp, userSigninWithPhoneOtp, verifyEmailOtp, verifyPhoneOtp, getDatabaseUser, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkTeacherInvitationAllowed } from "./auth.service";
-
 export { userSigninWithEmailPassword, userSigninWithPhonePassword, createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getUserIdentities, getAdminIdentityDetails, userSignout, userSigninWithEmailOtp, userSigninWithPhoneOtp, verifyEmailOtp, verifyPhoneOtp, getDatabaseUser, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkTeacherInvitationAllowed }
 
-import { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationByResend, sendTeacherInvitationBySupabase, createTeacherInvitation, getTeacherInvitations } from "./admin.service";
-
-export { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationByResend, sendTeacherInvitationBySupabase, createTeacherInvitation, getTeacherInvitations }
+import { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationByResend, sendTeacherInvitationBySupabase, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus } from "./admin.service";
+export { getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationByResend, sendTeacherInvitationBySupabase, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus }

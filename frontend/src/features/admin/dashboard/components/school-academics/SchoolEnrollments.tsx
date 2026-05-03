@@ -70,7 +70,7 @@ export const SchoolEnrollments = () => {
             </p>
           </div>
         ) : (
-          <TeacherInvitations teacherInvitations={teacherInvitations} />
+          <TeacherInvitations teacherInvitations={teacherInvitations} fetchTeacherInvitations={fetchTeacherInvitations} />
         )
       )}
     </div>

@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, SendTeacherInvitationType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -90,6 +90,18 @@ export const fetchTeacherInvitations = async (context: Context) => {
     const teacher_invitations = await getTeacherInvitations()
     
     return context.status(200, { success: true, message: "Teacher invitations fetched successfully", data: teacher_invitations })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const changeTeacherInvitationStatus = async (context: Context<{ body: UpdateTeacherInvitationStatusType }>) => {
+  try {
+    const { user_id, new_status } = context.body
+
+    await updateTeacherInvitationStatus(user_id, new_status)
+    
+    return context.status(200, { success: true, message: "Teacher invitation status updated successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

@@ -160,3 +160,16 @@ export const getTeacherInvitations = async (): Promise<TeacherInvitationsRespons
     throw error;
   }
 }
+
+export const updateTeacherInvitationStatus = async (user_id: string, new_status: "allowed" | "revoked"): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.from("invitations").update({ status: new_status }).eq("user_id", user_id).eq("role", "teacher").eq("status", "accepted");
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

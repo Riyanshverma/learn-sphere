@@ -170,3 +170,9 @@ export const TeacherSignupResendSchema = z.strictObject({
   bank_cancelled_cheque_photo: file,
 })
 export type TeacherSignupResendType = z.infer<typeof TeacherSignupResendSchema>
+
+export const UpdateTeacherInvitationStatusSchema = z.strictObject({
+  user_id: uuid,
+  new_status: z.enum(['allowed', 'revoked'], 'Invalid'),
+})
+export type UpdateTeacherInvitationStatusType = z.infer<typeof UpdateTeacherInvitationStatusSchema>

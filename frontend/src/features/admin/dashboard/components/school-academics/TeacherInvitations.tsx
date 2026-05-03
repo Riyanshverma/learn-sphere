@@ -4,18 +4,25 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { capitalizeWords, getInvitationStatusColor } from "@/utils"
+import { adminService } from "@/services"
 
-export const TeacherInvitations = ({ teacherInvitations }: { teacherInvitations: TeacherInvitationsResponse[] }) => {
+export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations }: { teacherInvitations: TeacherInvitationsResponse[], fetchTeacherInvitations: () => Promise<void> }) => {
   
-  const handleChangeInvitationClick = async () => {
+  const handleChangeInvitationStatusClick = async (invitation: TeacherInvitationsResponse, new_status: "allowed" | "revoked") => {
     try {
+      const id = toast.loading('Updating teacher invitation status...')
+      const result = await adminService.updateTeacherInvitationStatus(invitation.user_id, new_status);
+      if (!result.success) {
+        toast.dismiss(id)
+        throw new Error(result.error, { cause: result.code });
+      }
 
+      await fetchTeacherInvitations();
+      toast.success(result.message, { id })
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
     }
   }
-
-  
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -49,6 +56,7 @@ export const TeacherInvitations = ({ teacherInvitations }: { teacherInvitations:
             <div className="flex items-center gap-4 font-sans">
               <Button 
                 variant="default"
+                onClick={() => handleChangeInvitationStatusClick(invitation, "allowed")}
                 className="rounded-3xl px-4 font-light cursor-pointer hover:bg-primary/80"
                 disabled={invitation.status !== "accepted"}
               >
@@ -63,6 +71,7 @@ export const TeacherInvitations = ({ teacherInvitations }: { teacherInvitations:
               </Button>
               <Button 
                 variant="destructive" 
+                onClick={() => handleChangeInvitationStatusClick(invitation, "revoked")}
                 className="rounded-3xl px-4 font-light"
                 disabled={invitation.status !== "accepted"}
               >

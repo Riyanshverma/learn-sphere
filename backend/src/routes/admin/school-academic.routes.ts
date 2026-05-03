@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations, changeTeacherInvitationStatus } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
-import { EmployeeSignupSchema, ExistingUserAsStaffSchema, SendTeacherInvitationSchema, TeacherInviteJWTSchema } from "../../validations";
+import { EmployeeSignupSchema, ExistingUserAsStaffSchema, SendTeacherInvitationSchema, TeacherInviteJWTSchema, UpdateTeacherInvitationStatusSchema } from "../../validations";
 
 const adminSchoolAcademicRoutes = new Elysia({ prefix: "/school-academic" })
 
@@ -14,6 +14,8 @@ adminSchoolAcademicRoutes.group("", (app) => {
     app.use(jwtPlugin(TeacherInviteJWTSchema)).post("/send-teacher-invitation", sendTeacherInvitation, { body: SendTeacherInvitationSchema })
 
     app.get("/teacher-invitations", fetchTeacherInvitations)
+
+    app.patch("/update-teacher-invitation-status", changeTeacherInvitationStatus, { body: UpdateTeacherInvitationStatusSchema })
 
     return app
 })
