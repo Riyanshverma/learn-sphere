@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 import { CustomAuthError, User } from '@supabase/supabase-js';
-import { getUser } from '../services/auth.service';
+import { getDatabaseUser } from '../services';
 import { type JWTPayloadSpec, jwt } from '@elysiajs/jwt';
 import { verifyJWT } from '../utils';
 
@@ -18,7 +18,7 @@ export const authenticationPlugin = (app: Elysia) =>
     if(request.url.includes('resend')) {      
       user = await verifyJWT(jwt, token as string)
     } else {
-      user = await getUser(token as string)
+      user = await getDatabaseUser(token as string)
     }
 
     return { user };

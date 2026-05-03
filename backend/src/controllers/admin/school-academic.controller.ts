@@ -22,11 +22,11 @@ export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupT
 
     const bank_details = { account_holder_name: bank_account_holder_name, branch_name: bank_branch_name, bank_name, account_number: bank_account_number, ifsc_code: bank_ifsc_code, cancelled_cheque_url: bank_cancelled_cheque_url, upi_id: bank_upi_id, account_type: bank_account_type }
 
-    await createNewSchoolStaff({ id: user.id, email: user.email ?? email, phone: user.phone ?? phone, date_of_birth, blood_group, gender, full_name: user.user_metadata.full_name, emergency_contact, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timings, identity_proof, bank_details })
+    await createNewSchoolStaff({ id: user.id, email: user.email || email, phone: user.phone || phone, date_of_birth, blood_group, gender, full_name: user.user_metadata.full_name, emergency_contact, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timings, identity_proof, bank_details })
 
     // TODO: Send reset password link
 
-    return context.status(201, { success: true, message: "School staff added successfully" })
+    return context.status(201, { success: true, message: "School staff signed up successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }
@@ -56,7 +56,7 @@ export const addExistingUserAsSchoolStaff = async (context: Context<{ body: Exis
 
     await createExistingUserAsSchoolStaff({ id: user_id, qualifications, specialization, monthly_salary, experience_years, timings, identity_proof, bank_details  })
 
-    return context.status(201, { success: true, message: "School staff added successfully" })
+    return context.status(201, { success: true, message: "School staff signed up successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }

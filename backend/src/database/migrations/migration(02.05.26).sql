@@ -1,9 +1,9 @@
 -- 02.05.26
 
-CREATE TYPE invitation_status_type AS ENUM ('pending', 'accepted', 'expired', 'revoked');
+CREATE TYPE invitation_status_type AS ENUM ('pending', 'accepted', 'allowed', 'expired', 'revoked');
 
 CREATE TABLE invitations (
-  user_id UUID PRIMARY KEY,
+  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT NOT NULL,
   role role_type NOT NULL DEFAULT 'teacher',

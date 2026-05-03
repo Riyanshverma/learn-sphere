@@ -29,7 +29,7 @@ export const adminSignup = async (context: Context<{ body: EmployeeSignupType }>
 
     // TODO: Send reset password link
 
-    return context.status(201, { success: true, message: 'Admin created successfully', data: admin })
+    return context.status(201, { success: true, message: 'Admin signed up successfully', data: admin })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, message: error.message || "Internal server error", code: error.code || 'internal_server_error' });
   }

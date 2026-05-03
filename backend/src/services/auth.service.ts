@@ -1,7 +1,7 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
 import { type UserLoginWithPasswordType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
-import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse } from '../types';
+import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, UpdateDatabaseUserType, CreateExistingUserAsTeacherType } from '../types';
 
 export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {
   try {
@@ -195,7 +195,7 @@ export const getUserIdentities = async (user_id: string): Promise<getUserIdentit
   }
 }
 
-export const getUser = async (token: string): Promise<User> => {
+export const getDatabaseUser = async (token: string): Promise<User> => {
   try {
     const { data, error } = await supabaseAdmin.auth.getUser(token);
 
@@ -231,6 +231,79 @@ export const userSignout = async (token: string): Promise<void> => {
   try {
     const client = createUserClient(token);
     const { error } = await client.auth.signOut();
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const updateDatabaseUser= async ({ user_id, password, phone }: UpdateDatabaseUserType): Promise<User>  => {
+  try {
+    const { data, error } = await supabaseAdmin.auth.admin.updateUserById(user_id, { password, phone, phone_confirm: true })
+
+    if (error) {
+      throw error;
+    } else if (!data.user) {
+      throw new CustomAuthError('No user returned', 'UpdateUserError', 500, 'update_user_failed');
+    }
+
+    return data.user;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createNewTeacher = async (params: CreateEmployeeType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('create_new_school_teacher', {
+      p_id: params.id,
+      p_email: params.email,
+      p_phone: params.phone,
+      p_full_name: params.full_name,
+      p_date_of_birth: params.date_of_birth,
+      p_blood_group: params.blood_group,
+      p_gender: params.gender,
+      p_emergency_contact: params.emergency_contact,
+      p_address: params.address,
+      p_city: params.city,
+      p_state: params.state,
+      p_pincode: String(params.pincode),
+      p_qualifications: params.qualifications,
+      p_specialization: params.specialization,
+      p_monthly_salary: params.monthly_salary,
+      p_experience_years: params.experience_years,
+      p_timings: params.timings,
+      p_identity_proof: params.identity_proof,
+      p_bank_details: params.bank_details
+    });
+
+    if (error) {
+      await supabaseAdmin.auth.admin.deleteUser(params.id);
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createExistingUserAsTeacher = async (params: CreateExistingUserAsTeacherType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('create_existing_user_as_school_teacher', {
+      p_id: params.user_id,
+      p_qualifications: params.qualifications,
+      p_specialization: params.specialization,
+      p_monthly_salary: params.monthly_salary,
+      p_experience_years: params.experience_years,
+      p_timings: params.timings,
+      p_identity_proof: params.identity_proof,
+      p_bank_details: params.bank_details
+    });
 
     if (error) {
       throw error;
