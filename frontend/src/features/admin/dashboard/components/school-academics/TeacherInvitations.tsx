@@ -3,10 +3,14 @@ import type { TeacherInvitationsResponse } from "@/types"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { capitalizeWords, getInvitationStatusColor } from "@/utils"
+import { getInvitationStatusColor } from "@/utils"
 import { adminService } from "@/services"
+import { useState, useRef } from "react"
+import { TeacherInvitationDetailsDialog } from "./TeacherInvitationDetailsDialog"
 
 export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations }: { teacherInvitations: TeacherInvitationsResponse[], fetchTeacherInvitations: () => Promise<void> }) => {
+  const [teacherInvitationDetailsDialogOpen, setTeacherInvitationDetailsDialogOpen] = useState<boolean>(false)
+  const selectedInvitation = useRef<TeacherInvitationsResponse | null>(null)
   
   const handleChangeInvitationStatusClick = async (invitation: TeacherInvitationsResponse, new_status: "allowed" | "revoked") => {
     try {
@@ -24,18 +28,24 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
     }
   }
 
+  const handleShowDetailsClick = (invitation: TeacherInvitationsResponse) => {
+    selectedInvitation.current = invitation
+    setTeacherInvitationDetailsDialogOpen(true)
+  }
+
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <>
+      <div className="grid grid-cols-1 gap-4">
       {teacherInvitations.map((invitation) => (
         <Card key={invitation.user_id} className="w-full">
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="space-y-1">
               <div className="flex items-center gap-3">
-                <CardTitle className="text-xl font-heading font-normal">
-                  {capitalizeWords(invitation.full_name)}
+                <CardTitle className="text-xl font-heading font-normal capitalize">
+                  {invitation.full_name}
                 </CardTitle>
-                <Badge className={`${getInvitationStatusColor(invitation.status)} font-sans font-light text-sm`} variant="outline">
-                  {capitalizeWords(invitation.status)}
+                <Badge className={`${getInvitationStatusColor(invitation.status)} font-sans font-light text-sm capitalize`} variant="outline">
+                  {invitation.status}
                 </Badge>
                 <Badge variant="secondary" className="font-sans font-light capitalize text-sm">
                   {invitation.role}
@@ -64,6 +74,7 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
               </Button>
               <Button 
                 variant="outline" 
+                onClick={() => handleShowDetailsClick(invitation)}
                 className="rounded-3xl px-4 font-light"
                 disabled={invitation.status !== "accepted"}
               >
@@ -81,6 +92,12 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
           </CardContent>
         </Card>
       ))}
-    </div>
+      </div>
+      <TeacherInvitationDetailsDialog 
+        dialogOpen={teacherInvitationDetailsDialogOpen} 
+        setDialogOpen={setTeacherInvitationDetailsDialogOpen} 
+        invitation={selectedInvitation.current} 
+      />
+    </>
   )
 }
