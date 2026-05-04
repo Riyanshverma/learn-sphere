@@ -72,10 +72,10 @@ export const EmployeeSignupSchema = z.strictObject({
 })
 export type EmployeeSignupType = z.infer<typeof EmployeeSignupSchema>
 
-export const identityIdSchema = z.strictObject({
+export const IdentityIdSchema = z.strictObject({
   identity_id: uuid,
 })
-export type identityIdType = z.infer<typeof identityIdSchema>
+export type IdentityIdType = z.infer<typeof IdentityIdSchema>
 
 export const TeacherSignupSupabaseSchema = z.strictObject({
   password: password,

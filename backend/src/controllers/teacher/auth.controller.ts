@@ -1,5 +1,5 @@
 import { type Context } from "elysia";
-import { TeacherInviteJWTType, type TeacherSignupResendType, type TeacherSignupSupabaseType } from "../../validations";
+import type { TeacherInviteJWTType, TeacherSignupResendType, TeacherSignupSupabaseType, IdentityIdType } from "../../validations";
 import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkTeacherInvitationAllowed } from "../../services";
 import { User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
@@ -61,7 +61,7 @@ export const teacherSignupWithResend = async (context: Context<{body: TeacherSig
     }
 }
 
-export const teacherIdentityDetails = async (context: Context<{}> & { user: User | JWTPayloadSpec } ) => {
+export const teacherIdentityDetails = async (context: Context<{query: IdentityIdType}> & { user: User | JWTPayloadSpec } ) => {
   try {
     const { identity_id } = context.query
     const { id: user_id } = context.user as User

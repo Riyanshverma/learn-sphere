@@ -65,3 +65,9 @@ export const CreateSchoolClassSchema = z.strictObject({
   academic_year: word.regex(/^\d{4}-\d{2}$/, 'Invalid format (e.g. 2026-27)'),
 })
 export type CreateSchoolClassType = z.infer<typeof CreateSchoolClassSchema>
+
+export const UpdateClassTeacherSchema = z.strictObject({
+  class_id: uuid,
+  employee_id: uuid,
+})
+export type UpdateClassTeacherType = z.infer<typeof UpdateClassTeacherSchema>

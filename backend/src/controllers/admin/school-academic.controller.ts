@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus, createClass } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType, UpdateClassTeacherType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus, createClass, updateClassTeacher } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -112,6 +112,24 @@ export const createSchoolClass = async (context: Context<{ body: CreateSchoolCla
     await createClass(context.body)
     
     return context.status(201, { success: true, message: "Class created successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const changeClassTeacher = async (context: Context<{body: UpdateClassTeacherType}>) => {
+  try {
+    await updateClassTeacher(context.body)
+
+    return context.status(200, { success: true, message: "Class teacher updated successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const createClassSubject = async (context: Context<{}>) => {
+  try {
+    
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

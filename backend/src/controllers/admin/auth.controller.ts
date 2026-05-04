@@ -1,5 +1,5 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, identityIdType } from "../../validations";
+import type { EmployeeSignupType, IdentityIdType } from "../../validations";
 import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getAdminIdentityDetails } from "../../services";
 import { type User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
@@ -36,7 +36,7 @@ export const adminSignup = async (context: Context<{ body: EmployeeSignupType }>
 };
 
 
-export const adminIdentityDetails = async (context: Context<{ query: identityIdType }> & { user: User | JWTPayloadSpec }) => {
+export const adminIdentityDetails = async (context: Context<{ query: IdentityIdType }> & { user: User | JWTPayloadSpec }) => {
   try {
     const { identity_id } = context.query
     const { id: user_id } = context.user as User

@@ -1,5 +1,5 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
-import type { CreateSchoolClassType } from "../validations";
+import type { CreateSchoolClassType, UpdateClassTeacherType } from "../validations";
 import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, TeacherInvitationMailTemplate } from "../utils";
@@ -178,6 +178,19 @@ export const updateTeacherInvitationStatus = async (user_id: string, new_status:
 export const createClass = async ({ class_section, class_standard, academic_year }: CreateSchoolClassType): Promise<void> => {
   try {
     const { error } = await supabaseAdmin.from("classes").insert({ class_standard, class_section, academic_year });
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const updateClassTeacher = async ({ class_id, employee_id }: UpdateClassTeacherType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.from("classes").update({ class_teacher: employee_id }).eq("id", class_id);
 
     if (error) {
       throw error;

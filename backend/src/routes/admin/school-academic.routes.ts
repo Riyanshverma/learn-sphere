@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations, changeTeacherInvitationStatus, createSchoolClass } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, fetchTeacherInvitations, changeTeacherInvitationStatus, createSchoolClass, changeClassTeacher } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
-import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendTeacherInvitationSchema, TeacherInviteJWTSchema, UpdateTeacherInvitationStatusSchema } from "../../validations";
+import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendTeacherInvitationSchema, TeacherInviteJWTSchema, UpdateTeacherInvitationStatusSchema, UpdateClassTeacherSchema } from "../../validations";
 
 const adminSchoolAcademicRoutes = new Elysia({ prefix: "/school-academic" })
 
@@ -18,6 +18,8 @@ adminSchoolAcademicRoutes.group("", (app) => {
     app.patch("/update-teacher-invitation-status", changeTeacherInvitationStatus, { body: UpdateTeacherInvitationStatusSchema })
 
     app.post("/create-class", createSchoolClass, { body: CreateSchoolClassSchema })
+
+    app.patch("/update-class-teacher", changeClassTeacher, { body: UpdateClassTeacherSchema })
 
     return app
 })
