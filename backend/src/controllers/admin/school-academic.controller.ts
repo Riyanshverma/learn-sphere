@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus, createClass } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -102,6 +102,16 @@ export const changeTeacherInvitationStatus = async (context: Context<{ body: Upd
     await updateTeacherInvitationStatus(user_id, new_status)
     
     return context.status(200, { success: true, message: "Teacher invitation status updated successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const createSchoolClass = async (context: Context<{ body: CreateSchoolClassType }>) => {
+  try {
+    await createClass(context.body)
+    
+    return context.status(201, { success: true, message: "Class created successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }
