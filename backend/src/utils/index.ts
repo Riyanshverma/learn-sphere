@@ -10,6 +10,6 @@ import { signJWT, verifyJWT } from "./jwt.utils";
 
 export { signJWT, verifyJWT }
 
-import { resend, TeacherInvitationMailTemplate } from "./mail.utils";
+import { resend, InvitationMailTemplate } from "./mail.utils";
 
-export { resend, TeacherInvitationMailTemplate }
+export { resend, InvitationMailTemplate }

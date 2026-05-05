@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse } from "@/types";
-import type { InvitationType } from "@/validation";
+import type { InvitationType, UpdateInvitationStatusType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -67,15 +67,15 @@ class AdminService {
     }
   }
   
-  async updateTeacherInvitationStatus(user_id: string, new_status: "allowed" | "revoked"): Promise<ApiSuccessResponse | ApiErrorResponse> {
+  async updateInvitationStatus({ user_id, new_status, created_at, role }: UpdateInvitationStatusType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try{
-      const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-teacher-invitation-status', { user_id, new_status });
+      const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-invitation-status', { user_id, new_status, created_at, role });
 
       return response.data;
     } catch (error: any) {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
-}
+} 
 
 export const adminService = new AdminService();

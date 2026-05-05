@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus, createClass, updateClassTeacher } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -62,24 +62,45 @@ export const addExistingUserAsSchoolStaff = async (context: Context<{ body: Exis
   }
 };
 
-export const sendTeacherInvitation = async (context: Context<{ body: SendTeacherInvitationType }>) => {
+export const sendTeacherInvitation = async (context: Context<{ body: SendInvitationType }>) => {
   try {
     const { full_name, email } = context.body
 
     const existing_user = await checkExistingUser(email, full_name)
 
     if (existing_user) {
-      await createTeacherInvitation(existing_user.id, email, existing_user.full_name, "teacher")
+      await createInvitation(existing_user.id, email, existing_user.full_name, "teacher")
       
       await sendTeacherInvitationByResend((context as any).jwt, email, existing_user.full_name, existing_user.id)
-
     } else {
       const teacher = await sendTeacherInvitationBySupabase(email, full_name)
 
-      await createTeacherInvitation(teacher.id, teacher.email || email, teacher.user_metadata.full_name || full_name, "teacher")
+      await createInvitation(teacher.id, teacher.email || email, teacher.user_metadata.full_name, "teacher")
     }
 
     return context.status(200, { success: true, message: "Teacher invitation sent successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const sendStudentInvitation = async (context: Context<{ body: SendInvitationType }>) => {
+  try {
+    const { full_name, email } = context.body
+
+    const existing_user = await checkExistingUser(email, full_name)
+    
+    if(existing_user) {
+      await createInvitation(existing_user.id, email, existing_user.full_name, "student")
+
+      await sendStudentInvitationByResend((context as any).jwt, email, existing_user.full_name, existing_user.id)
+    } else {
+      const student = await sendStudentInvitationBySupabase(email, full_name)
+
+      await createInvitation(student.id, student.email || email, student.user_metadata.full_name, "student")
+    }
+    
+    return context.status(200, { success: true, message: "Student invitation sent successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }
@@ -95,11 +116,9 @@ export const fetchTeacherInvitations = async (context: Context) => {
   }
 }
 
-export const changeTeacherInvitationStatus = async (context: Context<{ body: UpdateTeacherInvitationStatusType }>) => {
-  try {
-    const { user_id, new_status } = context.body
-
-    await updateTeacherInvitationStatus(user_id, new_status)
+export const changeInvitationStatus = async (context: Context<{ body: UpdateInvitationStatusType }>) => {
+  try {    
+    await updateInvitationStatus(context.body)
     
     return context.status(200, { success: true, message: "Teacher invitation status updated successfully" })
   } catch (error: any) {
@@ -129,7 +148,7 @@ export const changeClassTeacher = async (context: Context<{body: UpdateClassTeac
 
 export const createClassSubject = async (context: Context<{body: CreateClassSubjectType}>) => {
   try {
-    console.log(context.body);
+    // TODO: To be implemented...
     
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });

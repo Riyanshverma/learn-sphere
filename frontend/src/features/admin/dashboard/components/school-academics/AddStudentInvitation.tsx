@@ -73,7 +73,7 @@ export const AddStudentInvitation = () => {
         onClick={() => navigate("/admin/add-school-student")}
         className="text-base font-sans font-light h-10 rounded-lg px-8 self-end"
       >
-        Enter Manually
+        Add Manually
       </Button>
     </div>
   )

@@ -3,7 +3,7 @@
 CREATE TYPE invitation_status_type AS ENUM ('pending', 'accepted', 'allowed', 'expired', 'revoked');
 
 CREATE TABLE invitations (
-  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT NOT NULL,
   role role_type NOT NULL DEFAULT 'teacher',

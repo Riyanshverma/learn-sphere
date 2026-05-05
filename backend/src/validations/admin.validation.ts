@@ -14,12 +14,16 @@ const uuid = z.uuid('Invalid')
 const otp = z.string().trim().length(8, 'Must be 8 digits').regex(/^[0-9]+$/, 'Invalid')
 const time = z.iso.time('Invalid')
 const file = z.instanceof(File).refine((file) => file.size > 0, 'Invalid')
+const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
+const timestamp = z.iso.datetime({ offset: true })
 
-export const UpdateTeacherInvitationStatusSchema = z.strictObject({
+export const UpdateInvitationStatusSchema = z.strictObject({
   user_id: uuid,
   new_status: z.enum(['allowed', 'revoked'], 'Invalid'),
+  created_at: timestamp,
+  role: role
 })
-export type UpdateTeacherInvitationStatusType = z.infer<typeof UpdateTeacherInvitationStatusSchema>
+export type UpdateInvitationStatusType = z.infer<typeof UpdateInvitationStatusSchema>
 
 export const ExistingUserAsStaffSchema = z.strictObject({
   email: email,
@@ -46,18 +50,18 @@ export const ExistingUserAsStaffSchema = z.strictObject({
 })
 export type ExistingUserAsStaffType = z.infer<typeof ExistingUserAsStaffSchema>
 
-export const SendTeacherInvitationSchema = z.strictObject({
+export const SendInvitationSchema = z.strictObject({
   full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
   email: email,
 })
-export type SendTeacherInvitationType = z.infer<typeof SendTeacherInvitationSchema>
+export type SendInvitationType = z.infer<typeof SendInvitationSchema>
 
-export const TeacherInviteJWTSchema = z.strictObject({
+export const InvitationJWTSchema = z.strictObject({
   user_id: uuid,
   email: email,
   full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
 })
-export type TeacherInviteJWTType = z.infer<typeof TeacherInviteJWTSchema>
+export type InvitationJWTType = z.infer<typeof InvitationJWTSchema>
 
 export const CreateSchoolClassSchema = z.strictObject({
   class_standard: number.max(12, 'Invalid'),

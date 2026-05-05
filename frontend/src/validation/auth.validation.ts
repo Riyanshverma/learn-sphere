@@ -14,6 +14,9 @@ const pincode = z.coerce.number().int('Invalid').refine((val) => /^\d{6}$/.test(
 const days = z.array(z.enum(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])).min(1, 'Select at least one day');
 const time = z.iso.time('Invalid')
 const file = z.instanceof(FileList).refine((list) => list.length > 0, 'Invalid')
+const uuid = z.uuid('Invalid')
+const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
+const timestamp = z.iso.datetime({ offset: true })
 
 export const UserLoginWithPasswordSchema = z.strictObject({
   email: email,
@@ -158,3 +161,11 @@ export const TeacherSignupResendSchema = z.strictObject({
   bank_cancelled_cheque_photo: file,
 })
 export type TeacherSignupResendType = z.infer<typeof TeacherSignupResendSchema>
+
+export const UpdateInvitationStatusSchema = z.strictObject({
+  user_id: uuid,
+  new_status: z.enum(['allowed', 'revoked'], 'Invalid'),
+  created_at: timestamp,
+  role: role
+})
+export type UpdateInvitationStatusType = z.infer<typeof UpdateInvitationStatusSchema>

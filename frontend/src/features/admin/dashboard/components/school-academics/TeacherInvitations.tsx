@@ -15,7 +15,7 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
   const handleChangeInvitationStatusClick = async (invitation: TeacherInvitationsResponse, new_status: "allowed" | "revoked") => {
     try {
       const id = toast.loading('Updating teacher invitation status...')
-      const result = await adminService.updateTeacherInvitationStatus(invitation.user_id, new_status);
+      const result = await adminService.updateInvitationStatus({ user_id: invitation.user_id, new_status, created_at: invitation.created_at as any, role: "teacher" });
       if (!result.success) {
         toast.dismiss(id)
         throw new Error(result.error, { cause: result.code });
