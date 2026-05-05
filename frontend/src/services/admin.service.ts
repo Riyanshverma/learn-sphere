@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse } from "@/types";
-import type { AddTeacherInvitationType } from "@/validation";
+import type { InvitationType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -37,9 +37,19 @@ class AdminService {
     }
   }
 
-  async sendTeacherInvitation(data: AddTeacherInvitationType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+  async sendTeacherInvitation(data: InvitationType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
       const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/send-teacher-invitation', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async sendStudentInvitation(data: InvitationType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/send-student-invitation', data);
 
       return response.data;
     } catch (error: any) {

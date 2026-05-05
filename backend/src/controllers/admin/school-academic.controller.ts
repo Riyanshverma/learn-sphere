@@ -1,5 +1,5 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType, UpdateClassTeacherType } from "../../validations";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendTeacherInvitationType, UpdateTeacherInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType } from "../../validations";
 import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createTeacherInvitation, getTeacherInvitations, updateTeacherInvitationStatus, createClass, updateClassTeacher } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
@@ -127,8 +127,9 @@ export const changeClassTeacher = async (context: Context<{body: UpdateClassTeac
   }
 }
 
-export const createClassSubject = async (context: Context<{}>) => {
+export const createClassSubject = async (context: Context<{body: CreateClassSubjectType}>) => {
   try {
+    console.log(context.body);
     
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });

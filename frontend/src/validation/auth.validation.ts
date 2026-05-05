@@ -97,11 +97,11 @@ export const ExistingUserAsStaffSchema = z.strictObject({
 })
 export type ExistingUserAsStaffType = z.infer<typeof ExistingUserAsStaffSchema>
 
-export const AddTeacherInvitationSchema = z.strictObject({
+export const InvitationSchema = z.strictObject({
   full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
   email: email,
 })
-export type AddTeacherInvitationType = z.infer<typeof AddTeacherInvitationSchema>
+export type InvitationType = z.infer<typeof InvitationSchema>
 
 export const TeacherSignupSupabaseSchema = z.strictObject({
   password: password,

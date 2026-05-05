@@ -3,12 +3,12 @@ import { UserPlus, UserCheck, DoorOpen } from "lucide-react"
 import type { HeaderProps } from "@/types"
 import { useNavigate } from "react-router-dom"
 
-export const AddSchoolStaffSubHeader = ({ activeTab, setActiveTab }: HeaderProps) => {
+export const AddStudentSubHeader = ({ activeTab, setActiveTab }: HeaderProps) => {
   const navigate = useNavigate()
 
   return (
     <div className="flex items-center gap-2 rounded-full">
-      {([{ name: "New Staff", key: "new-staff", icon: UserPlus }, { name: "Existing User", key: "existing-user", icon: UserCheck }] as const).map((tab) => {
+      {([{ name: "New Parent", key: "new-parent", icon: UserPlus }, { name: "Existing User", key: "existing-user", icon: UserCheck }] as const).map((tab) => {
         return (
           <Button
             key={tab.key}

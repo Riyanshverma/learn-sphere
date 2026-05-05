@@ -148,7 +148,7 @@ CREATE TABLE students (
 CREATE TABLE subjects (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(), -- subject_id
   name TEXT NOT NULL, -- e.g. "Mathematics"
-  description TEXT,
+  syllabus TEXT,
   subject_code TEXT NOT NULL, -- e.g. "MATH-8A"
   class_id UUID NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
   subject_teacher UUID REFERENCES employees(id) ON DELETE SET NULL,

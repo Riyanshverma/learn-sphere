@@ -16,7 +16,7 @@ export const TeacherInvitationDetailsDialog = ({ dialogOpen, setDialogOpen, invi
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogContent className="dark sm:max-w-5xl bg-background backdrop-blur-xl rounded-3xl space-y-2 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="dark sm:max-w-5xl bg-background backdrop-blur-xl rounded-3xl space-y-2 max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden">
         <DialogHeader>
           <div className="flex items-center gap-3">
             <DialogTitle className="text-xl font-heading font-normal capitalize">

@@ -1,8 +1,17 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults } from "@/features/admin"
+import { useLocation } from "react-router-dom"
 
 export const SchoolAcademics = () => {
+  const location = useLocation()
   const [activeAcademicsTab, setActiveAcademicsTab] = useState("school-classes")
+
+  useEffect(() => {
+      if (location.state?.subTab) {
+        setActiveAcademicsTab(location.state.subTab)
+        window.history.replaceState({}, document.title)
+      }
+    }, [location.state])
 
   const renderAcademicsContent = () => {
     switch (activeAcademicsTab) {

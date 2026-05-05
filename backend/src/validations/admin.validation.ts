@@ -71,3 +71,13 @@ export const UpdateClassTeacherSchema = z.strictObject({
   employee_id: uuid,
 })
 export type UpdateClassTeacherType = z.infer<typeof UpdateClassTeacherSchema>
+
+export const CreateClassSubjectSchema = z.strictObject({
+  name: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  class_id: uuid,
+  subject_teacher: uuid,
+  syllabus: file,
+  subject_code: word.toUpperCase().regex(/^[A-Z0-9\-]+$/, 'Invalid format (e.g. MATH-8A)'),
+  academic_year: word.regex(/^\d{4}-\d{2}$/, 'Invalid format (e.g. 2026-27)'),
+})
+export type CreateClassSubjectType = z.infer<typeof CreateClassSubjectSchema>

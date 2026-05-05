@@ -2,26 +2,25 @@ import { Briefcase, GraduationCap, UserPlus } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { AddTeacherInvitation } from "./AddTeacherInvitation"
 import { toast } from "sonner"
 import { adminService } from "@/services"
 import type { TeacherInvitationsResponse } from "@/types"
-import { TeacherInvitations } from "@/features/admin"
+import { TeacherInvitations, AddTeacherInvitation, AddStudentInvitation } from "@/features/admin"
 import { Spinner } from "@/components/ui/spinner"
 
 export const SchoolEnrollments = () => {
   const navigate = useNavigate()
-  const [addTeacherInvitationFormOpen, setAddTeacherInvitationFormOpen] = useState<boolean>(false)
+  const [activeForm, setActiveForm] = useState<"teacher" | "student" | null>(null)
   const [teacherInvitations, setTeacherInvitations] = useState<TeacherInvitationsResponse[] | null>(null)
 
   const handleAddClick = (type: "staff" | "teacher" | "student") => {
     if (type === "staff") {
       navigate("/admin/add-school-staff")
     } else if (type === "teacher") {
-      setAddTeacherInvitationFormOpen(true)
+      setActiveForm("teacher")
       fetchTeacherInvitations()
     } else if (type === "student") {
-
+      setActiveForm("student")
     }
   }
 
@@ -54,11 +53,15 @@ export const SchoolEnrollments = () => {
         ))}
       </div>
       
-      {addTeacherInvitationFormOpen && (
+      {activeForm === "teacher" && (
         <AddTeacherInvitation />
       )}
 
-      {addTeacherInvitationFormOpen && (
+      {activeForm === "student" && (
+        <AddStudentInvitation />
+      )}
+
+      {activeForm === "teacher" && (
         teacherInvitations === null ? (
           <div className="flex items-center justify-center min-h-[50vh]">
             <Spinner className="size-8 text-primary" />
@@ -72,6 +75,14 @@ export const SchoolEnrollments = () => {
         ) : (
           <TeacherInvitations teacherInvitations={teacherInvitations} fetchTeacherInvitations={fetchTeacherInvitations} />
         )
+      )}
+
+      {activeForm === "student" && (
+        <div className="flex min-h-[20vh] items-center justify-center border border-dashed rounded-3xl border-primary/20 bg-card/50">
+           <p className="text-muted-foreground font-sans font-light text-lg">
+             Student invitation tracking will be available soon.
+           </p>
+        </div>
       )}
     </div>
   )

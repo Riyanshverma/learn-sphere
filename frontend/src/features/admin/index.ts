@@ -1,7 +1,8 @@
 import AdminDashboard from "./dashboard/pages/AdminDashboard";
 import AddSchoolStaffPage from "./add-school-staff/pages/AddSchoolStaffPage";
+import AddStudentPage from "./add-school-student/pages/AddStudentPage";
 
-export { AdminDashboard, AddSchoolStaffPage }
+export { AdminDashboard, AddSchoolStaffPage, AddStudentPage }
 
 // Components:
 import { AdminDashboardHeader } from "./dashboard/components/AdminDashboardHeader";
@@ -10,10 +11,10 @@ import { SchoolPeople } from "./dashboard/components/SchoolPeople";
 import { SchoolAcademics } from "./dashboard/components/SchoolAcademics";
 import { SchoolFinance } from "./dashboard/components/SchoolFinance";
 import { AdminSettings } from "./dashboard/components/AdminSettings";
-
 import { AddSchoolStaff } from "./add-school-staff/components/AddSchoolStaff";
+import { AddStudent } from "./add-school-student/components/AddStudent";
 
-export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff }
+export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent }
 
 // Sub Components:
 import { SchoolPeopleSubHeader } from "./dashboard/components/school-people/SchoolPeopleSubHeader"
@@ -26,8 +27,13 @@ import { SchoolEnrollments } from "./dashboard/components/school-academics/Schoo
 import { SchoolExamsAndResults } from "./dashboard/components/school-academics/SchoolExamsAndResults"
 import { AddSchoolStaffSubHeader } from "./add-school-staff/components/AddSchoolStaffSubHeader"
 import { AddNewSchoolStaff } from "./add-school-staff/components/AddNewSchoolStaff"
+import { AddStudentSubHeader } from "./add-school-student/components/AddStudentSubHeader"
+import { AddStudentWithNewParent } from "./add-school-student/components/AddStudentWithNewParent"
+import { AddStudentWithExistingUserParent } from "./add-school-student/components/AddStudentWithExistingUserParent"
 import { AddExistingUserStaff } from "./add-school-staff/components/AddExistingUserStaff"
 import { TeacherInvitations } from "./dashboard/components/school-academics/TeacherInvitations"
+import { AddTeacherInvitation } from "./dashboard/components/school-academics/AddTeacherInvitation";
+import { AddStudentInvitation } from "./dashboard/components/school-academics/AddStudentInvitation";
 
 export { 
   SchoolPeopleSubHeader, 
@@ -41,5 +47,10 @@ export {
   AddSchoolStaffSubHeader,
   AddNewSchoolStaff,
   AddExistingUserStaff,
-  TeacherInvitations
+  TeacherInvitations,
+  AddStudentSubHeader,
+  AddStudentWithNewParent,
+  AddStudentWithExistingUserParent,
+  AddTeacherInvitation,
+  AddStudentInvitation,
 }

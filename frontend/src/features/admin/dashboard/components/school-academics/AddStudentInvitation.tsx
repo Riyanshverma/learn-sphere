@@ -3,11 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import { InvitationSchema, type InvitationType } from "@/validation"
 import { toast } from "sonner"
 import { adminService } from "@/services"
+import { useNavigate } from "react-router-dom"
 
-export const AddTeacherInvitation = () => {
+export const AddStudentInvitation = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -18,7 +21,7 @@ export const AddTeacherInvitation = () => {
 
   const onSubmit = async (data: InvitationType) => {
     try {
-      const result: any = await adminService.sendTeacherInvitation(data)
+      const result: any = await adminService.sendStudentInvitation(data)
       if (!result.success) {
         throw new Error(result.error, { cause: result.code });
       }
@@ -30,10 +33,10 @@ export const AddTeacherInvitation = () => {
   }
 
   return (
-    <div className="px-4 py-6 rounded-3xl bg-card/80 relative">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row items-end gap-6">
+    <div className="px-4 py-6 rounded-3xl bg-card/80 relative flex flex-col md:flex-row items-center gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row items-end gap-6 flex-1 w-full">
         <div className="space-y-2 font-sans flex-1 w-full">
-          <Label htmlFor="full_name" className="text-base text-muted-foreground font-light">Teacher's Full Name</Label>
+          <Label htmlFor="full_name" className="text-base text-muted-foreground font-light">Parent's Full Name</Label>
           <Input 
             id="full_name" 
             placeholder="e.g. Robert Wilson" 
@@ -48,7 +51,7 @@ export const AddTeacherInvitation = () => {
           <Input 
             id="email" 
             type="email" 
-            placeholder="teacher@school.com" 
+            placeholder="parent@school.com" 
             className="h-10 rounded-lg text-base font-light" 
             {...register("email")} 
           />
@@ -63,6 +66,15 @@ export const AddTeacherInvitation = () => {
           {isSubmitting ? "Sending..." : "Send Invitation"}
         </Button>
       </form>
+
+      <Separator orientation="vertical" className="hidden md:block bg-muted-foreground self-end" />
+
+      <Button 
+        onClick={() => navigate("/admin/add-school-student")}
+        className="text-base font-sans font-light h-10 rounded-lg px-8 self-end"
+      >
+        Enter Manually
+      </Button>
     </div>
   )
 }

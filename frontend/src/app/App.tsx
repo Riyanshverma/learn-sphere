@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoginPage, SelectIdentityPage, TeacherSignupPage } from '@/features/authentication';
 import { LandingPage } from '@/features/landing';
-import { AdminDashboard, AddSchoolStaffPage } from '@/features/admin';
+import { AdminDashboard, AddSchoolStaffPage, AddStudentPage } from '@/features/admin';
 import { Toaster } from '@/components/ui/sonner';
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
             <Routes>
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="add-school-staff" element={<AddSchoolStaffPage />} />
+              <Route path="add-school-student" element={<AddStudentPage />} />
             </Routes>
           } />
 
