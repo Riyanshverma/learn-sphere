@@ -82,6 +82,26 @@ class UserAuthService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
+
+  async studentSignupWithSupabase(data: FormData, access_token: string): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/parent/auth/sign-up-supabase', data, { headers: { "Authentication": `Bearer ${access_token}`, "Content-Type": "multipart/form-data" } });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async studentSignupWithResend(data: FormData, access_token: string): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/parent/auth/sign-up-resend', data, { headers: { "Authentication": `Bearer ${access_token}`, "Content-Type": "multipart/form-data" } });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
 }
 
 export const userAuthService = new UserAuthService();

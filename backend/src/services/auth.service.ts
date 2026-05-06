@@ -1,7 +1,7 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
-import { type UserLoginWithPasswordType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
-import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, UpdateDatabaseUserType, CreateExistingUserAsTeacherType } from '../types';
+import { type UserLoginWithPasswordType, StudentSignupResendType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
+import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, UpdateDatabaseUserType, CreateExistingUserAsTeacherType, CreateNewStudentType } from '../types';
 
 export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {
   try {
@@ -330,3 +330,62 @@ export const checkTeacherInvitationAllowed = async (user_id: string): Promise<bo
     throw error;
   }
 }
+
+export const createNewStudent = async (params: CreateNewStudentType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('create_new_student', {
+      p_id: params.id,
+      p_email: params.email,
+      p_phone: params.phone,
+      p_full_name: params.full_name,
+      p_date_of_birth: params.date_of_birth,
+      p_blood_group: params.blood_group,
+      p_gender: params.gender,
+      p_emergency_contact: params.emergency_contact,
+      p_address: params.address,
+      p_city: params.city,
+      p_state: params.state,
+      p_pincode: String(params.pincode),
+      p_occupation: params.occupation,
+      p_annual_income: params.annual_income,
+      p_student_relation: params.student_relation,
+      p_student_date_of_birth: params.student_date_of_birth,
+      p_student_full_name: params.student_full_name,
+      p_student_blood_group: params.student_blood_group,
+      p_student_gender: params.student_gender,
+      p_student_medical_notes: params.student_medical_notes
+    });
+
+    if (error) {
+      await supabaseAdmin.auth.admin.deleteUser(params.id);
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createStudentWithExistingUserParent = async (params: StudentSignupResendType, user_id: string): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('create_student_existing_user', {
+      p_id: user_id,
+      p_occupation: params.occupation,
+      p_annual_income: params.annual_income,
+      p_student_relation: params.student_relation,
+      p_student_date_of_birth: params.student_date_of_birth,
+      p_student_full_name: params.student_full_name,
+      p_student_blood_group: params.student_blood_group,
+      p_student_gender: params.student_gender,
+      p_student_medical_notes: params.student_medical_notes
+    });
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+

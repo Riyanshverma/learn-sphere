@@ -29,6 +29,13 @@ export const globalPlugin = (app: Elysia) =>
         code: 'unauthorized'
       });
     }
+    if(code === "INVALID_COOKIE_SIGNATURE") {
+      return status(401, {
+        success: false,
+        error: error.message,
+        code: 'invalid_token'
+      });
+    }
 
     return status(500, {
       success: false,

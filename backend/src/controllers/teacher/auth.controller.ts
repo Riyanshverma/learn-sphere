@@ -1,7 +1,7 @@
 import { type Context } from "elysia";
-import type { TeacherInviteJWTType, TeacherSignupResendType, TeacherSignupSupabaseType, IdentityIdType } from "../../validations";
+import type { InvitationJWTType, TeacherSignupResendType, TeacherSignupSupabaseType, IdentityIdType } from "../../validations";
 import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkTeacherInvitationAllowed } from "../../services";
-import { User } from "@supabase/supabase-js";
+import { type User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
 import { setRoleCookie } from "../../utils";
 
@@ -37,7 +37,7 @@ export const teacherSignupWithSupabase = async (context: Context<{body: TeacherS
 
 export const teacherSignupWithResend = async (context: Context<{body: TeacherSignupResendType}>) => {
     try {
-      const { user_id } = (context as any).user as TeacherInviteJWTType
+      const { user_id } = (context as any).user as InvitationJWTType
 
       const { aadhar_card_photo, pan_card_photo, bank_cancelled_cheque_photo, timings_days, timings_from, timings_to, aadhar_card_number, pan_card_number, bank_account_holder_name, bank_branch_name, bank_name, bank_account_number, bank_ifsc_code, bank_upi_id, bank_account_type, qualifications, specialization, experience_years } = context.body
 

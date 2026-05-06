@@ -159,3 +159,30 @@ export interface CreateExistingUserAsTeacherType {
   monthly_salary: number;
 }
 
+export interface CreateNewStudentType {
+  id: string;
+  email: string;
+  phone: string;
+  date_of_birth: Date;
+  blood_group: blood_group;
+  gender: gender;
+  full_name: string;
+  emergency_contact: {
+    name: string;
+    relation: string;
+    phone: string;
+  };
+  address: string;
+  city: string;
+  state: string;
+  pincode: number;
+  occupation: string;
+  annual_income: number;
+  student_relation: string;
+  student_date_of_birth: Date;
+  student_full_name: string;
+  student_blood_group: blood_group;
+  student_gender: gender;
+  student_medical_notes: string;
+}
+

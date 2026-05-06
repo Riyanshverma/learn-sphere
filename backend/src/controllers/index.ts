@@ -4,3 +4,6 @@ export { adminSignup, adminIdentityDetails, addNewSchoolStaff, addExistingUserAs
 
 import { teacherSignupWithSupabase, teacherSignupWithResend, teacherIdentityDetails } from "./teacher/auth.controller";
 export { teacherSignupWithSupabase, teacherSignupWithResend, teacherIdentityDetails }
+
+import { studentSignupWithSupabase, studentSignupWithResend } from "./parent/auth.controller";
+export { studentSignupWithSupabase, studentSignupWithResend }

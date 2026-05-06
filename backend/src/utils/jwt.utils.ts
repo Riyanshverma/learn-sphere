@@ -10,7 +10,7 @@ export const verifyJWT = async (jwt: any, token: string): Promise<JWTPayloadSpec
     const payload = await jwt.verify(token);
 
     if(!payload) {
-      throw new CustomAuthError('Invalid or expired token', 'TokenError', 401, 'invalid_token');
+      throw new CustomAuthError('Invalid or expired token', 'TokenError', 401, 'INVALID_COOKIE_SIGNATURE');
     }
     
     return payload;

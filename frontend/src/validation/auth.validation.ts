@@ -162,6 +162,42 @@ export const TeacherSignupResendSchema = z.strictObject({
 })
 export type TeacherSignupResendType = z.infer<typeof TeacherSignupResendSchema>
 
+export const StudentSignupSupabaseSchema = z.strictObject({
+  password: password,
+  phone: phone,
+  date_of_birth: date,
+  blood_group: blood_group,
+  gender: gender,
+  emergency_contact_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  emergency_contact_relation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  emergency_contact_phone: phone,
+  address: word,
+  city: word.regex(/^[A-Za-z]+$/, 'Must contain only alphabets'),
+  state: word.regex(/^[A-Za-z]+$/, 'Must contain only alphabets'),
+  pincode: pincode,
+  occupation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  annual_income: number,
+  student_relation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_date_of_birth: date,
+  student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_blood_group: blood_group,
+  student_gender: gender,
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal(''),),
+})
+export type StudentSignupSupabaseType = z.infer<typeof StudentSignupSupabaseSchema>
+
+export const StudentSignupResendSchema = z.strictObject({
+  occupation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  annual_income: number,
+  student_relation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_date_of_birth: date,
+  student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_blood_group: blood_group,
+  student_gender: gender,
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
+})
+export type StudentSignupResendType = z.infer<typeof StudentSignupResendSchema>
+
 export const UpdateInvitationStatusSchema = z.strictObject({
   user_id: uuid,
   new_status: z.enum(['allowed', 'revoked'], 'Invalid'),

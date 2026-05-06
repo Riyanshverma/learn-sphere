@@ -8,6 +8,6 @@ CREATE TABLE invitations (
   full_name TEXT NOT NULL,
   role role_type NOT NULL DEFAULT 'teacher',
   status invitation_status_type NOT NULL DEFAULT 'pending',
-  created_at TIMESTAMPTZ DEFAULT now(),
+  created_at TIMESTAMPTZ PRIMARY KEY DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );

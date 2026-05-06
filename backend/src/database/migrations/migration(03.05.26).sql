@@ -38,6 +38,7 @@ BEGIN
   INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details)
   VALUES (v_identity_id, p_qualifications, p_specialization, 'teacher', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details);
 
+  -- TODO: add more check to where clause
   UPDATE invitations
   SET status = 'accepted'
   WHERE user_id = p_id;
@@ -68,6 +69,7 @@ BEGIN
   INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details)
   VALUES (v_identity_id, p_qualifications, p_specialization, 'teacher', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details);
 
+-- TODO: add more check to where clause
   UPDATE invitations
   SET status = 'accepted'
   WHERE user_id = p_id;

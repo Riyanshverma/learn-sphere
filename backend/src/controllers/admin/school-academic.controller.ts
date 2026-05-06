@@ -91,13 +91,13 @@ export const sendStudentInvitation = async (context: Context<{ body: SendInvitat
     const existing_user = await checkExistingUser(email, full_name)
     
     if(existing_user) {
-      await createInvitation(existing_user.id, email, existing_user.full_name, "student")
+      await createInvitation(existing_user.id, email, existing_user.full_name, "parent")
 
       await sendStudentInvitationByResend((context as any).jwt, email, existing_user.full_name, existing_user.id)
     } else {
       const student = await sendStudentInvitationBySupabase(email, full_name)
 
-      await createInvitation(student.id, student.email || email, student.user_metadata.full_name, "student")
+      await createInvitation(student.id, student.email || email, student.user_metadata.full_name, "parent")
     }
     
     return context.status(200, { success: true, message: "Student invitation sent successfully" })
