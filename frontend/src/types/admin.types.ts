@@ -3,6 +3,7 @@ import type { role, account_type } from "."
 type invitation_status = "pending" | "accepted" | "allowed" | "expired" | "revoked";
 
 export interface TeacherInvitationsResponse {
+  invitation_id: string;
   user_id: string;
   email: string;
   full_name: string;

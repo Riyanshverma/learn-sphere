@@ -197,11 +197,3 @@ export const StudentSignupResendSchema = z.strictObject({
   student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
 })
 export type StudentSignupResendType = z.infer<typeof StudentSignupResendSchema>
-
-export const UpdateInvitationStatusSchema = z.strictObject({
-  user_id: uuid,
-  new_status: z.enum(['allowed', 'revoked'], 'Invalid'),
-  created_at: timestamp,
-  role: role
-})
-export type UpdateInvitationStatusType = z.infer<typeof UpdateInvitationStatusSchema>

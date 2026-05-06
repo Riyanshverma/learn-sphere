@@ -12,12 +12,14 @@ adminSchoolAcademicRoutes.group("", (app) => {
     app.post("/add-existing-user-as-school-staff", addExistingUserAsSchoolStaff, { body: ExistingUserAsStaffSchema })
 
     app.use(jwtPlugin(InvitationJWTSchema)).post("/send-teacher-invitation", sendTeacherInvitation, { body: SendInvitationSchema })
-
+    
+    app.get("/teacher-invitations", fetchTeacherInvitations)
+    
+    app.patch("/update-invitation-status", changeInvitationStatus, { body: UpdateInvitationStatusSchema })
+    
     app.use(jwtPlugin(InvitationJWTSchema)).post("/send-student-invitation", sendStudentInvitation, { body: SendInvitationSchema })
 
-    app.get("/teacher-invitations", fetchTeacherInvitations)
-
-    app.patch("/update-invitation-status", changeInvitationStatus, { body: UpdateInvitationStatusSchema })
+    
 
     app.post("/create-class", createSchoolClass, { body: CreateSchoolClassSchema })
 

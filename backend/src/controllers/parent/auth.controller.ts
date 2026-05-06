@@ -1,7 +1,9 @@
 import { type Context } from "elysia";
-import type { StudentSignupResendType, StudentSignupSupabaseType, InvitationJWTType } from "../../validations";
-import { createStudentWithExistingUserParent, createNewStudent, updateDatabaseUser } from "../../services";
+import type { StudentSignupResendType, StudentSignupSupabaseType, InvitationJWTType, IdentityIdType } from "../../validations";
+import { createStudentWithExistingUserParent, createNewStudent, updateDatabaseUser, checkInvitationAllowed } from "../../services";
 import { type User } from "@supabase/supabase-js";
+import { type JWTPayloadSpec } from "@elysiajs/jwt";
+import { setRoleCookie } from "../../utils";
 
 export const studentSignupWithSupabase = async (context: Context<{ body: StudentSignupSupabaseType }>) => {
   try {
@@ -28,6 +30,27 @@ export const studentSignupWithResend = async (context: Context<{ body: StudentSi
     await createStudentWithExistingUserParent(context.body, user_id);
 
     return context.status(201, { success: true, message: "Parent signed up successfully" });
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+};
+
+export const parentIdentityDetails = async (context: Context<{query: IdentityIdType}> & { user: User | JWTPayloadSpec } ) => {
+  try {
+    const { identity_id } = context.query
+    const { id: user_id } = context.user as User
+
+    const invitation_allowed = await checkInvitationAllowed(user_id, "parent");
+
+    if(!invitation_allowed) {
+      return context.status(403, { success: false, error: "Not allowed to login", code: 'invitation_not_allowed' });
+    }
+
+    const parent: any = {} // TODO: Get the data for parent
+    
+    setRoleCookie(context, parent.role)
+    
+    return context.status(200, { success: true, message: "Logged in successfully", data: parent })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

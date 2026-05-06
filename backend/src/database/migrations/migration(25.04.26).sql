@@ -2,7 +2,7 @@
 
 CREATE TYPE gender_type AS ENUM ('male', 'female', 'other');
 CREATE TYPE blood_group_type AS ENUM ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
-CREATE TYPE role_type AS ENUM ('admin', 'teacher', 'staff', 'parent', 'student');
+CREATE TYPE role_type AS ENUM ('admin', 'teacher', 'staff', 'parent');
 
 CREATE TABLE users (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,

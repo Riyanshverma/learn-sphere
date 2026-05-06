@@ -18,10 +18,8 @@ const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
 const timestamp = z.iso.datetime({ offset: true })
 
 export const UpdateInvitationStatusSchema = z.strictObject({
-  user_id: uuid,
+  invitation_id: uuid,
   new_status: z.enum(['allowed', 'revoked'], 'Invalid'),
-  created_at: timestamp,
-  role: role
 })
 export type UpdateInvitationStatusType = z.infer<typeof UpdateInvitationStatusSchema>
 

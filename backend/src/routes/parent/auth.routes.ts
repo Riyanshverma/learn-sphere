@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { studentSignupWithSupabase, studentSignupWithResend } from "../../controllers";
+import { studentSignupWithSupabase, studentSignupWithResend, parentIdentityDetails } from "../../controllers";
 import { authenticationPlugin, jwtPlugin } from "../../plugins";
-import { StudentSignupResendSchema, StudentSignupSupabaseSchema, InvitationJWTSchema } from "../../validations";
+import { StudentSignupResendSchema, StudentSignupSupabaseSchema, InvitationJWTSchema, IdentityIdSchema } from "../../validations";
 
 const parentAuthRoutes = new Elysia({ prefix: "/auth" })
 
@@ -13,5 +13,7 @@ parentAuthRoutes.group("", (app) => {
 
     return app
 })
+
+parentAuthRoutes.use(authenticationPlugin).get("/identity-details", parentIdentityDetails, { query: IdentityIdSchema })
 
 export { parentAuthRoutes }

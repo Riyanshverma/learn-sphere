@@ -5,22 +5,20 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
-const access_token = new URLSearchParams(window.location.hash.slice(1)).get("access_token")
-const invite = new URLSearchParams(window.location.search).get("invite")
-
-if (access_token || invite) {
-  window.history.replaceState(null, "", window.location.pathname)
-}
-
 export const StudentSignupPage = () => {
   const navigate = useNavigate()
+  const access_token = new URLSearchParams(window.location.hash.slice(1)).get("access_token")
+  const invite = new URLSearchParams(window.location.search).get("invite")
 
   useEffect(() => {
-    // if (!access_token || !invite) {
-    //   toast.error('Invalid or expired invite link.')
-    //   navigate('/login', { replace: true })
-    //   return
-    // }
+    if (access_token || invite) {
+      window.history.replaceState(null, "", window.location.pathname)
+    }
+    if (!access_token || !invite) {
+      toast.error('Invalid or expired invite link.')
+      navigate('/login', { replace: true })
+      return
+    }
   }, [])
 
   return (

@@ -1,7 +1,7 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
 import { type UserLoginWithPasswordType, StudentSignupResendType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
-import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, UpdateDatabaseUserType, CreateExistingUserAsTeacherType, CreateNewStudentType } from '../types';
+import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, UpdateDatabaseUserType, CreateExistingUserAsTeacherType, CreateNewStudentType, role } from '../types';
 
 export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {
   try {
@@ -314,23 +314,6 @@ export const createExistingUserAsTeacher = async (params: CreateExistingUserAsTe
   }
 }
 
-export const checkTeacherInvitationAllowed = async (user_id: string): Promise<boolean> => {
-  try {
-    const { data, error } = await supabaseAdmin.from("invitations").select("status").eq("user_id", user_id).eq("role", "teacher").maybeSingle();
-
-    if (error) {
-      throw error;
-    } else if(!data) {
-      throw new CustomAuthError('No invitation found', 'InvitationNotFoundError', 404, 'invitation_not_found');
-    }
-
-    return data.status === "allowed";
-  } catch (error: any) {
-    console.error(error.message);
-    throw error;
-  }
-}
-
 export const createNewStudent = async (params: CreateNewStudentType): Promise<void> => {
   try {
     const { error } = await supabaseAdmin.rpc('create_new_student', {
@@ -368,7 +351,7 @@ export const createNewStudent = async (params: CreateNewStudentType): Promise<vo
 
 export const createStudentWithExistingUserParent = async (params: StudentSignupResendType, user_id: string): Promise<void> => {
   try {
-    const { error } = await supabaseAdmin.rpc('create_student_existing_user', {
+    const { error } = await supabaseAdmin.rpc('create_student_with_existing_user_parent', {
       p_id: user_id,
       p_occupation: params.occupation,
       p_annual_income: params.annual_income,
@@ -389,3 +372,19 @@ export const createStudentWithExistingUserParent = async (params: StudentSignupR
   }
 }
 
+export const checkInvitationAllowed = async (user_id: string, role: role): Promise<boolean> => {
+  try {
+    const { data, error } = await supabaseAdmin.from("invitations").select("status").eq("user_id", user_id).eq("role", role).maybeSingle();
+
+    if (error) {
+      throw error;
+    } else if(!data) {
+      throw new CustomAuthError('No invitation found', 'InvitationNotFoundError', 404, 'invitation_not_found');
+    }
+
+    return data.status === "allowed";
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

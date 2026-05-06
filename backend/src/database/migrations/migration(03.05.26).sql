@@ -38,10 +38,9 @@ BEGIN
   INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details)
   VALUES (v_identity_id, p_qualifications, p_specialization, 'teacher', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details);
 
-  -- TODO: add more check to where clause
   UPDATE invitations
   SET status = 'accepted'
-  WHERE user_id = p_id;
+  WHERE user_id = p_id AND role = 'teacher' AND status = 'pending';
 END;
 $$;
 
@@ -69,10 +68,9 @@ BEGIN
   INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details)
   VALUES (v_identity_id, p_qualifications, p_specialization, 'teacher', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details);
 
--- TODO: add more check to where clause
   UPDATE invitations
   SET status = 'accepted'
-  WHERE user_id = p_id;
+  WHERE user_id = p_id AND role = 'teacher' AND status = 'pending';
 END;
 $$;
 
@@ -88,6 +86,7 @@ BEGIN
     jsonb_agg(
       jsonb_strip_nulls(
         jsonb_build_object(
+          'invitation_id', i.id,
           'user_id', i.user_id,
           'email', i.email,
           'full_name', i.full_name,

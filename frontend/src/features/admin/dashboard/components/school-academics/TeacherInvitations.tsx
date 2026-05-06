@@ -15,7 +15,7 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
   const handleChangeInvitationStatusClick = async (invitation: TeacherInvitationsResponse, new_status: "allowed" | "revoked") => {
     try {
       const id = toast.loading('Updating teacher invitation status...')
-      const result = await adminService.updateInvitationStatus({ user_id: invitation.user_id, new_status, created_at: invitation.created_at as any, role: "teacher" });
+      const result = await adminService.updateInvitationStatus(invitation.invitation_id, new_status);
       if (!result.success) {
         toast.dismiss(id)
         throw new Error(result.error, { cause: result.code });
@@ -37,7 +37,7 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
     <>
       <div className="grid grid-cols-1 gap-4">
       {teacherInvitations.map((invitation) => (
-        <Card key={invitation.user_id} className="w-full">
+        <Card key={invitation.invitation_id} className="w-full">
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="space-y-1">
               <div className="flex items-center gap-3">

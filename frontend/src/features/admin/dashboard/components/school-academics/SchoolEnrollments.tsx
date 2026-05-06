@@ -12,15 +12,19 @@ export const SchoolEnrollments = () => {
   const navigate = useNavigate()
   const [activeForm, setActiveForm] = useState<"teacher" | "student" | null>(null)
   const [teacherInvitations, setTeacherInvitations] = useState<TeacherInvitationsResponse[] | null>(null)
+  const [parentInvitations, setParentInvitations] = useState<any[] | null>(null)
 
   const handleAddClick = (type: "staff" | "teacher" | "student") => {
     if (type === "staff") {
       navigate("/admin/add-school-staff")
     } else if (type === "teacher") {
       setActiveForm("teacher")
+      setParentInvitations(null)
       fetchTeacherInvitations()
     } else if (type === "student") {
       setActiveForm("student")
+      setTeacherInvitations(null)
+      fetchParentInvitations()
     }
   }
 
@@ -32,6 +36,20 @@ export const SchoolEnrollments = () => {
       }
 
       setTeacherInvitations(result.data)
+      toast.success(result.message);
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause})
+    }
+  }
+
+  const fetchParentInvitations = async () => {
+    try {
+      const result = await adminService.getParentInvitations()
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code });
+      }
+
+      setParentInvitations(result.data)
       toast.success(result.message);
     } catch (error: any) {
       toast.error(error.message, { description: error.cause})
@@ -78,11 +96,19 @@ export const SchoolEnrollments = () => {
       )}
 
       {activeForm === "student" && (
-        <div className="flex min-h-[20vh] items-center justify-center border border-dashed rounded-3xl border-primary/20 bg-card/50">
-           <p className="text-muted-foreground font-sans font-light text-lg">
-             Student invitation tracking will be available soon.
-           </p>
-        </div>
+        parentInvitations === null ? (
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <Spinner className="size-8 text-primary" />
+          </div>
+        ) : parentInvitations.length === 0 ? (
+          <div className="flex min-h-[50vh]">
+            <p className="text-muted-foreground font-sans font-light text-xl">
+              No parent invitations currently exist.
+            </p>
+          </div>
+        ) : (
+          <ParentInvitations parentInvitations={parentInvitations} fetchParentInvitations={fetchParentInvitations} />
+        )
       )}
     </div>
   )

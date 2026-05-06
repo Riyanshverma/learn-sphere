@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
 import type { InvitationJWTType, TeacherSignupResendType, TeacherSignupSupabaseType, IdentityIdType } from "../../validations";
-import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkTeacherInvitationAllowed } from "../../services";
+import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkInvitationAllowed } from "../../services";
 import { type User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
 import { setRoleCookie } from "../../utils";
@@ -66,7 +66,7 @@ export const teacherIdentityDetails = async (context: Context<{query: IdentityId
     const { identity_id } = context.query
     const { id: user_id } = context.user as User
 
-    const invitation_allowed = await checkTeacherInvitationAllowed(user_id);
+    const invitation_allowed = await checkInvitationAllowed(user_id, "teacher");
 
     if(!invitation_allowed) {
       return context.status(403, { success: false, error: "Not allowed to login", code: 'invitation_not_allowed' });

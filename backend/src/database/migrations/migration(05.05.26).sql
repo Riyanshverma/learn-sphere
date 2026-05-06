@@ -1,5 +1,7 @@
 -- 05.05.26
 
+CREATE TYPE student_status_type AS ENUM ('active', 'inactive', 'transferred', 'graduated');
+
 CREATE TABLE parents (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(), -- parent_id
   identity_id UUID NOT NULL UNIQUE REFERENCES identity(id) ON DELETE CASCADE,
@@ -79,7 +81,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION create_student_existing_user(
+CREATE OR REPLACE FUNCTION create_student_with_existing_user_parent(
   p_id UUID,
   p_occupation TEXT,
   p_annual_income NUMERIC,

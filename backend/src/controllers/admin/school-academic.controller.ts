@@ -84,6 +84,32 @@ export const sendTeacherInvitation = async (context: Context<{ body: SendInvitat
   }
 }
 
+
+
+
+export const fetchTeacherInvitations = async (context: Context) => {
+  try {
+    const teacher_invitations = await getTeacherInvitations()
+    
+    return context.status(200, { success: true, message: "Teacher invitations fetched successfully", data: teacher_invitations })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const changeInvitationStatus = async (context: Context<{ body: UpdateInvitationStatusType }>) => {
+  try {    
+    await updateInvitationStatus(context.body)
+    
+    return context.status(200, { success: true, message: "Teacher invitation status updated successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+
+
+
 export const sendStudentInvitation = async (context: Context<{ body: SendInvitationType }>) => {
   try {
     const { full_name, email } = context.body
@@ -101,26 +127,6 @@ export const sendStudentInvitation = async (context: Context<{ body: SendInvitat
     }
     
     return context.status(200, { success: true, message: "Student invitation sent successfully" })
-  } catch (error: any) {
-    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
-  }
-}
-
-export const fetchTeacherInvitations = async (context: Context) => {
-  try {
-    const teacher_invitations = await getTeacherInvitations()
-    
-    return context.status(200, { success: true, message: "Teacher invitations fetched successfully", data: teacher_invitations })
-  } catch (error: any) {
-    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
-  }
-}
-
-export const changeInvitationStatus = async (context: Context<{ body: UpdateInvitationStatusType }>) => {
-  try {    
-    await updateInvitationStatus(context.body)
-    
-    return context.status(200, { success: true, message: "Teacher invitation status updated successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

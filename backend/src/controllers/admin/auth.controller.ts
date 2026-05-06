@@ -35,7 +35,6 @@ export const adminSignup = async (context: Context<{ body: EmployeeSignupType }>
   }
 };
 
-
 export const adminIdentityDetails = async (context: Context<{ query: IdentityIdType }> & { user: User | JWTPayloadSpec }) => {
   try {
     const { identity_id } = context.query

@@ -34,9 +34,12 @@ export const SelectIdentity = ({ identities }: { identities: UserLoginResponse[]
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="flex flex-row gap-6 overflow-x-auto no-scrollbar">
       {identities.map((identity) => (
-          <Card key={identity.identity_id} className="relative mx-auto w-full overflow-hidden bg-background/20 backdrop-blur-xl border-foreground/10">
+          <Card 
+            key={identity.identity_id} 
+            className="relative shrink-0 w-[300px] md:w-[380px] snap-center overflow-hidden bg-background/20 backdrop-blur-xl border-foreground/10"
+          >
             <CardHeader className="relative aspect-video w-full bg-primary flex items-center justify-center p-6 rounded-none overflow-hidden">
               <div className="absolute top-2 right-2 flex flex-row gap-2 z-20">
                 {identity.verified && (
