@@ -32,8 +32,11 @@ import { AddStudentWithNewParent } from "./add-school-student/components/AddStud
 import { AddStudentWithExistingUserParent } from "./add-school-student/components/AddStudentWithExistingUserParent"
 import { AddExistingUserStaff } from "./add-school-staff/components/AddExistingUserStaff"
 import { TeacherInvitations } from "./dashboard/components/school-academics/TeacherInvitations"
+import { ParentInvitations } from "./dashboard/components/school-academics/ParentInvitations"
 import { AddTeacherInvitation } from "./dashboard/components/school-academics/AddTeacherInvitation";
 import { AddStudentInvitation } from "./dashboard/components/school-academics/AddStudentInvitation";
+import { TeacherInvitationDetailsDialog } from "./dashboard/components/school-academics/TeacherInvitationDetailsDialog";
+import { ParentInvitationDetailsDialog } from "./dashboard/components/school-academics/ParentInvitationDetailsDialog";
 
 export { 
   SchoolPeopleSubHeader, 
@@ -48,9 +51,12 @@ export {
   AddNewSchoolStaff,
   AddExistingUserStaff,
   TeacherInvitations,
+  ParentInvitations,
   AddStudentSubHeader,
   AddStudentWithNewParent,
   AddStudentWithExistingUserParent,
   AddTeacherInvitation,
   AddStudentInvitation,
+  TeacherInvitationDetailsDialog,
+  ParentInvitationDetailsDialog,
 }

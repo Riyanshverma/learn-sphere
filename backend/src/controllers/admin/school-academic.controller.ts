@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
 import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase } from "../../services";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -84,9 +84,6 @@ export const sendTeacherInvitation = async (context: Context<{ body: SendInvitat
   }
 }
 
-
-
-
 export const fetchTeacherInvitations = async (context: Context) => {
   try {
     const teacher_invitations = await getTeacherInvitations()
@@ -107,9 +104,6 @@ export const changeInvitationStatus = async (context: Context<{ body: UpdateInvi
   }
 }
 
-
-
-
 export const sendStudentInvitation = async (context: Context<{ body: SendInvitationType }>) => {
   try {
     const { full_name, email } = context.body
@@ -127,6 +121,16 @@ export const sendStudentInvitation = async (context: Context<{ body: SendInvitat
     }
     
     return context.status(200, { success: true, message: "Student invitation sent successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const fetchParentInvitations = async (context: Context) => {
+  try {
+    const parent_invitations = await getParentInvitations()
+    
+    return context.status(200, { success: true, message: "Parent invitations fetched successfully", data: parent_invitations })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

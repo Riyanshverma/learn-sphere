@@ -1,42 +1,30 @@
 import { toast } from "sonner"
-import type { TeacherInvitationsResponse } from "@/types"
+import type { ParentInvitationsResponse } from "@/types"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { getInvitationStatusColor } from "@/utils"
 import { adminService } from "@/services"
 import { useState, useRef } from "react"
-import { TeacherInvitationDetailsDialog } from "@/features/admin"
+import { ParentInvitationDetailsDialog } from "@/features/admin"
 
-export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations }: { teacherInvitations: TeacherInvitationsResponse[], fetchTeacherInvitations: () => Promise<void> }) => {
-  const [teacherInvitationDetailsDialogOpen, setTeacherInvitationDetailsDialogOpen] = useState<boolean>(false)
-  const selectedInvitation = useRef<TeacherInvitationsResponse | null>(null)
+export const ParentInvitations = ({ parentInvitations, fetchParentInvitations }: { parentInvitations: ParentInvitationsResponse[], fetchParentInvitations: () => Promise<void> }) => {
+  const [parentInvitationDetailsDialogOpen, setParentInvitationDetailsDialogOpen] = useState<boolean>(false)
+  const selectedInvitation = useRef<ParentInvitationsResponse | null>(null)
   
-  const handleChangeInvitationStatusClick = async (invitation: TeacherInvitationsResponse, new_status: "allowed" | "revoked") => {
-    try {
-      const id = toast.loading('Updating teacher invitation status...')
-      const result = await adminService.updateInvitationStatus(invitation.invitation_id, new_status);
-      if (!result.success) {
-        toast.dismiss(id)
-        throw new Error(result.error, { cause: result.code });
-      }
-
-      await fetchTeacherInvitations();
-      toast.success(result.message, { id })
-    } catch (error: any) {
-      toast.error(error.message, { description: error.cause })
-    }
+  const handleChangeInvitationStatusClick = async (invitation: ParentInvitationsResponse, new_status: "allowed" | "revoked") => {
+    // Keep empty for now as requested
   }
 
-  const handleShowDetailsClick = (invitation: TeacherInvitationsResponse) => {
+  const handleShowDetailsClick = (invitation: ParentInvitationsResponse) => {
     selectedInvitation.current = invitation
-    setTeacherInvitationDetailsDialogOpen(true)
+    setParentInvitationDetailsDialogOpen(true)
   }
 
   return (
     <>
       <div className="grid grid-cols-1 gap-4">
-      {teacherInvitations.map((invitation) => (
+      {parentInvitations.map((invitation) => (
         <Card key={invitation.invitation_id} className="w-full">
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="space-y-1">
@@ -93,9 +81,9 @@ export const TeacherInvitations = ({ teacherInvitations, fetchTeacherInvitations
         </Card>
       ))}
       </div>
-      <TeacherInvitationDetailsDialog 
-        dialogOpen={teacherInvitationDetailsDialogOpen} 
-        setDialogOpen={setTeacherInvitationDetailsDialogOpen} 
+      <ParentInvitationDetailsDialog 
+        dialogOpen={parentInvitationDetailsDialogOpen} 
+        setDialogOpen={setParentInvitationDetailsDialogOpen} 
         invitation={selectedInvitation.current} 
       />
     </>

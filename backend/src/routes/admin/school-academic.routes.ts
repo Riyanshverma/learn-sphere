@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject, fetchParentInvitations } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
 import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, CreateClassSubjectSchema } from "../../validations";
 
@@ -19,7 +19,7 @@ adminSchoolAcademicRoutes.group("", (app) => {
     
     app.use(jwtPlugin(InvitationJWTSchema)).post("/send-student-invitation", sendStudentInvitation, { body: SendInvitationSchema })
 
-    
+    app.get("/parent-invitations", fetchParentInvitations)
 
     app.post("/create-class", createSchoolClass, { body: CreateSchoolClassSchema })
 

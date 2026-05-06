@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 import type { CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
 
@@ -175,10 +175,6 @@ export const updateInvitationStatus = async ({ new_status, invitation_id }: Upda
   }
 }
 
-
-
-
-
 export const sendStudentInvitationBySupabase = async (email: string, full_name: string): Promise<User> => {
   try {
     const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
@@ -213,6 +209,21 @@ export const sendStudentInvitationByResend = async (jwt: any, email: string, ful
     if (error) {
       throw new CustomAuthError(error.message, 'InvitationError', error.statusCode ?? 500, error.name ?? 'invitation_failed');
     }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getParentInvitations = async (): Promise<ParentInvitationsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_parent_invitations');
+
+    if (error) {
+      throw error;
+    }
+
+    return data as ParentInvitationsResponse[];
   } catch (error: any) {
     console.error(error.message);
     throw error;

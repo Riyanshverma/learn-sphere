@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse } from "@/types";
 import type { InvitationType } from "@/validation";
 
 class AdminService {
@@ -77,9 +77,9 @@ class AdminService {
     }
   }
 
-  async getParentInvitations(): Promise<ApiSuccessResponse | ApiErrorResponse> {
+  async getParentInvitations(): Promise<ApiSuccessResponse<ParentInvitationsResponse[]> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.get<ApiSuccessResponse>('/school-academic/parent-invitations');
+      const response = await this.apiClient.get<ApiSuccessResponse<ParentInvitationsResponse[]>>('/school-academic/parent-invitations');
 
       return response.data;
     } catch (error: any) {

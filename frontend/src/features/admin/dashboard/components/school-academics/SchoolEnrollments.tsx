@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { toast } from "sonner"
 import { adminService } from "@/services"
-import type { TeacherInvitationsResponse } from "@/types"
-import { TeacherInvitations, AddTeacherInvitation, AddStudentInvitation } from "@/features/admin"
+import type { TeacherInvitationsResponse, ParentInvitationsResponse } from "@/types"
+import { TeacherInvitations, ParentInvitations, AddTeacherInvitation, AddStudentInvitation } from "@/features/admin"
 import { Spinner } from "@/components/ui/spinner"
 
 export const SchoolEnrollments = () => {
   const navigate = useNavigate()
   const [activeForm, setActiveForm] = useState<"teacher" | "student" | null>(null)
   const [teacherInvitations, setTeacherInvitations] = useState<TeacherInvitationsResponse[] | null>(null)
-  const [parentInvitations, setParentInvitations] = useState<any[] | null>(null)
+  const [parentInvitations, setParentInvitations] = useState<ParentInvitationsResponse[] | null>(null)
 
   const handleAddClick = (type: "staff" | "teacher" | "student") => {
     if (type === "staff") {
