@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject, fetchParentInvitations } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject, fetchParentInvitations, addStudentWithExistingUserParent, addStudentWithNewParent } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
-import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, CreateClassSubjectSchema } from "../../validations";
+import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, CreateClassSubjectSchema, StudentWithExistingUserParentSchema, StudentWithNewParentSchema } from "../../validations";
 
 const adminSchoolAcademicRoutes = new Elysia({ prefix: "/school-academic" })
 
@@ -9,7 +9,12 @@ adminSchoolAcademicRoutes.group("", (app) => {
     app.use(authenticationPlugin).use(authorizationPlugin('admin'))
 
     app.post("/add-new-school-staff", addNewSchoolStaff, { body: EmployeeSignupSchema })
+
     app.post("/add-existing-user-as-school-staff", addExistingUserAsSchoolStaff, { body: ExistingUserAsStaffSchema })
+
+    app.post("/add-new-student", addStudentWithNewParent, { body: StudentWithNewParentSchema })
+
+    app.post("/add-student-with-existing-user-parent", addStudentWithExistingUserParent, { body: StudentWithExistingUserParentSchema })
 
     app.use(jwtPlugin(InvitationJWTSchema)).post("/send-teacher-invitation", sendTeacherInvitation, { body: SendInvitationSchema })
     

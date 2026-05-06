@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 import type { CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
 
@@ -248,6 +248,68 @@ export const updateClassTeacher = async ({ class_id, employee_id }: UpdateClassT
     const { error } = await supabaseAdmin.from("classes").update({ class_teacher: employee_id }).eq("id", class_id);
 
     if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createStudentWithExistingUserParentByAdmin = async (params: CreateStudentWithExistingUserParentByAdmin): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc("create_student_with_existing_user_parent_by_admin", {
+      p_id: params.id,
+      p_occupation: params.occupation,
+      p_annual_income: params.annual_income,
+      p_student_relation: params.student_relation,
+      p_student_date_of_birth: params.student_date_of_birth,
+      p_student_full_name: params.student_full_name,
+      p_student_blood_group: params.student_blood_group,
+      p_student_gender: params.student_gender,
+      p_student_medical_notes: params.student_medical_notes,
+      p_class_standard: params.class_standard,
+      p_class_section: params.class_section
+    });
+
+    if (error) {
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createNewStudentByAdmin = async (params: CreateNewStudentByAdmin): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc("create_new_student_by_admin", {
+      p_id: params.id,
+      p_email: params.email,
+      p_phone: params.phone,
+      p_full_name: params.full_name,
+      p_date_of_birth: params.date_of_birth,
+      p_blood_group: params.blood_group,
+      p_gender: params.gender,
+      p_emergency_contact: params.emergency_contact,
+      p_address: params.address,
+      p_city: params.city,
+      p_state: params.state,
+      p_pincode: String(params.pincode),
+      p_occupation: params.occupation,
+      p_annual_income: params.annual_income,
+      p_student_relation: params.student_relation,
+      p_student_date_of_birth: params.student_date_of_birth,
+      p_student_full_name: params.student_full_name,
+      p_student_blood_group: params.student_blood_group,
+      p_student_gender: params.student_gender,
+      p_student_medical_notes: params.student_medical_notes,
+      p_class_standard: params.class_standard,
+      p_class_section: params.class_section
+    });
+
+    if (error) {
+      await supabaseAdmin.auth.admin.deleteUser(params.id);
       throw error;
     }
   } catch (error: any) {

@@ -42,6 +42,8 @@ export const parentIdentityDetails = async (context: Context<{query: IdentityIdT
 
     const invitation_allowed = await checkInvitationAllowed(user_id, "parent");
 
+    // TODO: Keep in mind the parent can be added by the admin so then invitation will not be there...handle that as well
+
     if(!invitation_allowed) {
       return context.status(403, { success: false, error: "Not allowed to login", code: 'invitation_not_allowed' });
     }

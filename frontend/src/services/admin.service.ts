@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse } from "@/types";
-import type { InvitationType } from "@/validation";
+import type { InvitationType, StudentWithExistingUserParentType, StudentWithNewParentType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -80,6 +80,26 @@ class AdminService {
   async getParentInvitations(): Promise<ApiSuccessResponse<ParentInvitationsResponse[]> | ApiErrorResponse> {
     try {
       const response = await this.apiClient.get<ApiSuccessResponse<ParentInvitationsResponse[]>>('/school-academic/parent-invitations');
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async addNewstudent (data: StudentWithNewParentType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-new-student', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async addStudentWithExistingUserParent(data: StudentWithExistingUserParentType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-student-with-existing-user-parent', data);
 
       return response.data;
     } catch (error: any) {

@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -61,6 +61,40 @@ export const addExistingUserAsSchoolStaff = async (context: Context<{ body: Exis
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }
 };
+
+export const addStudentWithNewParent = async (context: Context<{ body: StudentWithNewParentType }>) => {
+  try {
+    const { email, password, full_name, phone, date_of_birth, gender, blood_group, emergency_contact_name, emergency_contact_phone, emergency_contact_relation, address, city, state, pincode, occupation, annual_income, student_relation, student_date_of_birth, student_blood_group, student_full_name, student_gender, student_medical_notes, class: student_class } = context.body
+    
+    const user = await createDatabaseUser({ email, password, full_name, phone })
+
+    const emergency_contact = { name: emergency_contact_name, relation: emergency_contact_relation, phone: emergency_contact_phone }
+
+    await createNewStudentByAdmin({ id: user.id, email: user.email || email, phone: user.phone || phone, date_of_birth, blood_group, gender, full_name: user.user_metadata.full_name, emergency_contact, address, city, state, pincode, occupation, annual_income, student_relation, student_date_of_birth, student_blood_group, student_full_name, student_gender, student_medical_notes, class_standard: parseInt(student_class.slice(0, -1)), class_section: student_class.slice(-1) })
+    
+    return context.status(201, { success: true, message: "Student signed up successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
+  }
+}
+
+export const addStudentWithExistingUserParent = async (context: Context<{ body: StudentWithExistingUserParentType }>) => {
+  try {
+    const { email, phone, occupation, annual_income, student_relation, student_date_of_birth, student_blood_group, student_full_name, student_gender, student_medical_notes, class: student_class } = context.body
+
+    const user_id = await getDatabaseUserId(email, phone)
+    
+    if(!user_id) {
+      return context.status(404, { success: false, error: "User not found", code: "user_not_found" });
+    }
+
+    await createStudentWithExistingUserParentByAdmin({ id: user_id, occupation, annual_income, student_relation, student_date_of_birth, student_blood_group, student_full_name, student_gender, student_medical_notes, class_standard: parseInt(student_class.slice(0, -1)), class_section: student_class.slice(-1) })
+    
+    return context.status(201, { success: true, message: "Student signed up successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
+  }
+}
 
 export const sendTeacherInvitation = async (context: Context<{ body: SendInvitationType }>) => {
   try {

@@ -74,3 +74,42 @@ export interface ParentInvitationsResponse {
   admission_date?: Date;
   medical_notes?: string;
 };
+
+export interface CreateNewStudentByAdmin {
+  id: string;
+  email: string;
+  phone: string;
+  date_of_birth: Date;
+  blood_group: string;
+  gender: string;
+  full_name: string;
+  emergency_contact: { name: string; relation: string; phone: string };
+  address: string;
+  city: string;
+  state: string;
+  pincode: number;
+  occupation: string;
+  annual_income: number;
+  student_relation: string;
+  student_date_of_birth: Date;
+  student_full_name: string;
+  student_blood_group: string;
+  student_gender: string;
+  student_medical_notes: string;
+  class_standard: number;
+  class_section: string;
+}
+
+export interface CreateStudentWithExistingUserParentByAdmin {
+  id: string;
+  occupation: string;
+  annual_income: number;
+  student_relation: string;
+  student_date_of_birth: Date;
+  student_full_name: string;
+  student_blood_group: string;
+  student_gender: string;
+  student_medical_notes: string;
+  class_standard: number;
+  class_section: string;
+}

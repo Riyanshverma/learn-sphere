@@ -6,7 +6,7 @@ const phone = z.string().trim().regex(/^\+91[6-9]\d{9}$/, 'Invalid').or(z.litera
 const blood_group = z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], 'Invalid')
 const gender = z.enum(['male', 'female', 'other'], 'Invalid')
 const date = z.coerce.date({ error: 'Invalid' })
-const word = z.string().trim().min(3, 'Invalid').toLowerCase()
+const word = z.string().trim().min(1, 'Invalid').toLowerCase()
 const number = z.coerce.number().int('Invalid').min(0, 'Invalid') as z.ZodNumber
 const pincode = z.coerce.number().int('Invalid').refine((val) => /^\d{6}$/.test(String(val)), { message: 'Must be 6 digits' })
 const days = z.array(z.enum(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])).min(1, 'Select at least one day');
@@ -83,3 +83,45 @@ export const CreateClassSubjectSchema = z.strictObject({
   academic_year: word.regex(/^\d{4}-\d{2}$/, 'Invalid format (e.g. 2026-27)'),
 })
 export type CreateClassSubjectType = z.infer<typeof CreateClassSubjectSchema>
+
+export const StudentWithExistingUserParentSchema = z.strictObject({
+  email: email,
+  phone: phone,
+  occupation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  annual_income: number,
+  student_relation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_date_of_birth: date,
+  student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_blood_group: blood_group,
+  student_gender: gender,
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
+  class: word.toUpperCase().regex(/^[A-Z0-9]+$/, 'Must contain only alphabets and numbers')
+})
+export type StudentWithExistingUserParentType = z.infer<typeof StudentWithExistingUserParentSchema>
+
+export const StudentWithNewParentSchema = z.strictObject({
+  email: email,
+  phone: phone,
+  password: password,
+  full_name: word,
+  date_of_birth: date,
+  blood_group: blood_group,
+  gender: gender,
+  emergency_contact_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  emergency_contact_relation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  emergency_contact_phone: phone,
+  address: word,
+  city: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets'),
+  state: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets'),
+  pincode: pincode,
+  occupation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  annual_income: number,
+  student_relation: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_date_of_birth: date,
+  student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  student_blood_group: blood_group,
+  student_gender: gender,
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
+  class: word.toUpperCase().regex(/^[A-Z0-9]+$/, 'Must contain only alphabets and numbers')
+})
+export type StudentWithNewParentType = z.infer<typeof StudentWithNewParentSchema>

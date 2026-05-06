@@ -60,7 +60,6 @@ export const AddNewSchoolStaff = () => {
       });
 
       const result = await adminService.addNewSchoolStaff(formData);
-
       if (!result.success) {
         throw new Error(result.error, { cause: result.code });
       }
