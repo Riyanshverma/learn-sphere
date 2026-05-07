@@ -1,5 +1,5 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
-import type { CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
+import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
 import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
@@ -310,6 +310,25 @@ export const createNewStudentByAdmin = async (params: CreateNewStudentByAdmin): 
 
     if (error) {
       await supabaseAdmin.auth.admin.deleteUser(params.id);
+      throw error;
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const updateStudentClassAndInvitationStatus = async (params: AddStudentToClassAndAcceptInvitationType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc("update_student_class_and_invitation_status", {
+      p_invitation_id: params.invitation_id,
+      p_student_id: params.student_id,
+      p_class_standard: parseInt(params.class.slice(0, -1)),
+      p_class_section: params.class.slice(-1),
+      p_new_status: params.new_status
+    });
+    
+    if (error) {
       throw error;
     }
   } catch (error: any) {

@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse } from "@/types";
-import type { InvitationType, StudentWithExistingUserParentType, StudentWithNewParentType } from "@/validation";
+import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -66,7 +66,7 @@ class AdminService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
-  
+
   async updateInvitationStatus(invitation_id: string, new_status: "allowed" | "revoked"): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try{
       const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-invitation-status', { invitation_id, new_status });
@@ -100,6 +100,16 @@ class AdminService {
   async addStudentWithExistingUserParent(data: StudentWithExistingUserParentType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
       const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-student-with-existing-user-parent', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async updateStudentClassAndInvitationStatus(data: SelectStudentClassType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-student-class-and-invitation-status', data);
 
       return response.data;
     } catch (error: any) {

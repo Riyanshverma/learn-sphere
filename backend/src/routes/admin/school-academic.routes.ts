@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject, fetchParentInvitations, addStudentWithExistingUserParent, addStudentWithNewParent } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject, fetchParentInvitations, addStudentWithExistingUserParent, addStudentWithNewParent, addStudentToClassAndAcceptInvitation } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
-import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, CreateClassSubjectSchema, StudentWithExistingUserParentSchema, StudentWithNewParentSchema } from "../../validations";
+import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, CreateClassSubjectSchema, StudentWithExistingUserParentSchema, StudentWithNewParentSchema, AddStudentToClassAndAcceptInvitationSchema } from "../../validations";
 
 const adminSchoolAcademicRoutes = new Elysia({ prefix: "/school-academic" })
 
@@ -25,6 +25,8 @@ adminSchoolAcademicRoutes.group("", (app) => {
     app.use(jwtPlugin(InvitationJWTSchema)).post("/send-student-invitation", sendStudentInvitation, { body: SendInvitationSchema })
 
     app.get("/parent-invitations", fetchParentInvitations)
+
+    app.patch('/update-student-class-and-invitation-status', addStudentToClassAndAcceptInvitation, { body: AddStudentToClassAndAcceptInvitationSchema })
 
     app.post("/create-class", createSchoolClass, { body: CreateSchoolClassSchema })
 

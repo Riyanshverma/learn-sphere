@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType, AddStudentToClassAndAcceptInvitationType } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -175,6 +175,17 @@ export const createSchoolClass = async (context: Context<{ body: CreateSchoolCla
     await createClass(context.body)
     
     return context.status(201, { success: true, message: "Class created successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const addStudentToClassAndAcceptInvitation = async (context: Context<{ body: AddStudentToClassAndAcceptInvitationType }>) => {
+  try {
+
+    await updateStudentClassAndInvitationStatus(context.body)
+
+    return context.status(200, { success: true, message: "Student added to class successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

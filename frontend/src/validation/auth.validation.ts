@@ -239,3 +239,11 @@ export const StudentWithExistingUserParentSchema = z.strictObject({
   class: word.toUpperCase().regex(/^[A-Z0-9]+$/, 'Must contain only alphabets and numbers')
 })
 export type StudentWithExistingUserParentType = z.infer<typeof StudentWithExistingUserParentSchema>
+
+export const SelectStudentClassSchema = z.strictObject({
+  invitation_id: uuid,
+  student_id: uuid,
+  class: word.toUpperCase().regex(/^[A-Z0-9]+$/, 'Must contain only alphabets and numbers'),
+  new_status: z.literal('allowed')
+})
+export type SelectStudentClassType = z.infer<typeof SelectStudentClassSchema>

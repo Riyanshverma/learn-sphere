@@ -6,14 +6,32 @@ import { Button } from "@/components/ui/button"
 import { getInvitationStatusColor } from "@/utils"
 import { adminService } from "@/services"
 import { useState, useRef } from "react"
-import { ParentInvitationDetailsDialog } from "@/features/admin"
+import { ParentInvitationDetailsDialog, StudentSelectClassDialog } from "@/features/admin"
 
 export const ParentInvitations = ({ parentInvitations, fetchParentInvitations }: { parentInvitations: ParentInvitationsResponse[], fetchParentInvitations: () => Promise<void> }) => {
   const [parentInvitationDetailsDialogOpen, setParentInvitationDetailsDialogOpen] = useState<boolean>(false)
+  const [selectStudentClassDialogOpen, setSelectStudentClassDialogOpen] = useState<boolean>(false)
   const selectedInvitation = useRef<ParentInvitationsResponse | null>(null)
-  
-  const handleChangeInvitationStatusClick = async (invitation: ParentInvitationsResponse, new_status: "allowed" | "revoked") => {
-    // Keep empty for now as requested
+
+  const handleInvitationRevokeClick = async (invitation: ParentInvitationsResponse) => {
+    try {
+      const id = toast.loading('Revoking parent invitation...')
+      const result = await adminService.updateInvitationStatus(invitation.invitation_id, "revoked");
+      if (!result.success) {
+        toast.dismiss(id)
+        throw new Error(result.error, { cause: result.code });
+      }
+
+      await fetchParentInvitations();
+      toast.success(result.message, { id })
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause })
+    }
+  }
+
+  const handleSelectClassClick = (invitation: ParentInvitationsResponse) => {
+    selectedInvitation.current = invitation
+    setSelectStudentClassDialogOpen(true)
   }
 
   const handleShowDetailsClick = (invitation: ParentInvitationsResponse) => {
@@ -54,11 +72,11 @@ export const ParentInvitations = ({ parentInvitations, fetchParentInvitations }:
             <div className="flex items-center gap-4 font-sans">
               <Button 
                 variant="default"
-                onClick={() => handleChangeInvitationStatusClick(invitation, "allowed")}
+                onClick={() => handleSelectClassClick(invitation)}
                 className="rounded-3xl px-4 font-light cursor-pointer hover:bg-primary/80"
                 disabled={invitation.status !== "accepted"}
               >
-                Allow
+                Select Class
               </Button>
               <Button 
                 variant="outline" 
@@ -70,7 +88,7 @@ export const ParentInvitations = ({ parentInvitations, fetchParentInvitations }:
               </Button>
               <Button 
                 variant="destructive" 
-                onClick={() => handleChangeInvitationStatusClick(invitation, "revoked")}
+                onClick={() => handleInvitationRevokeClick(invitation)}
                 className="rounded-3xl px-4 font-light"
                 disabled={invitation.status !== "accepted"}
               >
@@ -85,6 +103,12 @@ export const ParentInvitations = ({ parentInvitations, fetchParentInvitations }:
         dialogOpen={parentInvitationDetailsDialogOpen} 
         setDialogOpen={setParentInvitationDetailsDialogOpen} 
         invitation={selectedInvitation.current} 
+      />
+      <StudentSelectClassDialog 
+        dialogOpen={selectStudentClassDialogOpen} 
+        setDialogOpen={setSelectStudentClassDialogOpen} 
+        invitation={selectedInvitation.current} 
+        fetchParentInvitations={fetchParentInvitations}
       />
     </>
   )

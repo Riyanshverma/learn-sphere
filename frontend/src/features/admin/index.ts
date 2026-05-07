@@ -37,26 +37,6 @@ import { AddTeacherInvitation } from "./dashboard/components/school-academics/Ad
 import { AddStudentInvitation } from "./dashboard/components/school-academics/AddStudentInvitation";
 import { TeacherInvitationDetailsDialog } from "./dashboard/components/school-academics/TeacherInvitationDetailsDialog";
 import { ParentInvitationDetailsDialog } from "./dashboard/components/school-academics/ParentInvitationDetailsDialog";
+import { StudentSelectClassDialog } from "./dashboard/components/school-academics/StudentSelectClassDialog";
 
-export { 
-  SchoolPeopleSubHeader, 
-  SchoolTeachers, 
-  SchoolStudents, 
-  SchoolStaff,
-  SchoolAcademicsSubHeader,
-  SchoolClasses,
-  SchoolEnrollments,
-  SchoolExamsAndResults,
-  AddSchoolStaffSubHeader,
-  AddNewSchoolStaff,
-  AddExistingUserStaff,
-  TeacherInvitations,
-  ParentInvitations,
-  AddStudentSubHeader,
-  AddStudentWithNewParent,
-  AddStudentWithExistingUserParent,
-  AddTeacherInvitation,
-  AddStudentInvitation,
-  TeacherInvitationDetailsDialog,
-  ParentInvitationDetailsDialog,
-}
+export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog }
