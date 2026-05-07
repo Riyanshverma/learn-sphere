@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
 import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType, AddStudentToClassAndAcceptInvitationType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus } from "../../services";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus, getAllClassesDetails } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -196,6 +196,16 @@ export const changeClassTeacher = async (context: Context<{body: UpdateClassTeac
     await updateClassTeacher(context.body)
 
     return context.status(200, { success: true, message: "Class teacher updated successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const fetchAllClassesDetails = async (context: Context) => {
+  try {
+    const classes_details = await getAllClassesDetails()
+
+    return context.status(200, { success: true, message: "Classes details fetched successfully", data: classes_details })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

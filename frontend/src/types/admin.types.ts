@@ -47,3 +47,12 @@ export interface ParentInvitationsResponse {
   admission_date?: Date;
   medical_notes?: string;
 };
+
+export interface AllClassesDetailsResponse {
+  class_id: string
+  class_standard: number
+  class_section: string
+  teacher_name: string
+  academic_year: string
+  class_students: number
+}

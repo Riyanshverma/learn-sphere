@@ -37,3 +37,44 @@ BEGIN
   WHERE id = p_invitation_id;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION get_all_classes_details()
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_result JSONB;
+BEGIN
+  SELECT COALESCE(
+    jsonb_agg(
+      jsonb_build_object(
+        'class_id', class_data.id,
+        'class_standard', class_data.class_standard,
+        'class_section', class_data.class_section,
+        'teacher_name', class_data.full_name,
+        'academic_year', class_data.academic_year,
+        'class_students', class_data.student_count
+      )
+    ),
+    '[]'::jsonb
+  ) INTO v_result
+  FROM (
+    SELECT 
+      c.id,
+      c.class_standard,
+      c.class_section,
+      u.full_name,
+      c.academic_year,
+      COUNT(s.id) as student_count
+    FROM classes c
+    LEFT JOIN employees e ON c.class_teacher = e.id
+    LEFT JOIN identity i ON e.identity_id = i.id
+    LEFT JOIN users u ON i.user_id = u.id
+    LEFT JOIN students s ON c.id = s.class_id
+    GROUP BY c.id, u.full_name
+  ) class_data;
+
+  RETURN v_result;
+END;
+$$;

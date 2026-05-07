@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
 
@@ -331,6 +331,21 @@ export const updateStudentClassAndInvitationStatus = async (params: AddStudentTo
     if (error) {
       throw error;
     }
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getAllClassesDetails = async (): Promise<AllClassesDetailsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_all_classes_details');
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   } catch (error: any) {
     console.error(error.message);
     throw error;
