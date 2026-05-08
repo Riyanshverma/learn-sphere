@@ -1,8 +1,9 @@
 import AdminDashboard from "./dashboard/pages/AdminDashboard";
 import AddSchoolStaffPage from "./add-school-staff/pages/AddSchoolStaffPage";
 import AddStudentPage from "./add-school-student/pages/AddStudentPage";
+import ClassDetailsPage from "./class-details/pages/ClassDetailsPage";
 
-export { AdminDashboard, AddSchoolStaffPage, AddStudentPage }
+export { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage }
 
 // Components:
 import { AdminDashboardHeader } from "./dashboard/components/AdminDashboardHeader";
@@ -13,8 +14,9 @@ import { SchoolFinance } from "./dashboard/components/SchoolFinance";
 import { AdminSettings } from "./dashboard/components/AdminSettings";
 import { AddSchoolStaff } from "./add-school-staff/components/AddSchoolStaff";
 import { AddStudent } from "./add-school-student/components/AddStudent";
+import { ClassDetails } from "./class-details/components/ClassDetails";
 
-export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent }
+export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent, ClassDetails }
 
 // Sub Components:
 import { SchoolPeopleSubHeader } from "./dashboard/components/school-people/SchoolPeopleSubHeader"

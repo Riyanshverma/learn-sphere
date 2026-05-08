@@ -23,7 +23,7 @@ export const AddStudentSubHeader = ({ activeTab, setActiveTab }: HeaderProps) =>
       })}
       <Button
         variant="ghost"
-        className="flex items-center bg-foreground gap-2 px-4 h-10 text-sm font-sans font-normal transition-all text-background border border-foreground/20 hover:bg-foreground/10 ml-4"
+        className="flex items-center bg-foreground gap-2 px-4 h-10 text-sm font-sans font-normal transition-all text-background border border-foreground/20 hover:bg-foreground ml-4"
         onClick={() => navigate("/admin/dashboard", { state: { tab: "academics", subTab: "school-enrollments" } })}
       >
         <DoorOpen className="h-4 w-4" />

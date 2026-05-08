@@ -1,26 +1,76 @@
-import { Badge } from "@/components/ui/badge"
-
-const dummyClasses = [
-  { id: 1, name: "Grade 10 - A", teacher: "Dr. Sarah Wilson", students: 32, status: "In Session" },
-  { id: 2, name: "Grade 11 - B", teacher: "Mr. Robert Chen", students: 28, status: "In Session" },
-  { id: 3, name: "Grade 9 - C", teacher: "Ms. Emily Davis", students: 30, status: "Lunch Break" },
-  { id: 4, name: "Grade 12 - A", teacher: "Prof. James Miller", students: 25, status: "In Session" },
-]
+import { Spinner } from "@/components/ui/spinner"
+import { toast } from "sonner"
+import { adminService } from "@/services"
+import { useEffect } from "react"
+import { useAdminStore } from "@/store"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 export const SchoolClasses = () => {
+  const navigate = useNavigate()
+  const allClassesDetails = useAdminStore((state) => state.allClassesDetails)
+  const setAllClassesDetails = useAdminStore((state) => state.setAllClassesDetails)
+
+  const featchAllClassesDetails = async () => {
+    try {
+      const result = await adminService.getAllClassesDetails()
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code });
+      }
+      
+      setAllClassesDetails(result.data)
+      toast.success(result.message)
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause })
+    }
+  }
+
+  useEffect(() => {
+    if (!allClassesDetails) {
+      featchAllClassesDetails()
+    }
+  }, [])
+
+  if (!allClassesDetails) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Spinner className="size-8 text-primary" />
+      </div>
+    )
+  }
   return (
-    <div className="animate-in fade-in zoom-in duration-500 space-y-6">
+    <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {dummyClasses.map((cls) => (
-          <div key={cls.id} className="p-6 rounded-3xl border bg-card/80 backdrop-blur-md flex items-center justify-between">
-            <div className="space-y-1">
-              <h3 className="text-xl font-heading">{cls.name}</h3>
-              <p className="text-muted-foreground text-sm font-sans">Teacher: {cls.teacher} • {cls.students} Students</p>
-            </div>
-            <Badge variant={cls.status === "In Session" ? "default" : "secondary"} className="rounded-none px-4 py-1">
-              {cls.status}
-            </Badge>
-          </div>
+        {allClassesDetails.map((cls) => (
+          <Card key={cls.class_id} className="w-full">
+            <CardHeader className="flex flex-row items-start justify-between space-y-0">
+              <div className="space-y-1">
+                <CardTitle className="text-xl font-heading font-normal ">
+                  Class {cls.class_standard} - {cls.class_section}
+                </CardTitle>
+                <CardDescription className="font-sans font-light text-base">
+                  Academic Year: {cls.academic_year}
+                </CardDescription>
+              </div>
+              <div className="text-base font-sans font-light text-muted-foreground">
+                Students: {cls.class_students}
+              </div>
+            </CardHeader>
+            <CardContent className="flex items-center justify-between">
+              <div className="text-base font-sans font-light capitalize">
+                <span className="text-muted-foreground">Teacher: </span>
+                {cls.teacher_name}
+              </div>
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate(`/admin/class-details/${cls.class_standard}-${cls.class_section}`, { state: { classDetails: cls } })}
+                className="rounded-3xl px-4 font-light font-sans bg-foreground text-background border border-foreground/20 hover:bg-foreground"
+              >
+                More Details
+              </Button>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
