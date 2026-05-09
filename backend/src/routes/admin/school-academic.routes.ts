@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, createClassSubject, fetchParentInvitations, addStudentWithExistingUserParent, addStudentWithNewParent, addStudentToClassAndAcceptInvitation, fetchAllClassesDetails } from "../../controllers";
+import { addNewSchoolStaff, addExistingUserAsSchoolStaff, sendTeacherInvitation, sendStudentInvitation, fetchTeacherInvitations, changeInvitationStatus, createSchoolClass, changeClassTeacher, addClassSubject, fetchParentInvitations, addStudentWithExistingUserParent, addStudentWithNewParent, addStudentToClassAndAcceptInvitation, fetchAllClassesDetails, searchTeachers } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin, jwtPlugin } from "../../plugins";
-import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, CreateClassSubjectSchema, StudentWithExistingUserParentSchema, StudentWithNewParentSchema, AddStudentToClassAndAcceptInvitationSchema } from "../../validations";
+import { EmployeeSignupSchema, ExistingUserAsStaffSchema, CreateSchoolClassSchema, SendInvitationSchema, InvitationJWTSchema, UpdateInvitationStatusSchema, UpdateClassTeacherSchema, AddClassSubjectSchema, StudentWithExistingUserParentSchema, StudentWithNewParentSchema, AddStudentToClassAndAcceptInvitationSchema, SearchSchema } from "../../validations";
 
 const adminSchoolAcademicRoutes = new Elysia({ prefix: "/school-academic" })
 
@@ -34,7 +34,9 @@ adminSchoolAcademicRoutes.group("", (app) => {
 
     app.get("/all-classes-details", fetchAllClassesDetails)
 
-    app.post("/create-class-subject", createClassSubject, { body: CreateClassSubjectSchema })
+    app.get("/search-teachers", searchTeachers, { query: SearchSchema })
+    
+    app.post("/add-class-subject", addClassSubject, { body: AddClassSubjectSchema })
 
     return app
 })

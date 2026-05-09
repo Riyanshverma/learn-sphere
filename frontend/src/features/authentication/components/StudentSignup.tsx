@@ -55,7 +55,7 @@ export const StudentSignup = ({ access_token, invite }: { access_token: string, 
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
       {invite === "supabase" && (
         <>
           <section className="space-y-4">

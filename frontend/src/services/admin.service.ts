@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse } from "@/types";
-import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType } from "@/validation";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse } from "@/types";
+import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -120,6 +120,28 @@ class AdminService {
   async getAllClassesDetails(): Promise<ApiSuccessResponse<AllClassesDetailsResponse[]> | ApiErrorResponse> {
     try {
       const response = await this.apiClient.get<ApiSuccessResponse<AllClassesDetailsResponse[]>>('/school-academic/all-classes-details');
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async getSearchTeachers(data: SearchType): Promise<ApiSuccessResponse<SearchedTeachersResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse>('/school-academic/search-teachers', { params: data });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async addClassSubject(data: FormData): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-class-subject', data, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
 
       return response.data;
     } catch (error: any) {

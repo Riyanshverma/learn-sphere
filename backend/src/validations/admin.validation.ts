@@ -74,15 +74,21 @@ export const UpdateClassTeacherSchema = z.strictObject({
 })
 export type UpdateClassTeacherType = z.infer<typeof UpdateClassTeacherSchema>
 
-export const CreateClassSubjectSchema = z.strictObject({
-  name: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+export const AddClassSubjectSchema = z.object({
+  subject_name: word,
+  syllabus: file,
   class_id: uuid,
   subject_teacher: uuid,
-  syllabus: file,
-  subject_code: word.toUpperCase().regex(/^[A-Z0-9\-]+$/, 'Invalid format (e.g. MATH-8A)'),
   academic_year: word.regex(/^\d{4}-\d{2}$/, 'Invalid format (e.g. 2026-27)'),
+  teacher_specialization: word,
+  teacher_qualification: word,
+  teacher_email: email,
+  teacher_full_name: word,
+  teacher_phone: phone,
+  class_standard: number,
+  class_section: word.toUpperCase(),
 })
-export type CreateClassSubjectType = z.infer<typeof CreateClassSubjectSchema>
+export type AddClassSubjectType = z.infer<typeof AddClassSubjectSchema>
 
 export const StudentWithExistingUserParentSchema = z.strictObject({
   email: email,
@@ -133,3 +139,8 @@ export const AddStudentToClassAndAcceptInvitationSchema = z.strictObject({
   new_status: z.literal('allowed')
 })
 export type AddStudentToClassAndAcceptInvitationType = z.infer<typeof AddStudentToClassAndAcceptInvitationSchema>
+
+export const SearchSchema = z.object({
+  search: word
+})
+export type SearchType = z.infer<typeof SearchSchema>

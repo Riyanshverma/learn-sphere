@@ -122,3 +122,23 @@ export interface AllClassesDetailsResponse {
   academic_year: string
   class_students: number
 }
+
+export interface SearchedTeachersResponse {
+  email: string;
+  full_name: string;
+  phone_number: string;
+  identity_id: string;
+  employee_id: string;
+  qualification: string;
+  specialization: string;
+  employee_code: number;
+}
+
+export interface CreateClassSubjectType {
+  name: string;
+  syllabus: string;
+  subject_code: string;
+  class_id: string;
+  subject_teacher: string;
+  academic_year: string;
+}

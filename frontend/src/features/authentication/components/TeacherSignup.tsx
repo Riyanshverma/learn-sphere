@@ -70,7 +70,7 @@ export const TeacherSignup = ({ access_token, invite }: { access_token: string, 
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {invite === "supabase" && (
         <>
           <section className="space-y-4">

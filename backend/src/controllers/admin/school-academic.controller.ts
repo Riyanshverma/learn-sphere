@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, CreateClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType, AddStudentToClassAndAcceptInvitationType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus, getAllClassesDetails } from "../../services";
+import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, AddClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType, AddStudentToClassAndAcceptInvitationType, SearchType  } from "../../validations";
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus, getAllClassesDetails, getSearchedTeachers, createClassSubject } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -211,10 +211,34 @@ export const fetchAllClassesDetails = async (context: Context) => {
   }
 }
 
-export const createClassSubject = async (context: Context<{body: CreateClassSubjectType}>) => {
+export const searchTeachers = async (context: Context<{query: SearchType}>) => {
   try {
-    // TODO: To be implemented...
+    const searched_techers = await getSearchedTeachers(context.query.search)
     
+    return context.status(200, { success: true, message: "Searched teachers fetched successfully", data: searched_techers })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const addClassSubject = async (context: Context<{ body: AddClassSubjectType }>) => {
+  try {
+    const { syllabus, subject_name, class_id, subject_teacher, academic_year, class_standard, class_section } = context.body
+
+    const uploaded_document = await uploadDocument({ name: `${Date.now()}.${syllabus.type.split('/').pop()}`, mime_type: syllabus.type, buffer: await syllabus.arrayBuffer() })
+
+    const syllabus_url = await getDocumentURL(uploaded_document.path)
+
+    await createClassSubject({
+      name: subject_name,
+      syllabus: syllabus_url,
+      subject_code: `${subject_name.slice(0, 4).toUpperCase()}-${class_standard}${class_section}`,
+      class_id,
+      subject_teacher,
+      academic_year
+    })
+
+    return context.status(201, { success: true, message: "Class subject added successfully" })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }

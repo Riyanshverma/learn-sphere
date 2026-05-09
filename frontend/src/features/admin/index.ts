@@ -40,5 +40,7 @@ import { AddStudentInvitation } from "./dashboard/components/school-academics/Ad
 import { TeacherInvitationDetailsDialog } from "./dashboard/components/school-academics/TeacherInvitationDetailsDialog";
 import { ParentInvitationDetailsDialog } from "./dashboard/components/school-academics/ParentInvitationDetailsDialog";
 import { StudentSelectClassDialog } from "./dashboard/components/school-academics/StudentSelectClassDialog";
+import { AddClassSubjectDialog } from "./class-details/components/AddClassSubjectDialog";
+import { SearchedTeachersInfo } from "./class-details/components/SearchedTeachersInfo";
 
-export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog }
+export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo }

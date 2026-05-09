@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
 
@@ -346,6 +346,34 @@ export const getAllClassesDetails = async (): Promise<AllClassesDetailsResponse[
     }
 
     return data;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getSearchedTeachers = async (search: string): Promise<SearchedTeachersResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_searched_teachers', { p_search: search });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createClassSubject = async (params: CreateClassSubjectType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.from('subjects').insert(params);
+
+    if (error) {
+      throw error;
+    }
   } catch (error: any) {
     console.error(error.message);
     throw error;

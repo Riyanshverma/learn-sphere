@@ -39,7 +39,7 @@ export const LoginFormWithPassword = () => {
 
   return (
     <div className="w-full">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row items-center gap-4">
             <div className="flex-1 w-full space-y-2">

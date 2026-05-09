@@ -44,7 +44,7 @@ export const AddStudentWithNewParent = () => {
 
   return (
     <div className="px-4 py-6 rounded-3xl bg-card/80">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
          <section className="space-y-4">
           <h3 className="text-lg font-heading font-normal text-foreground">Parent Personal Information</h3>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
