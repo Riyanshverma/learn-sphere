@@ -63,9 +63,9 @@ export const SchoolEnrollments = () => {
           <Button
             key={action.type}
             onClick={() => handleAddClick(action.type)}
-            className="h-auto px-4 py-6 rounded-3xl border border-primary/10 bg-primary/20 flex items-center justify-center gap-4 transition-all hover:bg-primary/60 cursor-pointer group"
+            className="h-auto px-4 py-6 rounded-3xl bg-primary/20 flex items-center justify-center gap-4 transition-all hover:bg-primary/60 cursor-pointer group"
           >
-            <action.icon className="h-7 w-7 text-primary" />
+            <action.icon className="text-primary" />
             <span className="text-xl font-heading text-foreground font-normal">{action.label}</span>
           </Button>
         ))}

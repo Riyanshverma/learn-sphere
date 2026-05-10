@@ -7,7 +7,7 @@ CREATE TYPE gender_type AS ENUM ('male', 'female', 'other');
 CREATE TYPE blood_group_type AS ENUM ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
 CREATE TYPE role_type AS ENUM ('admin', 'teacher', 'staff', 'parent', 'student');
 CREATE TYPE leave_status_type AS ENUM ('pending', 'approved', 'rejected', 'cancelled');
-CREATE TYPE attendance_status_type AS ENUM ('present', 'absent', 'late', 'half_day', 'holiday');
+CREATE TYPE attendance_status_type AS ENUM ('present', 'absent', 'late', 'half_day', 'holiday', 'pending');
 CREATE TYPE student_status_type AS ENUM ('active', 'inactive', 'transferred', 'graduated');
 CREATE TYPE assignment_type AS ENUM ('homework', 'worksheet', 'quiz', 'project', 'lab', 'other');
 CREATE TYPE submission_status_type AS ENUM ('submitted', 'late', 'reviewed', 'returned');
@@ -180,7 +180,7 @@ CREATE TABLE employee_attendance (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   employee_id UUID NOT NULL REFERENCES employees(id) ON DELETE CASCADE,
   date DATE NOT NULL,
-  status attendance_status_type NOT NULL DEFAULT 'present',
+  status attendance_status_type NOT NULL DEFAULT 'pending',
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE (employee_id, date)
