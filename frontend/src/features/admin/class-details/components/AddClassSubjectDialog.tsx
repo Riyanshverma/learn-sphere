@@ -151,22 +151,22 @@ export const AddClassSubjectDialog = ({ dialogOpen, setDialogOpen, classDetails 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2 font-sans">
                 <Label htmlFor="teacher_full_name" className="text-base text-muted-foreground font-light">Teacher Name</Label>
-                <Input id="teacher_full_name" disabled placeholder="Select a teacher" className="h-10 rounded-lg text-base font-light bg-muted/20" {...registerSubject("teacher_full_name")} />
+                <Input id="teacher_full_name" disabled placeholder="Select Teacher" className="h-10 rounded-lg text-base font-light bg-muted/20 capitalize" {...registerSubject("teacher_full_name")} />
               </div>
               <div className="space-y-2 font-sans">
                 <Label htmlFor="teacher_email" className="text-base text-muted-foreground font-light">Teacher Email</Label>
-                <Input id="teacher_email" disabled placeholder="Select a teacher" className="h-10 rounded-lg text-base font-light bg-muted/20" {...registerSubject("teacher_email")} />
+                <Input id="teacher_email" disabled placeholder="Select Teacher" className="h-10 rounded-lg text-base font-light bg-muted/20" {...registerSubject("teacher_email")} />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2 font-sans">
                 <Label htmlFor="teacher_qualification" className="text-base text-muted-foreground font-light">Qualification</Label>
-                <Input id="teacher_qualification" disabled placeholder="Select a teacher" className="h-10 rounded-lg text-base font-light bg-muted/20 capitalize" {...registerSubject("teacher_qualification")} />
+                <Input id="teacher_qualification" disabled placeholder="Select Teacher" className="h-10 rounded-lg text-base font-light bg-muted/20 capitalize" {...registerSubject("teacher_qualification")} />
               </div>
               <div className="space-y-2 font-sans">
                 <Label htmlFor="teacher_specialization" className="text-base text-muted-foreground font-light">Specialization</Label>
-                <Input id="teacher_specialization" disabled placeholder="Select a teacher" className="h-10 rounded-lg text-base font-light bg-muted/20 capitalize" {...registerSubject("teacher_specialization")} />
+                <Input id="teacher_specialization" disabled placeholder="Select Teacher" className="h-10 rounded-lg text-base font-light bg-muted/20 capitalize" {...registerSubject("teacher_specialization")} />
               </div>
             </div>
 

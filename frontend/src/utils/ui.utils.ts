@@ -23,3 +23,13 @@ export const getInvitationStatusColor = (status: string) => {
       default: return colors.gray;
     }
   }
+
+export const getRoleColor = (role: string) => {
+  switch (role) {
+    case "admin": return colors.green;
+    case "teacher": return colors.blue;
+    case "staff": return colors.orange;
+    case "parent": return colors.teal;
+    default: return colors.gray;
+  }
+}

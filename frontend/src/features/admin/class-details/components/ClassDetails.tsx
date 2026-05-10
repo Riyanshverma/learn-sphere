@@ -4,10 +4,19 @@ import { DoorOpen, Plus } from "lucide-react"
 import type { AllClassesDetailsResponse } from "@/types"
 import { useState } from "react"
 import { AddClassSubjectDialog } from "@/features/admin"
+import { toast } from "sonner"
 
 export const ClassDetails = ({ classDetails }: { classDetails: AllClassesDetailsResponse }) => {
   const navigate = useNavigate()
   const [addClassSubjectDialogOpen, setAddClassSubjectDialogOpen] = useState(false)
+
+  const fetchClassSubjectsAndStudents = async () => {
+    try {
+      // TODO: To be implemented when attandance will be implemented
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause })
+    }
+  }
 
   return (
     <>
