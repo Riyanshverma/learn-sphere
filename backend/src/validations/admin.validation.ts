@@ -17,6 +17,7 @@ const file = z.instanceof(File).refine((file) => file.size > 0, 'Invalid')
 const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
 const iso_date = z.iso.date('Invalid')
 const timestamp = z.iso.datetime({ offset: true })
+const attendance_status = z.enum(['present', 'absent', 'late', 'half_day', 'holiday', 'pending'], 'Invalid')
 
 export const UpdateInvitationStatusSchema = z.strictObject({
   invitation_id: uuid,
@@ -150,3 +151,12 @@ export const DateSchema = z.object({
   date: iso_date
 })
 export type DateType = z.infer<typeof DateSchema>
+
+export const UpdateSingleEmployeeAttendanceSchema = z.strictObject({
+  attendance_id: uuid.nullable(),
+  employee_id: uuid,
+  date: iso_date,
+  status: attendance_status,
+  remarks: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').nullable()
+})
+export type UpdateSingleEmployeeAttendanceType = z.infer<typeof UpdateSingleEmployeeAttendanceSchema>

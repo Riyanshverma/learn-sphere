@@ -17,6 +17,8 @@ const file = z.instanceof(FileList).refine((list) => list.length > 0, 'Invalid')
 const uuid = z.uuid('Invalid')
 const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
 const timestamp = z.iso.datetime({ offset: true })
+const iso_date = z.iso.date('Invalid')
+const attendance_status = z.enum(['present', 'absent', 'late', 'half_day', 'holiday', 'pending'], 'Invalid')
 
 export const AddClassSubjectSchema = z.object({
   subject_name: word,

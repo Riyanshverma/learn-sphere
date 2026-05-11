@@ -28,7 +28,7 @@ export const getRoleColor = (role: string) => {
   switch (role) {
     case "admin": return colors.green;
     case "teacher": return colors.blue;
-    case "staff": return colors.orange;
+    case "staff": return colors.yellow;
     case "parent": return colors.teal;
     default: return colors.gray;
   }

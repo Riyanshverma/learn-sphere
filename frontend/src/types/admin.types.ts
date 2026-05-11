@@ -1,7 +1,7 @@
 import type { role, account_type } from "."
 
 type invitation_status = "pending" | "accepted" | "allowed" | "expired" | "revoked";
-type attendance_status = "present" | "absent" | "late" | "half_day" | "holiday" | "pending";
+export type attendance_status = "present" | "absent" | "late" | "half_day" | "holiday" | "pending";
 
 export interface EmployeesAttendanceResponse {
   attendance_id: string | null;
@@ -78,4 +78,12 @@ export interface SearchedTeachersResponse {
   qualification: string;
   specialization: string;
   employee_code: number;
+}
+
+export interface UpdateSingleEmployeeAttendanceType {
+  attendance_id: string | null;
+  employee_id: string;
+  date: string;
+  status: attendance_status;
+  remarks: string | null;
 }

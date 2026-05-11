@@ -1,5 +1,5 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
-import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
+import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType } from "../validations";
 import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
@@ -394,4 +394,17 @@ export const getEmployeesAttendance = async (date: string): Promise<EmployeesAtt
     throw error;
   }
 }
-  
+
+export const updateSingleEmployeeAttendance = async ({ attendance_id, employee_id, date, status, remarks }: UpdateSingleEmployeeAttendanceType) => {
+  try {
+    const { error } = await supabaseAdmin.from('employee_attendance').upsert({ id: attendance_id, employee_id, date, status, remarks }, { onConflict: 'employee_id, date' });
+
+    if (error) {
+      throw error;
+    }
+
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
