@@ -1,6 +1,6 @@
-import { AdminDashboardHeader, EmployeeLeaveApplication } from "@/features/admin"
+import { AdminDashboardHeader, LeaveApplications } from "@/features/admin"
 
-export default function EmployeeLeaveApplicationsPage() {
+export default function LeaveApplicationsPage() {
   return (
     <div className="dark min-h-screen bg-background text-foreground">
       <AdminDashboardHeader 
@@ -9,7 +9,7 @@ export default function EmployeeLeaveApplicationsPage() {
         onLeaveApplicationsPage={true} 
       />
       <main className="w-full max-w-5xl mx-auto">
-        <EmployeeLeaveApplication />
+        <LeaveApplications />
       </main>
     </div>
   )

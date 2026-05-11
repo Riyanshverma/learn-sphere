@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoginPage, SelectIdentityPage, TeacherSignupPage, StudentSignupPage } from '@/features/authentication';
 import { LandingPage } from '@/features/landing';
-import { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage, EmployeeAttendancePage, EmployeeLeaveApplicationsPage } from '@/features/admin';
+import { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage, EmployeeAttendancePage, LeaveApplicationsPage } from '@/features/admin';
 import { Toaster } from '@/components/ui/sonner';
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
               <Route path="add-school-student" element={<AddStudentPage />} />
               <Route path="class-details/:id" element={<ClassDetailsPage />} />
               <Route path="employee-attendance" element={<EmployeeAttendancePage />} />
-              <Route path="leave-applications" element={<EmployeeLeaveApplicationsPage />} />
+              <Route path="leave-applications" element={<LeaveApplicationsPage />} />
             </Routes>
           } />
 

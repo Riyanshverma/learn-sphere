@@ -3,9 +3,9 @@ import AddSchoolStaffPage from "./add-school-staff/pages/AddSchoolStaffPage";
 import AddStudentPage from "./add-school-student/pages/AddStudentPage";
 import ClassDetailsPage from "./class-details/pages/ClassDetailsPage";
 import EmployeeAttendancePage from "./employee-attendance/pages/EmployeeAttendancePage";
-import EmployeeLeaveApplicationsPage from "./employee-leave-applications/pages/EmployeeLeaveApplicationsPage";
+import LeaveApplicationsPage from "./employee-leave-applications/pages/LeaveApplicationsPage";
 
-export { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage, EmployeeAttendancePage, EmployeeLeaveApplicationsPage }
+export { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage, EmployeeAttendancePage,LeaveApplicationsPage }
 
 // Components:
 import { AdminDashboardHeader } from "./dashboard/components/AdminDashboardHeader";
@@ -18,9 +18,9 @@ import { AddSchoolStaff } from "./add-school-staff/components/AddSchoolStaff";
 import { AddStudent } from "./add-school-student/components/AddStudent";
 import { ClassDetails } from "./class-details/components/ClassDetails";
 import { EmployeeAttendance } from "./employee-attendance/components/EmployeeAttendance";
-import { EmployeeLeaveApplication } from "./employee-leave-applications/components/EmployeeLeaveApplication";
+import { LeaveApplications } from "./employee-leave-applications/components/LeaveApplications";
 
-export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent, ClassDetails, EmployeeAttendance, EmployeeLeaveApplication }
+export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent, ClassDetails, EmployeeAttendance, LeaveApplications }
 
 // Sub Components:
 import { SchoolPeopleSubHeader } from "./dashboard/components/school-people/SchoolPeopleSubHeader"
@@ -49,5 +49,8 @@ import { SearchedTeachersInfo } from "./class-details/components/SearchedTeacher
 import { SchoolStudentsFees } from "./dashboard/components/school-finance/SchoolStudentsFees";
 import { SchoolEmployeesPayrolls } from "./dashboard/components/school-finance/SchoolEmployeesPayrolls";
 import { SchoolFinanceSubHeader } from "./dashboard/components/school-finance/SchoolFinanceSubHeader";
+import { EmployeesLeaveApplications } from "./employee-leave-applications/components/EmployeesLeaveApplications";
+import { MyLeaveApplications } from "./employee-leave-applications/components/MyLeaveApplications";
+import { LeaveApplicationsSubHeader } from "./employee-leave-applications/components/LeaveApplicationsSubHeader";
 
-export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo, SchoolStudentsFees, SchoolEmployeesPayrolls, SchoolFinanceSubHeader }
+export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo, SchoolStudentsFees, SchoolEmployeesPayrolls, SchoolFinanceSubHeader, EmployeesLeaveApplications, MyLeaveApplications, LeaveApplicationsSubHeader }
