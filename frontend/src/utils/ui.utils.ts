@@ -33,3 +33,14 @@ export const getRoleColor = (role: string) => {
     default: return colors.gray;
   }
 }
+
+export const getAttendanceStatusColor = (status: string) => {
+  switch (status) {
+    case "present": return colors.green;
+    case "absent": return colors.red;
+    case "late": return colors.yellow;
+    case "half_day": return colors.orange;
+    case "holiday": return colors.sky;
+    default: return colors.gray;
+  }
+}

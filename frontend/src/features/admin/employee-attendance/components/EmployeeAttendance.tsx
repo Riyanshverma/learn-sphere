@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table"
 import { adminService } from "@/services"
 import type { EmployeesAttendanceResponse, attendance_status } from "@/types"
-import { getRoleColor } from "@/utils"
+import { getRoleColor, getAttendanceStatusColor } from "@/utils"
 
 export const EmployeeAttendance = () => {
   const navigate = useNavigate()
@@ -166,8 +166,8 @@ export const EmployeeAttendance = () => {
                       return (
                         <Button
                           key={status}
-                          variant={employee.status === status ? "default" : "outline"}
-                          className={`capitalize rounded-full px-4 h-7 text-base font-sans font-light ${employee.status === status ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                          variant="outline"
+                          className={`capitalize rounded-full px-4 h-7 text-base font-sans font-light ${employee.status === status ? getAttendanceStatusColor(status) : 'text-muted-foreground hover:text-foreground border-foreground/10'}`}
                           onClick={() => handleUpdateStatus(employee.attendance_id, employee.employee_id, employee.status, status)}
                         >
                           {status.replace('_', ' ')}
