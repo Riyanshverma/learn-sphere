@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType } from "../validations";
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse } from "../types";
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
 
@@ -379,3 +379,19 @@ export const createClassSubject = async (params: CreateClassSubjectType): Promis
     throw error;
   }
 }
+
+export const getEmployeesAttendance = async (date: string): Promise<EmployeesAttendanceResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_employees_attendance', { p_date: date });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+  

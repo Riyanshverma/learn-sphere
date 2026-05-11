@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse } from "@/types";
 import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType } from "@/validation";
 
 class AdminService {
@@ -142,6 +142,16 @@ class AdminService {
       const response = await this.apiClient.post<ApiSuccessResponse>('/school-academic/add-class-subject', data, {
         headers: { "Content-Type": "multipart/form-data" }
       });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async getEmployeesAttendance(date: Date): Promise<ApiSuccessResponse<EmployeesAttendanceResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse<EmployeesAttendanceResponse[]>>('/quick-actions/employees-attendance', { params: { date: date.toISOString().split('T')[0] } });
 
       return response.data;
     } catch (error: any) {

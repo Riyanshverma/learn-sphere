@@ -17,7 +17,7 @@ CREATE EXTENSION IF NOT EXISTS pg_cron;
 
 SELECT cron.schedule(
   'generate-daily-employee-attendance',
-  '30 5 * * *',
+  '0 0 * * *',
   $$
     INSERT INTO employee_attendance (employee_id, date, status)
     SELECT e.id, CURRENT_DATE, 'pending'::attendance_status_type
@@ -31,3 +31,12 @@ SELECT cron.schedule(
 SELECT * FROM cron.job_run_details ORDER BY start_time DESC;
 
 SELECT cron.unschedule('generate-daily-employee-attendance');
+
+SELECT * FROM cron.job;
+
+INSERT INTO employee_attendance (employee_id, date, status)
+SELECT e.id, CURRENT_DATE, 'pending'::attendance_status_type
+FROM employees e
+JOIN identity i ON e.identity_id = i.id
+WHERE i.active = true
+ON CONFLICT (employee_id, date) DO NOTHING;

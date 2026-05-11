@@ -7,5 +7,5 @@ export type { UserLoginResponse, CreateAdminResponse, role, account_type }
 import type { HeaderProps } from "./user.types"
 export type { HeaderProps }
 
-import type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse } from "./admin.types"
-export type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse }
+import type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse } from "./admin.types"
+export type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse }

@@ -1,6 +1,18 @@
 import type { role, account_type } from "."
 
 type invitation_status = "pending" | "accepted" | "allowed" | "expired" | "revoked";
+type attendance_status = "present" | "absent" | "late" | "half_day" | "holiday" | "pending";
+
+export interface EmployeesAttendanceResponse {
+  attendance_id: string | null;
+  employee_id: string;
+  date: string | null;
+  status: attendance_status | null;
+  remarks: string | null;
+  designation: string;
+  employee_code: number;
+  full_name: string;
+}
 
 export interface TeacherInvitationsResponse {
   invitation_id: string;

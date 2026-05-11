@@ -15,6 +15,7 @@ const otp = z.string().trim().length(8, 'Must be 8 digits').regex(/^[0-9]+$/, 'I
 const time = z.iso.time('Invalid')
 const file = z.instanceof(File).refine((file) => file.size > 0, 'Invalid')
 const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
+const iso_date = z.iso.date('Invalid')
 const timestamp = z.iso.datetime({ offset: true })
 
 export const UpdateInvitationStatusSchema = z.strictObject({
@@ -144,3 +145,8 @@ export const SearchSchema = z.object({
   search: word
 })
 export type SearchType = z.infer<typeof SearchSchema>
+
+export const DateSchema = z.object({
+  date: iso_date
+})
+export type DateType = z.infer<typeof DateSchema>
