@@ -104,7 +104,7 @@ export const AdminSettings = () => {
           </Card>
         </section>
 
-        {/* Leaves & Attendance */}
+        {/* // TODO: To be implemented - Leaves & Attendance */}
         <section className="space-y-4">
           <h3 className="text-xl font-heading font-normal text-foreground">Leaves & Attendance</h3>
           <Card className="bg-card/40 backdrop-blur-sm border-primary/10 overflow-hidden rounded-3xl">

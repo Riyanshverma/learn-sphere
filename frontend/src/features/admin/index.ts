@@ -46,5 +46,8 @@ import { ParentInvitationDetailsDialog } from "./dashboard/components/school-aca
 import { StudentSelectClassDialog } from "./dashboard/components/school-academics/StudentSelectClassDialog";
 import { AddClassSubjectDialog } from "./class-details/components/AddClassSubjectDialog";
 import { SearchedTeachersInfo } from "./class-details/components/SearchedTeachersInfo";
+import { SchoolStudentsFees } from "./dashboard/components/school-finance/SchoolStudentsFees";
+import { SchoolEmployeesPayrolls } from "./dashboard/components/school-finance/SchoolEmployeesPayrolls";
+import { SchoolFinanceSubHeader } from "./dashboard/components/school-finance/SchoolFinanceSubHeader";
 
-export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo }
+export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo, SchoolStudentsFees, SchoolEmployeesPayrolls, SchoolFinanceSubHeader }
