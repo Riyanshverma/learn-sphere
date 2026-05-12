@@ -19,6 +19,7 @@ const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
 const timestamp = z.iso.datetime({ offset: true })
 const iso_date = z.iso.date('Invalid')
 const attendance_status = z.enum(['present', 'absent', 'late', 'half_day', 'holiday', 'pending'], 'Invalid')
+const leave_type = z.enum(['sick', 'casual', 'maternity', 'paternity', 'unpaid', 'bereavement', 'other'], 'Invalid')
 
 export const AddClassSubjectSchema = z.object({
   subject_name: word,
@@ -40,3 +41,12 @@ export const SearchSchema = z.object({
   search: word
 })
 export type SearchType = z.infer<typeof SearchSchema>
+
+export const ApplyForLeaveSchema = z.object({
+  applicant_id: uuid,
+  leave_from_date: date,
+  leave_to_date: date,
+  leave_type: leave_type,
+  leave_reason: word.regex(/^[a-zA-Z0-9 ]+$/, 'Invalid').or(z.literal('')),
+})
+export type ApplyForLeaveType = z.infer<typeof ApplyForLeaveSchema>

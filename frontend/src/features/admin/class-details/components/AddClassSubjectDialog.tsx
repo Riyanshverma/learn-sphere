@@ -188,7 +188,7 @@ export const AddClassSubjectDialog = ({ dialogOpen, setDialogOpen, classDetails 
               {errorsSubject.syllabus && <p className="text-sm text-destructive font-light">{errorsSubject.syllabus.message as string}</p>}
             </div>
 
-            <div className="flex justify-center pt-2">
+            <div className="flex justify-center">
               <Button type="submit" className="text-base font-sans h-10 rounded-full px-8" disabled={isSubjectSubmitting}>
                 {isSubjectSubmitting ? "Adding Subject..." : "Add Subject"}
               </Button>

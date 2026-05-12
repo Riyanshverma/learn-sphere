@@ -74,7 +74,7 @@ export const AdminDashboardHeader = ({ activeTab, setActiveTab, onAddSchoolStaff
           <Button
             variant="outline"
             className="font-sans text-base font-normal flex items-center gap-2 rounded-full h-10 p-4 hover:bg-card/80"
-            onClick={() => setActiveTab("settings")}
+            onClick={() => handleTabClick("settings")}
           >
             <Settings className="h-4 w-4" />
             Settings
