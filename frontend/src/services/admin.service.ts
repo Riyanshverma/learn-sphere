@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse } from "@/types";
 
 import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType } from "@/validation";
 
@@ -201,6 +201,16 @@ class AdminService {
   async cancelLeaveApplication(leave_application_id: string): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
       const response = await this.apiClient.patch<ApiSuccessResponse>('/quick-actions/cancel-leave-application', { leave_application_id });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async getEmployeesLeaveApplications(page_number: number, limit: string): Promise<ApiSuccessResponse<EmployeeLeaveApplicationsResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse<EmployeeLeaveApplicationsResponse[]>>('/quick-actions/employees-leave-applications', { params: { page_number, limit } });
 
       return response.data;
     } catch (error: any) {

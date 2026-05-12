@@ -181,3 +181,9 @@ export const LeaveApplicationIdSchema = z.strictObject({
   leave_application_id: uuid
 })
 export type LeaveApplicationIdType = z.infer<typeof LeaveApplicationIdSchema>
+
+export const PaginationSchema = z.strictObject({
+  page_number: number.optional().default(1),
+  limit: number.optional().default(25),
+})
+export type PaginationType = z.infer<typeof PaginationSchema>

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { LeaveApplicationsSubHeader, EmployeesLeaveApplications, MyLeaveApplications } from "@/features/admin"
 
 export const LeaveApplications = () => {
-  const [activeTab, setActiveTab] = useState("my-leaves")
+  const [activeTab, setActiveTab] = useState("employees-leaves")
 
   const renderContent = () => {
     switch (activeTab) {

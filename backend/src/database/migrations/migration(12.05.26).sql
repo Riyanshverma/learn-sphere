@@ -66,6 +66,47 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_employees_leave_applications(
+  p_page_number INT,
+  p_limit INT
+)
+RETURNS SETOF JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    jsonb_build_object(
+      'leave_application_id', la.id,
+      'applicant_id', la.applicant_id,
+      'leave_from_date', la.leave_from_date,
+      'leave_to_date', la.leave_to_date,
+      'leave_type', la.leave_type,
+      'leave_reason', la.leave_reason,
+      'leave_status', la.leave_status,
+      'review_comment', la.review_comment,
+      'reviewed_by', la.reviewed_by,
+      'reviewed_at', la.reviewed_at,
+      'created_at', la.created_at,
+      'designation', e.designation,
+      'employee_code', e.employee_code,
+      'leaves', e.leaves,
+      'email', u.email,
+      'phone_number', u.phone,
+      'full_name', u.full_name
+    )
+  FROM leave_applications la
+  JOIN employees e ON la.applicant_id = e.id
+  JOIN identity i ON e.identity_id = i.id
+  JOIN users u ON i.user_id = u.id
+  WHERE i.verified = true AND i.active = true
+  ORDER BY la.created_at DESC
+  LIMIT p_limit
+  OFFSET (p_page_number - 1) * p_limit;
+END;
+$$;
+
 -- ! Not implemented yet.
 CREATE OR REPLACE FUNCTION get_approved_leaves_by_date(p_date DATE)
 RETURNS JSONB

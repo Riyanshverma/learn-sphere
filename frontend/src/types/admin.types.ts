@@ -19,6 +19,29 @@ export interface MyLeaveApplicationsResponse {
   created_at: string;
 }
 
+export interface EmployeeLeaveApplicationsResponse {
+  leave_application_id: string;
+  applicant_id: string;
+  leave_from_date: string;
+  leave_to_date: string;
+  leave_type: leave_type;
+  leave_reason: string;
+  leave_status: leave_status;
+  review_comment: string | null;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  designation: string;
+  employee_code: number;
+  leaves: {
+    total_leaves_per_year: number;
+    leaves_taken: number;
+  };
+  email: string;
+  phone_number: string;
+  full_name: string;
+}
+
 export interface EmployeesAttendanceResponse {
   attendance_id: string | null;
   employee_id: string;

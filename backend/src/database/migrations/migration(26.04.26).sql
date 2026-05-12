@@ -1,3 +1,5 @@
+-- 26.04.26
+
 CREATE OR REPLACE FUNCTION get_admin_identity_details(
   p_user_id UUID,
   p_identity_id UUID

@@ -1,8 +1,8 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
-import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType } from "../validations";
+import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -467,6 +467,24 @@ export const cancelMyLeaveApplication = async (leave_application_id: string): Pr
     if (error) {
       throw error;
     }
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getEmployeesLeaveApplications = async (params: PaginationType): Promise<EmployeeLeaveApplicationsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_employees_leave_applications', {
+      p_page_number: params.page_number,
+      p_limit: params.limit
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   } catch(error: any) {
     console.error(error.message);
     throw error;
