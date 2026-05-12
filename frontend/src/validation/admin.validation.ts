@@ -46,7 +46,8 @@ export const ApplyForLeaveSchema = z.object({
   applicant_id: uuid,
   leave_from_date: date,
   leave_to_date: date,
+  leave_days: number,
   leave_type: leave_type,
-  leave_reason: word.regex(/^[a-zA-Z0-9 ]+$/, 'Invalid').or(z.literal('')),
+  leave_reason: word.or(z.literal('')),
 })
 export type ApplyForLeaveType = z.infer<typeof ApplyForLeaveSchema>

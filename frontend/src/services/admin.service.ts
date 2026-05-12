@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType } from "@/types";
-import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType } from "@/validation";
+import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -162,6 +162,23 @@ class AdminService {
   async updateSingleEmployeeAttendance(data: UpdateSingleEmployeeAttendanceType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
       const response = await this.apiClient.patch<ApiSuccessResponse>('/quick-actions/update-employee-attendance', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async applyForLeaveApplication({ applicant_id, leave_days, leave_from_date, leave_to_date, leave_reason, leave_type }: ApplyForLeaveType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {    
+      const response = await this.apiClient.post<ApiSuccessResponse>('/quick-actions/apply-for-leave-application', {
+        applicant_id,
+        leave_days,
+        leave_from_date: new Date(leave_from_date.getTime() - (leave_from_date.getTimezoneOffset() * 60000)).toISOString().split('T')[0],
+        leave_to_date: new Date(leave_to_date.getTime() - (leave_to_date.getTimezoneOffset() * 60000)).toISOString().split('T')[0],
+        leave_reason,
+        leave_type
+      });
 
       return response.data;
     } catch (error: any) {

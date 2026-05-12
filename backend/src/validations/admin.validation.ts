@@ -18,6 +18,7 @@ const role = z.enum(['teacher', 'student', 'admin', 'staff'], 'Invalid')
 const iso_date = z.iso.date('Invalid')
 const timestamp = z.iso.datetime({ offset: true })
 const attendance_status = z.enum(['present', 'absent', 'late', 'half_day', 'holiday', 'pending'], 'Invalid')
+const leave_type = z.enum(['sick', 'casual', 'maternity', 'paternity', 'unpaid', 'bereavement', 'other'], 'Invalid')
 
 export const UpdateInvitationStatusSchema = z.strictObject({
   invitation_id: uuid,
@@ -160,3 +161,13 @@ export const UpdateSingleEmployeeAttendanceSchema = z.strictObject({
   remarks: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').nullable()
 })
 export type UpdateSingleEmployeeAttendanceType = z.infer<typeof UpdateSingleEmployeeAttendanceSchema>
+
+export const ApplyForLeaveSchema = z.strictObject({
+  applicant_id: uuid,
+  leave_from_date: iso_date,
+  leave_to_date: iso_date,
+  leave_days: number,
+  leave_type: leave_type,
+  leave_reason: word.or(z.literal('')),
+})
+export type ApplyForLeaveType = z.infer<typeof ApplyForLeaveSchema>

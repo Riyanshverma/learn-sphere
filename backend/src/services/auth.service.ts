@@ -1,6 +1,9 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from '../database';
+
 import { type Session, CustomAuthError, type User } from '@supabase/supabase-js';
+
 import { type UserLoginWithPasswordType, StudentSignupResendType, UserLoginWithOtpType, UserOtpVerificationType } from '../validations';
+
 import type { createDatabaseUserType, uploadDocumentType, uploadDocumentResponse, CreateEmployeeType, CreateEmployeeResponse, getUserIdentitiesResponse, UpdateDatabaseUserType, CreateExistingUserAsTeacherType, CreateNewStudentType, role } from '../types';
 
 export const userSigninWithEmailPassword = async ({ email, password }: UserLoginWithPasswordType): Promise<Session> => {

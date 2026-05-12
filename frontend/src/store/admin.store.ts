@@ -9,6 +9,7 @@ type adminState = {
 
 type adminActions = {
   setAdmin: (admin: CreateAdminResponse) => void
+  updateLeavesTaken: (days: number) => void
   setAllClassesDetails: (allClassesDetails: AllClassesDetailsResponse[]) => void
   reset: () => void
 }
@@ -18,6 +19,18 @@ const adminStore = (set: any): adminState & adminActions => ({
   allClassesDetails: null,
 
   setAdmin: (admin) => set({ admin }),
+  updateLeavesTaken: (days) => set((state: adminState) => {
+    if (!state.admin) return state;
+    return {
+      admin: {
+        ...state.admin,
+        leaves: {
+          ...state.admin.leaves,
+          leaves_taken: state.admin.leaves.leaves_taken + days
+        }
+      }
+    };
+  }),
   setAllClassesDetails: (allClassesDetails) => set({ allClassesDetails }),
 
   reset: () => set({ admin: null, allClassesDetails: null }),

@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
-import type { DateType, UpdateSingleEmployeeAttendanceType } from "../../validations";
-import { getEmployeesAttendance, updateSingleEmployeeAttendance } from "../../services";
+import type { DateType, UpdateSingleEmployeeAttendanceType, ApplyForLeaveType } from "../../validations";
+import { createLeaveApplication, getEmployeesAttendance, updateSingleEmployeeAttendance } from "../../services";
 
 export const fetchEmployeesAttendance = async (context: Context<{ query: DateType }>) => {
   try {    
@@ -21,3 +21,14 @@ export const changeEmployeeAttendance = async (context: Context<{ body: UpdateSi
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }
 };
+
+export const applyForLeaveApplication = async (context: Context<{ body: ApplyForLeaveType }>) => {
+  try {    
+    await createLeaveApplication(context.body)
+
+    return context.status(201, { success: true, message: "Leave application submitted successfully" });
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
+  }
+};
+

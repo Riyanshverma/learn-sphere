@@ -12,6 +12,9 @@ import { ApplyForLeaveSchema, type ApplyForLeaveType } from "@/validation"
 import { toast } from "sonner"
 import { CalendarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useEffect } from "react"
+import { Input } from "@/components/ui/input"
+import { adminService } from "@/services"
 
 interface ApplyForLeaveDialogProps {
   dialogOpen: boolean
@@ -20,28 +23,46 @@ interface ApplyForLeaveDialogProps {
 
 export const ApplyForLeaveDialog = ({ dialogOpen, setDialogOpen }: ApplyForLeaveDialogProps) => {
   const admin = useAdminStore((state) => state.admin)
+  const updateLeavesTaken = useAdminStore((state) => state.updateLeavesTaken)
   
   const {
     handleSubmit,
     control,
+    watch,
+    reset,
+    setValue,
     formState: { errors, isSubmitting }
   } = useForm<ApplyForLeaveType>({
     resolver: zodResolver(ApplyForLeaveSchema),
     defaultValues:{
-      leave_from_date: new Date(),
-      leave_to_date: new Date(),
       applicant_id: admin?.employee_id,
     }
   })
 
+  const fromDate = watch("leave_from_date")
+  const toDate = watch("leave_to_date")
+
+  useEffect(() => {
+    if (fromDate && toDate) {
+      setValue("leave_days", Math.max(0, Math.ceil((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24)) + 1))
+    }
+  }, [fromDate, toDate])
+
   const onSubmit = async (data: ApplyForLeaveType) => {
-    try {
-      console.log("Submitting Leave Application:", data)
-      // TODO: Integrate with backend service
-      toast.success("Leave application submitted successfully!")
+    try {      
+      const id = toast.loading("Submitting leave application...")
+      const result =  await adminService.applyForLeaveApplication(data);
+      if (!result.success) {
+        toast.dismiss(id)
+        throw new Error(result.error, { cause: result.code })
+      }
+
+      reset()
       setDialogOpen(false)
+      updateLeavesTaken(data.leave_days)
+      toast.success(result.message, { id })
     } catch (error: any) {
-      toast.error(error.message || "Failed to submit leave application")
+      toast.error(error.message, { description: error.cause })
     }
   }
 
@@ -56,7 +77,7 @@ export const ApplyForLeaveDialog = ({ dialogOpen, setDialogOpen }: ApplyForLeave
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2 font-sans">
               <Label htmlFor="leave_type" className="text-base text-muted-foreground font-light">Leave Type</Label>
               <Controller
@@ -73,7 +94,6 @@ export const ApplyForLeaveDialog = ({ dialogOpen, setDialogOpen }: ApplyForLeave
                       <SelectItem value="maternity" className="text-base font-light">Maternity Leave</SelectItem>
                       <SelectItem value="paternity" className="text-base font-light">Paternity Leave</SelectItem>
                       <SelectItem value="unpaid" className="text-base font-light">Unpaid Leave</SelectItem>
-                      <SelectItem value="bereavement" className="text-base font-light">Bereavement Leave</SelectItem>
                       <SelectItem value="other" className="text-base font-light">Other</SelectItem>
                     </SelectContent>
                   </Select>
@@ -82,7 +102,7 @@ export const ApplyForLeaveDialog = ({ dialogOpen, setDialogOpen }: ApplyForLeave
               {errors.leave_type && <p className="text-sm text-destructive font-light">{errors.leave_type.message}</p>}
             </div>
 
-            <div className="space-y-2 font-sans">
+            <div className="space-y-2 font-sans col-span-2">
               <Label htmlFor="leave_reason" className="text-base text-muted-foreground font-light">Reason for Leave</Label>
               <Controller
                 control={control}
@@ -142,6 +162,24 @@ export const ApplyForLeaveDialog = ({ dialogOpen, setDialogOpen }: ApplyForLeave
               />
               {errors.leave_to_date && <p className="text-sm text-destructive font-light">{errors.leave_to_date.message}</p>}
             </div>
+
+            <div className="space-y-2 font-sans">
+              <Label htmlFor="leave_days" className="text-base text-muted-foreground font-light">Leave Days</Label>
+              <Controller
+                control={control}
+                name="leave_days"
+                render={({ field }) => (
+                  <Input 
+                    {...field}
+                    disabled
+                    placeholder="0"
+                    className="h-10 rounded-lg text-base font-light" 
+                  />
+                )}
+              />
+              {errors.leave_days && <p className="text-sm text-destructive font-light">{errors.leave_days.message}</p>}
+            </div>
+
           </div>
 
           <div className="flex justify-center">

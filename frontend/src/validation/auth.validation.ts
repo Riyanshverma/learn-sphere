@@ -53,8 +53,8 @@ export const EmployeeSignUpSchema = z.strictObject({
   city: word.regex(/^[A-Za-z]+$/, 'Must contain only alphabets'),
   state: word.regex(/^[A-Za-z]+$/, 'Must contain only alphabets'),
   pincode: pincode,
-  qualifications: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
-  specialization: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  qualifications: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  specialization: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
   monthly_salary: number,
   experience_years: number,
   timings_days: days,
@@ -78,8 +78,8 @@ export type EmployeeSignUpType = z.infer<typeof EmployeeSignUpSchema>
 export const ExistingUserAsStaffSchema = z.strictObject({
   email: email,
   phone: phone,
-  qualifications: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
-  specialization: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  qualifications: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  specialization: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
   monthly_salary: number,
   experience_years: number,
   timings_days: days,
@@ -119,8 +119,8 @@ export const TeacherSignupSupabaseSchema = z.strictObject({
   city: word.regex(/^[A-Za-z]+$/, 'Must contain only alphabets'),
   state: word.regex(/^[A-Za-z]+$/, 'Must contain only alphabets'),
   pincode: pincode,
-  qualifications: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
-  specialization: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  qualifications: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  specialization: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
   experience_years: number,
   timings_days: days,
   timings_from: time,
@@ -141,8 +141,8 @@ export const TeacherSignupSupabaseSchema = z.strictObject({
 export type TeacherSignupSupabaseType = z.infer<typeof TeacherSignupSupabaseSchema>
 
 export const TeacherSignupResendSchema = z.strictObject({
-  qualifications: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
-  specialization: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  qualifications: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
+  specialization: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods'),
   experience_years: number,
   timings_days: days,
   timings_from: time,
@@ -182,7 +182,7 @@ export const StudentSignupSupabaseSchema = z.strictObject({
   student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
   student_blood_group: blood_group,
   student_gender: gender,
-  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal(''),),
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal(''),),
 })
 export type StudentSignupSupabaseType = z.infer<typeof StudentSignupSupabaseSchema>
 
@@ -194,7 +194,7 @@ export const StudentSignupResendSchema = z.strictObject({
   student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
   student_blood_group: blood_group,
   student_gender: gender,
-  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
 })
 export type StudentSignupResendType = z.infer<typeof StudentSignupResendSchema>
 
@@ -220,7 +220,7 @@ export const StudentWithNewParentSchema = z.strictObject({
   student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
   student_blood_group: blood_group,
   student_gender: gender,
-  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
   class: word.toUpperCase().regex(/^[A-Z0-9]+$/, 'Must contain only alphabets and numbers')
 })
 export type StudentWithNewParentType = z.infer<typeof StudentWithNewParentSchema>
@@ -235,7 +235,7 @@ export const StudentWithExistingUserParentSchema = z.strictObject({
   student_full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
   student_blood_group: blood_group,
   student_gender: gender,
-  student_medical_notes: word.regex(/^[A-Za-z, \.\-]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
+  student_medical_notes: word.regex(/^[A-Za-z, \.\-\s]+$/, 'Must contain only alphabets, spaces, commas, hyphens, and periods').or(z.literal('')),
   class: word.toUpperCase().regex(/^[A-Z0-9]+$/, 'Must contain only alphabets and numbers')
 })
 export type StudentWithExistingUserParentType = z.infer<typeof StudentWithExistingUserParentSchema>

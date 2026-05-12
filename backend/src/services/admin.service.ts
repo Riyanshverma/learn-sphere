@@ -1,7 +1,11 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
-import type { AddStudentToClassAndAcceptInvitationType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType } from "../validations";
+
+import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType } from "../validations";
+
 import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse } from "../types";
+
 import { CustomAuthError, type User } from "@supabase/supabase-js";
+
 import { signJWT, resend, InvitationMailTemplate } from "../utils";
 
 export const getDatabaseUserId = async (email: string, phone: string): Promise<string | null> => {
@@ -403,6 +407,26 @@ export const updateSingleEmployeeAttendance = async ({ attendance_id, employee_i
       throw error;
     }
 
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const createLeaveApplication = async (params: ApplyForLeaveType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('create_leave_application', {
+      p_applicant_id: params.applicant_id,
+      p_leave_from_date: params.leave_from_date,
+      p_leave_to_date: params.leave_to_date,
+      p_leave_type: params.leave_type,
+      p_leave_reason: params.leave_reason,
+      p_leave_days: params.leave_days
+    });
+
+    if (error) {
+      throw error;
+    }
   } catch(error: any) {
     console.error(error.message);
     throw error;

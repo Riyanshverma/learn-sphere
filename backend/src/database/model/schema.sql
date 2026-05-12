@@ -7,6 +7,7 @@ CREATE TYPE gender_type AS ENUM ('male', 'female', 'other');
 CREATE TYPE blood_group_type AS ENUM ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
 CREATE TYPE role_type AS ENUM ('admin', 'teacher', 'staff', 'parent', 'student');
 CREATE TYPE leave_status_type AS ENUM ('pending', 'approved', 'rejected', 'cancelled');
+CREATE TYPE leave_type_enum AS ENUM ('sick', 'casual', 'maternity', 'paternity', 'unpaid', 'bereavement', 'other');
 CREATE TYPE attendance_status_type AS ENUM ('present', 'absent', 'late', 'half_day', 'holiday', 'pending');
 CREATE TYPE student_status_type AS ENUM ('active', 'inactive', 'transferred', 'graduated');
 CREATE TYPE assignment_type AS ENUM ('homework', 'worksheet', 'quiz', 'project', 'lab', 'other');
@@ -96,14 +97,20 @@ CREATE TABLE parents (
 CREATE TABLE leave_applications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(), -- leave_application_id
   applicant_id UUID NOT NULL REFERENCES employees(id) ON DELETE CASCADE,
-  created_at TIMESTAMPTZ DEFAULT now(),
+  leave_from_date DATE NOT NULL,
+  leave_to_date DATE NOT NULL,
+  leave_type leave_type_enum NOT NULL,
+  leave_reason TEXT NOT NULL,
+  leave_status leave_status_type DEFAULT 'pending',
+  review_comment TEXT,
   reviewed_by UUID REFERENCES employees(id) ON DELETE SET NULL,
   reviewed_at TIMESTAMPTZ,
-  review_comment TEXT,
-  leave_details JSONB NOT NULL, -- {"days":2, "from":"2026-04-21", "to":"2026-04-22", "leave_type":"sick", "reason":"fever"}
-  leave_status leave_status_type DEFAULT 'pending',
-  CHECK (jsonb_typeof(leave_details) = 'object')
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  CHECK (leave_from_date <= leave_to_date)
 );
+
+CREATE INDEX idx_leave_applications_dates ON leave_applications (leave_status, leave_from_date, leave_to_date);
 
 -- =========================
 -- CLASSES
