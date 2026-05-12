@@ -2,7 +2,7 @@ import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
 import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -423,6 +423,46 @@ export const createLeaveApplication = async (params: ApplyForLeaveType): Promise
       p_leave_reason: params.leave_reason,
       p_leave_days: params.leave_days
     });
+
+    if (error) {
+      throw error;
+    }
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getMyLeaveApplications = async (employee_id: string): Promise<MyLeaveApplicationsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.from('leave_applications').select('id, applicant_id, leave_from_date, leave_to_date, leave_type, leave_reason, leave_status, review_comment, reviewed_by, reviewed_at, created_at').eq('applicant_id', employee_id).order('created_at', { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    return (data || []).map((item) => ({
+      leave_application_id: item.id,
+      applicant_id: item.applicant_id,
+      leave_from_date: item.leave_from_date,
+      leave_to_date: item.leave_to_date,
+      leave_type: item.leave_type,
+      leave_reason: item.leave_reason,
+      leave_status: item.leave_status,
+      review_comment: item.review_comment,
+      reviewed_by: item.reviewed_by,
+      reviewed_at: item.reviewed_at,
+      created_at: item.created_at,
+    }));
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const cancelMyLeaveApplication = async (leave_application_id: string): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('cancel_leave_application', { p_leave_application_id: leave_application_id });
 
     if (error) {
       throw error;

@@ -39,6 +39,33 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION cancel_leave_application(p_leave_application_id UUID)
+RETURNS VOID
+LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE
+    v_applicant_id UUID;
+    v_leave_days INT;
+BEGIN
+    UPDATE leave_applications 
+    SET leave_status = 'cancelled', updated_at = now()
+    WHERE id = p_leave_application_id AND leave_status = 'pending'
+    RETURNING applicant_id, (leave_to_date - leave_from_date + 1) INTO v_applicant_id, v_leave_days;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Leave application not found or already processed';
+    END IF;
+
+    UPDATE employees
+    SET leaves = jsonb_set(
+        leaves, 
+        '{leaves_taken}', 
+        ((GREATEST(0, (COALESCE(leaves->>'leaves_taken', '0')::int - v_leave_days)))::text)::jsonb
+    ), 
+    updated_at = now()
+    WHERE id = v_applicant_id;
+END;
+$$;
+
 -- ! Not implemented yet.
 CREATE OR REPLACE FUNCTION get_approved_leaves_by_date(p_date DATE)
 RETURNS JSONB

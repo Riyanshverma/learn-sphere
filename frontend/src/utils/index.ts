@@ -1,2 +1,2 @@
-import { capitalizeWords, colors, getInvitationStatusColor, getRoleColor, getAttendanceStatusColor } from "./ui.utils";
-export { capitalizeWords, colors, getInvitationStatusColor, getRoleColor, getAttendanceStatusColor }
+import { capitalizeWords, colors, getInvitationStatusColor, getRoleColor, getAttendanceStatusColor, getLeaveStatusColor, getLeaveTypeColor } from "./ui.utils";
+export { capitalizeWords, colors, getInvitationStatusColor, getRoleColor, getAttendanceStatusColor, getLeaveStatusColor, getLeaveTypeColor }

@@ -44,3 +44,25 @@ export const getAttendanceStatusColor = (status: string) => {
     default: return colors.gray;
   }
 }
+
+export const getLeaveStatusColor = (status: string) => {
+  switch (status) {
+    case "pending": return colors.yellow;
+    case "approved": return colors.green;
+    case "rejected": return colors.red;
+    case "cancelled": return colors.orange;
+    default: return colors.gray;
+  }
+}
+
+export const getLeaveTypeColor = (type: string) => {
+  switch (type) {
+    case "sick": return colors.red;
+    case "casual": return colors.blue;
+    case "maternity": return colors.purple;
+    case "paternity": return colors.sky;
+    case "unpaid": return colors.orange;
+    case "bereavement": return colors.indigo;
+    default: return colors.yellow;
+  }
+}

@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { fetchEmployeesAttendance, changeEmployeeAttendance, applyForLeaveApplication } from "../../controllers";
+import { fetchEmployeesAttendance, changeEmployeeAttendance, applyForLeaveApplication, fetchMyLeaveApplications, cancelLeaveApplication } from "../../controllers";
 import { authenticationPlugin, authorizationPlugin } from "../../plugins";
-import { DateSchema, UpdateSingleEmployeeAttendanceSchema, ApplyForLeaveSchema } from "../../validations";
+import { DateSchema, UpdateSingleEmployeeAttendanceSchema, ApplyForLeaveSchema, EmployeeIdSchema, LeaveApplicationIdSchema } from "../../validations";
 
 const adminQuickActionsRoutes = new Elysia({ prefix: "/quick-actions" })
 
@@ -13,6 +13,10 @@ adminQuickActionsRoutes.group("", (app) => {
     app.patch("/update-employee-attendance", changeEmployeeAttendance, { body: UpdateSingleEmployeeAttendanceSchema })
 
     app.post("/apply-for-leave-application", applyForLeaveApplication, { body: ApplyForLeaveSchema })
+
+    app.get("/my-leave-applications", fetchMyLeaveApplications, { query: EmployeeIdSchema })
+
+    app.patch("/cancel-leave-application", cancelLeaveApplication, { body: LeaveApplicationIdSchema })
 
     return app
 })

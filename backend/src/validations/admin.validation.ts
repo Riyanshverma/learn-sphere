@@ -171,3 +171,13 @@ export const ApplyForLeaveSchema = z.strictObject({
   leave_reason: word.or(z.literal('')),
 })
 export type ApplyForLeaveType = z.infer<typeof ApplyForLeaveSchema>
+
+export const EmployeeIdSchema = z.strictObject({
+  employee_id: uuid
+})
+export type EmployeeIdType = z.infer<typeof EmployeeIdSchema>
+
+export const LeaveApplicationIdSchema = z.strictObject({
+  leave_application_id: uuid
+})
+export type LeaveApplicationIdType = z.infer<typeof LeaveApplicationIdSchema>

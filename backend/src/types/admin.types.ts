@@ -2,6 +2,23 @@ import type { days, account_type, role } from ".";
 
 type invitation_status = "pending" | "accepted" | "allowed" | "expired" | "revoked";
 type attendance_status = "present" | "absent" | "late" | "half_day" | "holiday" | "pending";
+type leave_type = 'sick' | 'casual' | 'maternity' | 'paternity' | 'unpaid' | 'bereavement' | 'other';
+type leave_status = 'pending' | 'approved' | 'rejected' | 'cancelled';
+
+export interface MyLeaveApplicationsResponse {
+  leave_application_id: string;
+  applicant_id: string;
+  leave_from_date: string;
+  leave_to_date: string;
+  leave_type: leave_type;
+  leave_reason: string;
+  leave_status: leave_status;
+  review_comment: string | null;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+}
+
 
 export interface EmployeesAttendanceResponse {
   attendance_id: string | null;
