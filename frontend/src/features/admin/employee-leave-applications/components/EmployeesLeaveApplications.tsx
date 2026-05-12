@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { CalendarPlus } from "lucide-react"
 import { toast } from "sonner"
 import { adminService } from "@/services"
 import { Field, FieldLabel } from "@/components/ui/field"
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { getLeaveStatusColor, getLeaveTypeColor, capitalizeWords } from "@/utils"
 import type { EmployeeLeaveApplicationsResponse } from "@/types"
@@ -28,6 +30,7 @@ export const EmployeesLeaveApplications = () => {
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [limit, setLimit] = useState<string>("5")
   const [employeesLeaveApplications, setEmployeesLeaveApplications] = useState<EmployeeLeaveApplicationsResponse[] | null>(null)
+  const [applyLeaveForStaffDialogOpen, setApplyLeaveForStaffDialogOpen] = useState(false)
 
   const fetchEmployeesLeaveApplications = async () => {
     try {
@@ -47,7 +50,15 @@ export const EmployeesLeaveApplications = () => {
   }, [pageNumber, limit])
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      <Button 
+        className="absolute -top-[64px] right-[414px] h-10 rounded-lg px-8 font-sans font-light text-base hover:bg-primary/60 whitespace-nowrap"
+        onClick={() => setApplyLeaveForStaffDialogOpen(true)}
+      >
+        <CalendarPlus className="h-5 w-5 mr-2" />
+        Apply Leave (Staff)
+      </Button>
+
       {employeesLeaveApplications === null ? (
         <div className="flex items-center justify-center min-h-[50vh]">
           <Spinner className="size-8 text-primary" />
