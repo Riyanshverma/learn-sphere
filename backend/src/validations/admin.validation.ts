@@ -187,3 +187,12 @@ export const PaginationSchema = z.strictObject({
   limit: number.optional().default(25),
 })
 export type PaginationType = z.infer<typeof PaginationSchema>
+
+export const UpdateEmployeeLeaveApplicationStatusSchema = z.strictObject({
+  leave_application_id: uuid,
+  applicant_id: uuid,
+  new_leave_status: z.enum(['approved', 'rejected'], 'Invalid'),
+  review_comment: word.or(z.literal('')),
+  reviewed_by: uuid,
+})
+export type UpdateEmployeeLeaveApplicationStatusType = z.infer<typeof UpdateEmployeeLeaveApplicationStatusSchema>

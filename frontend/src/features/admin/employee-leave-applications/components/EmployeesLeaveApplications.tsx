@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { CalendarPlus } from "lucide-react"
 import { toast } from "sonner"
 import { adminService } from "@/services"
+import { EmployeeLeaveApplicationReview } from "@/features/admin"
 import { Field, FieldLabel } from "@/components/ui/field"
 import {
   Pagination,
@@ -133,7 +134,7 @@ export const EmployeesLeaveApplications = () => {
                     <div className="flex items-center gap-2 font-sans font-light">
                       <span className="text-muted-foreground text-base block">Leaves Taken:</span>
                       <span className="text-foreground text-base">
-                        {app.leaves.leaves_taken} / {app.leaves.total_leaves_per_year}
+                        {Math.max(0, app.leaves.leaves_taken - days)} / {app.leaves.total_leaves_per_year}
                       </span>
                     </div>
 
@@ -151,12 +152,14 @@ export const EmployeesLeaveApplications = () => {
                   </div>
                 </CardContent>
                 
-                {/* <CardFooter className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-8 text-base font-sans font-light w-full">
-                   
-                    
-                  </div>
-                </CardFooter> */}
+                {app.leave_status === "pending" && (
+                  <CardFooter>
+                    <EmployeeLeaveApplicationReview 
+                      application={app} 
+                      fetchEmployeesLeaveApplications={fetchEmployeesLeaveApplications} 
+                    />
+                  </CardFooter>
+                )}
               </Card>
             )
           })}

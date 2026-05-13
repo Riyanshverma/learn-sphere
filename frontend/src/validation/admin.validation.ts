@@ -65,3 +65,12 @@ export const ApplyLeaveForStaffSchema = z.strictObject({
   staff_leaves_taken: number,
 })
 export type ApplyLeaveForStaffType = z.infer<typeof ApplyLeaveForStaffSchema>
+
+export const UpdateEmployeeLeaveApplicationStatusSchema = z.strictObject({
+  leave_application_id: uuid,
+  applicant_id: uuid,
+  new_leave_status: z.enum(['approved', 'rejected'], 'Invalid'),
+  review_comment: word.or(z.literal('')),
+  reviewed_by: uuid,
+})
+export type UpdateEmployeeLeaveApplicationStatusType = z.infer<typeof UpdateEmployeeLeaveApplicationStatusSchema>

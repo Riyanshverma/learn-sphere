@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
-import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType } from "../validations";
+import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType } from "../validations";
 
 import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse } from "../types";
 
@@ -505,3 +505,22 @@ export const getSearchedStaffs = async (search: string): Promise<SearchedStaffsR
     throw error;
   }
 }
+
+export const updateEmployeeLeaveApplicationStatus = async (params: UpdateEmployeeLeaveApplicationStatusType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('update_employee_leave_application_status', {
+      p_leave_application_id: params.leave_application_id,
+      p_new_status: params.new_leave_status,
+      p_review_comment: params.review_comment,
+      p_reviewed_by: params.reviewed_by
+    });
+
+    if (error) {
+      throw error;
+    }
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+

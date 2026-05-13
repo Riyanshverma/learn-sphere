@@ -2,7 +2,7 @@ import axios, { type AxiosInstance, type AxiosError } from "axios";
 
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse } from "@/types";
 
-import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType } from "@/validation";
+import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType, UpdateEmployeeLeaveApplicationStatusType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -227,7 +227,16 @@ class AdminService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
+
+  async updateEmployeeLeaveApplicationStatus(data: UpdateEmployeeLeaveApplicationStatusType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.patch<ApiSuccessResponse>('/quick-actions/update-employee-leave-application-status', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
 }
- 
 
 export const adminService = new AdminService();
