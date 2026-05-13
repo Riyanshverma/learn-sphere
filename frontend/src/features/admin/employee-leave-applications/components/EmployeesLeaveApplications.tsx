@@ -60,7 +60,7 @@ export const EmployeesLeaveApplications = () => {
         Apply Leave (Staff)
       </Button>
 
-      <ApplyLeaveForStaffDialog dialogOpen={applyLeaveForStaffDialogOpen} setDialogOpen={setApplyLeaveForStaffDialogOpen} />
+      <ApplyLeaveForStaffDialog dialogOpen={applyLeaveForStaffDialogOpen} setDialogOpen={setApplyLeaveForStaffDialogOpen} fetchEmployeesLeaveApplications={fetchEmployeesLeaveApplications} />
 
       {employeesLeaveApplications === null ? (
         <div className="flex items-center justify-center min-h-[50vh]">
@@ -109,48 +109,54 @@ export const EmployeesLeaveApplications = () => {
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-2 text-base font-sans font-light">
-                      <span className="text-muted-foreground font-light w-32">Employee Name:</span>
-                      <span className="text-foreground/80">{capitalizeWords(app.full_name)}</span>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="flex items-center gap-2 font-sans font-light">
+                      <span className="text-muted-foreground text-base block">Employee:</span>
+                      <span className="text-foreground text-base flex items-center gap-2">
+                        {capitalizeWords(app.full_name)} | EMP{app.employee_code} 
+                        <Badge variant="outline" className="font-sans font-light capitalize h-6 px-4 text-base">
+                          {app.designation.replace("_", " ")}
+                        </Badge>
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2 text-base font-sans font-light">
-                      <span className="text-muted-foreground font-light w-32">Designation:</span>
-                      <span className="text-foreground/80 capitalize">{app.designation.replace("_", " ")}</span>
+
+                    <div className="flex items-center gap-2 font-sans font-light">
+                      <span className="text-muted-foreground text-base block">Email:</span>
+                      <span className="text-foreground text-base">{app.email}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-base font-sans font-light">
-                      <span className="text-muted-foreground font-light w-32">Employee Code:</span>
-                      <span className="text-foreground/80">#{app.employee_code}</span>
+
+                    <div className="flex items-center gap-2 font-sans font-light">
+                      <span className="text-muted-foreground text-base block">Phone Number:</span>
+                      <span className="text-foreground text-base">{app.phone_number.slice(2)}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-base font-sans font-light">
-                      <span className="text-muted-foreground font-light w-32">Leaves Taken:</span>
-                      <span className="text-foreground/80">{app.leaves.leaves_taken} / {app.leaves.total_leaves_per_year}</span>
+
+                    <div className="flex items-center gap-2 font-sans font-light">
+                      <span className="text-muted-foreground text-base block">Leaves Taken:</span>
+                      <span className="text-foreground text-base">
+                        {app.leaves.leaves_taken} / {app.leaves.total_leaves_per_year}
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2 text-base font-sans font-light">
-                      <span className="text-muted-foreground font-light w-32">Email:</span>
-                      <span className="text-foreground/80">{app.email}</span>
+
+                     <div className="flex items-center gap-2 font-sans font-light">
+                      <span className="text-muted-foreground text-base block">Review Comment: </span>
+                      <span className="text-foreground text-base">{app.review_comment || "N/A"}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-base font-sans font-light">
-                      <span className="text-muted-foreground font-light w-32">Phone Number:</span>
-                      <span className="text-foreground/80">{app.phone_number.slice(2)}</span>
-                    </div>
-                  </div>
-                </CardContent>
-                
-                <CardFooter className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-8 text-base font-sans font-light w-full">
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground font-light">Review Comment: </span>
-                      <span className="text-foreground/80">{app.review_comment || "N/A"}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground font-light">Reviewed At: </span>
-                      <span className="text-foreground/80">
+
+                    <div className="flex items-center gap-2 font-sans font-light">
+                      <span className="text-muted-foreground text-base block">Reviewed At: </span>
+                      <span className="text-foreground text-base">
                         {app.reviewed_at ? new Date(app.reviewed_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : "N/A"}
                       </span>
                     </div>
                   </div>
-                </CardFooter>
+                </CardContent>
+                
+                {/* <CardFooter className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-8 text-base font-sans font-light w-full">
+                   
+                    
+                  </div>
+                </CardFooter> */}
               </Card>
             )
           })}

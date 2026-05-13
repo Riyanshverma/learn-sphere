@@ -21,7 +21,7 @@ const iso_date = z.iso.date('Invalid')
 const attendance_status = z.enum(['present', 'absent', 'late', 'half_day', 'holiday', 'pending'], 'Invalid')
 const leave_type = z.enum(['sick', 'casual', 'maternity', 'paternity', 'unpaid', 'bereavement', 'other'], 'Invalid')
 
-export const AddClassSubjectSchema = z.object({
+export const AddClassSubjectSchema = z.strictObject({
   subject_name: word,
   syllabus: file,
   class_id: uuid,
@@ -37,12 +37,12 @@ export const AddClassSubjectSchema = z.object({
 })
 export type AddClassSubjectType = z.infer<typeof AddClassSubjectSchema>
 
-export const SearchSchema = z.object({
+export const SearchSchema = z.strictObject({
   search: word
 })
 export type SearchType = z.infer<typeof SearchSchema>
 
-export const ApplyForLeaveSchema = z.object({
+export const ApplyForLeaveSchema = z.strictObject({
   applicant_id: uuid,
   leave_from_date: date,
   leave_to_date: date,
@@ -51,3 +51,17 @@ export const ApplyForLeaveSchema = z.object({
   leave_reason: word.or(z.literal('')),
 })
 export type ApplyForLeaveType = z.infer<typeof ApplyForLeaveSchema>
+
+export const ApplyLeaveForStaffSchema = z.strictObject({
+  applicant_id: uuid,
+  leave_from_date: date,
+  leave_to_date: date,
+  leave_days: number,
+  leave_type: leave_type,
+  leave_reason: word.or(z.literal('')),
+  staff_email: email,
+  staff_full_name: word,
+  staff_phone: phone,
+  staff_leaves_taken: number,
+})
+export type ApplyLeaveForStaffType = z.infer<typeof ApplyLeaveForStaffSchema>

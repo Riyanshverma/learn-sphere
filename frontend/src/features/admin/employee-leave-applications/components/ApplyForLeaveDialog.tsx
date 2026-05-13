@@ -186,7 +186,7 @@ export const ApplyForLeaveDialog = ({ dialogOpen, setDialogOpen }: ApplyForLeave
             <Button 
               type="submit" 
               disabled={isSubmitting}
-              className="text-base font-sans h-10 rounded-full px-8 hover:bg-primary/60"
+              className="text-base font-sans font-normal h-10 rounded-full px-8 hover:bg-primary/60"
             >
               {isSubmitting ? "Submitting..." : "Submit Application"}
             </Button>

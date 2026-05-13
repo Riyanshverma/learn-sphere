@@ -189,7 +189,7 @@ export const AddClassSubjectDialog = ({ dialogOpen, setDialogOpen, classDetails 
             </div>
 
             <div className="flex justify-center">
-              <Button type="submit" className="text-base font-sans h-10 rounded-full px-8" disabled={isSubjectSubmitting}>
+              <Button type="submit" className="text-base font-normal font-sans h-10 rounded-full px-8" disabled={isSubjectSubmitting}>
                 {isSubjectSubmitting ? "Adding Subject..." : "Add Subject"}
               </Button>
             </div>
