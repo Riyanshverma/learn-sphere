@@ -1,1 +1,1 @@
-export interface HeaderProps { activeTab: string; setActiveTab: (tab: string) => void; onAddSchoolStaffPage?: boolean; onClassDetailsPage?: boolean; onEmployeeAttendancePage?: boolean; onLeaveApplicationsPage?: boolean; }
+export interface HeaderProps { activeTab: string; setActiveTab: (tab: string) => void; onAddSchoolStaffPage?: boolean; onClassDetailsPage?: boolean; onEmployeeAttendancePage?: boolean; onLeaveApplicationsPage?: boolean; onMyAttendancePage?: boolean; }

@@ -4,8 +4,9 @@ import AddStudentPage from "./add-school-student/pages/AddStudentPage";
 import ClassDetailsPage from "./class-details/pages/ClassDetailsPage";
 import EmployeeAttendancePage from "./employee-attendance/pages/EmployeeAttendancePage";
 import LeaveApplicationsPage from "./employee-leave-applications/pages/LeaveApplicationsPage";
+import MyAttendancePage from "./my-attendance/pages/MyAttendancePage";
 
-export { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage, EmployeeAttendancePage,LeaveApplicationsPage }
+export { AdminDashboard, AddSchoolStaffPage, AddStudentPage, ClassDetailsPage, EmployeeAttendancePage, LeaveApplicationsPage, MyAttendancePage }
 
 // Components:
 import { AdminDashboardHeader } from "./dashboard/components/AdminDashboardHeader";
@@ -19,8 +20,9 @@ import { AddStudent } from "./add-school-student/components/AddStudent";
 import { ClassDetails } from "./class-details/components/ClassDetails";
 import { EmployeeAttendance } from "./employee-attendance/components/EmployeeAttendance";
 import { LeaveApplications } from "./employee-leave-applications/components/LeaveApplications";
+import { MyAttendance } from "./my-attendance/components/MyAttendance";
 
-export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent, ClassDetails, EmployeeAttendance, LeaveApplications }
+export { AdminDashboardHeader, AdminHome, SchoolPeople, SchoolAcademics, SchoolFinance, AdminSettings, AddSchoolStaff, AddStudent, ClassDetails, EmployeeAttendance, LeaveApplications, MyAttendance }
 
 // Sub Components:
 import { SchoolPeopleSubHeader } from "./dashboard/components/school-people/SchoolPeopleSubHeader"

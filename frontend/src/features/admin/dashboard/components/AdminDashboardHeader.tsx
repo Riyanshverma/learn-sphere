@@ -8,7 +8,7 @@ import { toast } from "sonner"
 import { userAuthService } from "@/services"
 import type { HeaderProps } from "@/types"
 
-export const AdminDashboardHeader = ({ activeTab, setActiveTab, onAddSchoolStaffPage = false, onClassDetailsPage = false, onEmployeeAttendancePage = false, onLeaveApplicationsPage = false }: HeaderProps) => {
+export const AdminDashboardHeader = ({ activeTab, setActiveTab, onAddSchoolStaffPage = false, onClassDetailsPage = false, onEmployeeAttendancePage = false, onLeaveApplicationsPage = false, onMyAttendancePage = false }: HeaderProps) => {
   const reset = useAdminStore((state) => state.reset)
   const navigate = useNavigate()
 
@@ -28,7 +28,7 @@ export const AdminDashboardHeader = ({ activeTab, setActiveTab, onAddSchoolStaff
   }
 
   const handleTabClick = (key: string) => {
-    if (onAddSchoolStaffPage || onClassDetailsPage || onEmployeeAttendancePage || onLeaveApplicationsPage) {
+    if (onAddSchoolStaffPage || onClassDetailsPage || onEmployeeAttendancePage || onLeaveApplicationsPage || onMyAttendancePage) {
       navigate("/admin/dashboard", { state: { tab: key } })
     } else {
       setActiveTab(key)
