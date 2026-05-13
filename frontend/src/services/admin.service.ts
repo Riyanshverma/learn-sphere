@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse } from "@/types";
 
 import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType } from "@/validation";
 
@@ -217,6 +217,17 @@ class AdminService {
       return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
     }
   }
-} 
+
+  async getSearchStaffs(data: SearchType): Promise<ApiSuccessResponse<SearchedStaffsResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse<SearchedStaffsResponse[]>>('/quick-actions/search-staff', { params: data });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+}
+ 
 
 export const adminService = new AdminService();

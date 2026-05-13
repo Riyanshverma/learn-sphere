@@ -2,7 +2,7 @@ import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
 import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -486,6 +486,21 @@ export const getEmployeesLeaveApplications = async (params: PaginationType): Pro
 
     return data;
   } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const getSearchedStaffs = async (search: string): Promise<SearchedStaffsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_searched_staffs', { p_search: search });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error: any) {
     console.error(error.message);
     throw error;
   }

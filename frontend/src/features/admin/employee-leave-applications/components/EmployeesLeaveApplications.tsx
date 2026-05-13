@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { getLeaveStatusColor, getLeaveTypeColor, capitalizeWords } from "@/utils"
 import type { EmployeeLeaveApplicationsResponse } from "@/types"
+import { ApplyLeaveForStaffDialog } from "@/features/admin"
 
 export const EmployeesLeaveApplications = () => {
   const [pageNumber, setPageNumber] = useState<number>(1)
@@ -58,6 +59,8 @@ export const EmployeesLeaveApplications = () => {
         <CalendarPlus className="h-5 w-5 mr-2" />
         Apply Leave (Staff)
       </Button>
+
+      <ApplyLeaveForStaffDialog dialogOpen={applyLeaveForStaffDialogOpen} setDialogOpen={setApplyLeaveForStaffDialogOpen} />
 
       {employeesLeaveApplications === null ? (
         <div className="flex items-center justify-center min-h-[50vh]">

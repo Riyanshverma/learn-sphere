@@ -186,6 +186,20 @@ export interface SearchedTeachersResponse {
   employee_code: number;
 }
 
+export interface SearchedStaffsResponse {
+  email: string;
+  full_name: string;
+  phone_number: string;
+  identity_id: string;
+  employee_id: string;
+  designation: string;
+  employee_code: number;
+  leaves: {
+    total_leaves_per_year: number;
+    leaves_taken: number;
+  };
+}
+
 export interface CreateClassSubjectType {
   name: string;
   syllabus: string;

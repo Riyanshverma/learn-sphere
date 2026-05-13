@@ -1,8 +1,8 @@
 import { type Context } from "elysia";
 
-import type { DateType, UpdateSingleEmployeeAttendanceType, ApplyForLeaveType, EmployeeIdType, LeaveApplicationIdType, PaginationType } from "../../validations";
+import type { DateType, UpdateSingleEmployeeAttendanceType, ApplyForLeaveType, EmployeeIdType, LeaveApplicationIdType, PaginationType, SearchType } from "../../validations";
 
-import { cancelMyLeaveApplication, createLeaveApplication, getEmployeesAttendance, getEmployeesLeaveApplications, getMyLeaveApplications, updateSingleEmployeeAttendance } from "../../services";
+import { cancelMyLeaveApplication, createLeaveApplication, getEmployeesAttendance, getEmployeesLeaveApplications, getMyLeaveApplications, updateSingleEmployeeAttendance, getSearchedStaffs } from "../../services";
 
 export const fetchEmployeesAttendance = async (context: Context<{ query: DateType }>) => {
   try {    
@@ -61,5 +61,15 @@ export const fetchEmployeesLeaveApplications = async (context: Context<{ query: 
     return context.status(200, { success: true, message: "Employees leave applications fetched successfully", data: employees_leave_applications });
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
+  }
+}
+
+export const searchStaff = async (context: Context<{ query: SearchType }>) => {
+  try {
+    const searched_staffs = await getSearchedStaffs(context.query.search)
+    
+    return context.status(200, { success: true, message: "Searched staff fetched successfully", data: searched_staffs })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }
 }
