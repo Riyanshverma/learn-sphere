@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 
-import { fetchEmployeesAttendance, changeEmployeeAttendance, applyForLeaveApplication, fetchMyLeaveApplications, cancelLeaveApplication, fetchEmployeesLeaveApplications, searchStaff, changeEmployeeLeaveApplicationStatus } from "../../controllers";
+import { fetchEmployeesAttendance, changeEmployeeAttendance, applyForLeaveApplication, fetchMyLeaveApplications, cancelLeaveApplication, fetchEmployeesLeaveApplications, searchStaff, changeEmployeeLeaveApplicationStatus, fetchMyAttendance } from "../../controllers";
 
 import { authenticationPlugin, authorizationPlugin } from "../../plugins";
 
@@ -26,6 +26,8 @@ adminQuickActionsRoutes.group("", (app) => {
     app.get("/search-staff", searchStaff, { query: SearchSchema })
     
     app.patch("/update-employee-leave-application-status", changeEmployeeLeaveApplicationStatus, { body: UpdateEmployeeLeaveApplicationStatusSchema })
+
+    app.get("/my-attendance", fetchMyAttendance, { query: EmployeeIdSchema })
 
     return app
 })

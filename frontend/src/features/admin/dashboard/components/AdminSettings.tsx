@@ -3,10 +3,40 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner"
 import { getRoleColor } from "@/utils"
-import { ExternalLink, CheckCircle2, XCircle } from "lucide-react"
+import { ExternalLink, CheckCircle2, XCircle, ArrowUpRight } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { adminService } from "@/services"
+import { toast } from "sonner"
+import { useEffect } from "react"
 
 export const AdminSettings = () => {
   const admin = useAdminStore((state) => state.admin)
+  const navigate = useNavigate()
+  const setMyAttendance = useAdminStore((state) => state.setMyAttendance)
+  const myAttendance = useAdminStore((state) => state.myAttendance)
+
+  const fetchMyAttendance = async () => {
+    try {
+      const result = await adminService.getMyAttendance(admin?.employee_id as string)
+      if (!result.success) {
+        throw new Error(result.error, { cause: result.code })
+      }
+
+      setMyAttendance(result.data)
+      toast.success(result.message)
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause })
+    }
+  }
+
+  useEffect(() => {
+    if(!myAttendance) {
+      fetchMyAttendance()
+    }
+  }, [myAttendance])
 
   if (!admin) {
     return (
@@ -109,14 +139,66 @@ export const AdminSettings = () => {
           <h3 className="text-xl font-heading font-normal text-foreground">Leaves & Attendance</h3>
           <Card className="bg-card/40 backdrop-blur-sm border-primary/10 overflow-hidden rounded-3xl">
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2">
-                <DetailItem label="Total Yearly Leaves" value={admin.leaves.total_leaves_per_year} />
-                <DetailItem label="Leaves Taken" value={admin.leaves.leaves_taken} />
-                  {/* Use progress from shadcn or pie chart */}
+              <div className="flex flex-col md:flex-row gap-6 items-center">
+                <div className="flex-1 w-full space-y-2">
+                  <div className="flex items-center justify-between">
+                    <DetailItem label="Leaves Taken - " value={`${admin.leaves.leaves_taken} / ${admin.leaves.total_leaves_per_year} days`} capitalize className="flex gap-2"/>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => navigate('/admin/leave-applications', { state: { subTab: 'my-leaves' } })}
+                      className="rounded-full hover:bg-primary group"
+                    >
+                      <ArrowUpRight className="text-foreground group-hover:text-primary transition-colors" />
+                    </Button>
+                  </div>
+                  <Progress 
+                    value={(admin.leaves.leaves_taken / admin.leaves.total_leaves_per_year) * 100} 
+                    indicatorClassName="bg-destructive"
+                    className="h-2 bg-destructive/10"
+                  />
                 </div>
-              </CardContent>
-            </Card>
-          </section>
+
+                <Separator orientation="vertical" className="bg-muted-foreground" />
+
+                <div className="flex-1 w-full">
+                  {myAttendance === null ? (
+                    <div className="flex items-center justify-center">
+                      <Spinner className="size-6 text-primary" />
+                    </div>
+                  ) : myAttendance.length === 0 ? (
+                      <p className="text-muted-foreground font-sans font-light text-base">
+                        No attendance data recorded yet.
+                      </p>
+                  ) : (() => {
+                      const presentCount = myAttendance.filter(a => a.status === 'present').length;
+                      const totalCount = myAttendance.length;
+                      return (
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <DetailItem label="Attendance - " value={`${presentCount} / ${totalCount} days`} capitalize className="flex gap-2"/>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={() => navigate('/admin/my-attendance')}
+                              className="rounded-full hover:bg-primary group"
+                            >
+                              <ArrowUpRight className="text-foreground group-hover:text-primary transition-colors" />
+                            </Button>
+                          </div>
+                          <Progress 
+                            value={(presentCount / totalCount) * 100} 
+                            indicatorClassName="bg-primary"
+                            className="h-2 bg-primary/10"
+                          />
+                        </div>
+                      )
+                    })()}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
         {/* Bank Details */}
         <section className="space-y-4">

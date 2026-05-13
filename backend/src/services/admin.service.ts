@@ -2,7 +2,7 @@ import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
 import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -524,3 +524,22 @@ export const updateEmployeeLeaveApplicationStatus = async (params: UpdateEmploye
   }
 }
 
+export const getMyAttendance = async (employee_id: string): Promise<MyAttendanceResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.from('employee_attendance').select('id, date, status, remarks').eq('employee_id', employee_id);
+
+    if (error) {
+      throw error;
+    }
+
+    return (data || []).map((attendance) => ({
+      attendance_id: attendance.id,
+      date: attendance.date,
+      status: attendance.status,
+      remarks: attendance.remarks,
+    }));
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+};

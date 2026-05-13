@@ -209,3 +209,10 @@ export interface CreateClassSubjectType {
   subject_teacher: string;
   academic_year: string;
 }
+
+export interface MyAttendanceResponse {
+  attendance_id: string;
+  date: Date;
+  status: attendance_status;
+  remarks: string | null;
+}

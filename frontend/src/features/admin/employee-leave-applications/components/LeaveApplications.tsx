@@ -1,11 +1,20 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 import { LeaveApplicationsSubHeader, EmployeesLeaveApplications, MyLeaveApplications } from "@/features/admin"
 
 export const LeaveApplications = () => {
-  const [activeTab, setActiveTab] = useState("employees-leaves")
+  const location = useLocation()
+  const [activeLeaveTab, setActiveLeaveTab] = useState("employees-leaves")
+
+  useEffect(() => {
+    if (location.state?.subTab) {
+      setActiveLeaveTab(location.state.subTab)
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state])
 
   const renderContent = () => {
-    switch (activeTab) {
+    switch (activeLeaveTab) {
       case "employees-leaves":
         return <EmployeesLeaveApplications />
       case "my-leaves":
@@ -20,8 +29,8 @@ export const LeaveApplications = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <h1 className="text-4xl font-heading font-normal text-foreground">Leave Applications</h1>
         <LeaveApplicationsSubHeader 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
+          activeTab={activeLeaveTab} 
+          setActiveTab={setActiveLeaveTab} 
         />
       </div>
 

@@ -24,15 +24,12 @@ export const EmployeeAttendance = () => {
 
   const fetchEmployeesAttendance = async () => {
     try {
-      const id = toast.loading('Fetching attendance...');
       const result = await adminService.getEmployeesAttendance(currentDate);
       if (!result.success) {
-        toast.dismiss(id);
         throw new Error(result.error, { cause: result.code })
       }
       
       setEmployeesAttendance(result.data)
-      toast.success(result.message, { id });
     } catch (error: any) {
       toast.error(error.message, { description: error.cause })
     }

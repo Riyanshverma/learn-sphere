@@ -141,3 +141,10 @@ export interface UpdateSingleEmployeeAttendanceType {
   status: attendance_status;
   remarks: string | null;
 }
+
+export interface MyAttendanceResponse {
+  attendance_id: string;
+  date: Date;
+  status: attendance_status;
+  remarks: string | null;
+}

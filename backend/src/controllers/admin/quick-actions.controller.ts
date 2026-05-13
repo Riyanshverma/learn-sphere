@@ -2,7 +2,7 @@ import { type Context } from "elysia";
 
 import type { DateType, UpdateSingleEmployeeAttendanceType, ApplyForLeaveType, EmployeeIdType, LeaveApplicationIdType, PaginationType, SearchType, UpdateEmployeeLeaveApplicationStatusType } from "../../validations";
 
-import { cancelMyLeaveApplication, createLeaveApplication, getEmployeesAttendance, getEmployeesLeaveApplications, getMyLeaveApplications, updateSingleEmployeeAttendance, getSearchedStaffs, updateEmployeeLeaveApplicationStatus } from "../../services";
+import { cancelMyLeaveApplication, createLeaveApplication, getEmployeesAttendance, getEmployeesLeaveApplications, getMyLeaveApplications, updateSingleEmployeeAttendance, getSearchedStaffs, updateEmployeeLeaveApplicationStatus, getMyAttendance } from "../../services";
 
 export const fetchEmployeesAttendance = async (context: Context<{ query: DateType }>) => {
   try {    
@@ -79,6 +79,16 @@ export const changeEmployeeLeaveApplicationStatus = async (context: Context<{ bo
     await updateEmployeeLeaveApplicationStatus(context.body);
 
     return context.status(200, { success: true, message: "Employee leave application updated successfully" });
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
+  }
+}
+
+export const fetchMyAttendance = async (context: Context<{ query: EmployeeIdType }>) => {
+  try {
+    const my_attendance = await getMyAttendance(context.query.employee_id)
+
+    return context.status(200, { success: true, message: "My attendance fetched successfully", data: my_attendance });
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }

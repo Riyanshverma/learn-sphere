@@ -33,7 +33,7 @@ BEGIN
   FROM employees e
     JOIN identity i ON e.identity_id = i.id
     JOIN users u ON i.user_id = u.id
-    LEFT JOIN employee_attendance ea ON e.id = ea.employee_id AND ea.date = p_date
+    JOIN employee_attendance ea ON e.id = ea.employee_id AND ea.date = p_date
     WHERE i.active = true AND i.verified = true;
 
     RETURN result;

@@ -9,7 +9,7 @@ export const AdminHome = () => {
     <div className="pt-32 pb-16 w-full font-sans space-y-6">
       <h1 className="text-4xl font-heading">Quick Actions</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {([{ label: "Leave Applications", icon: FileText, route: "leave-applications" }, { label: "Employee Attendance", icon: CalendarDays, route: "employee-attendance" }, { label: "Dummy Action", icon: LayoutDashboard, route: "dashboard" }] as const).map((action) => (
+        {([{ label: "Leave Applications", icon: FileText, route: "leave-applications" }, { label: "Employee Attendance", icon: CalendarDays, route: "employee-attendance" }, { label: "My Attendance", icon: LayoutDashboard, route: "my-attendance" }] as const).map((action) => (
           <Button
             key={action.label}
             onClick={() => navigate(`/admin/${action.route}`)}
