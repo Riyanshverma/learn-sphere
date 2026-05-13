@@ -106,27 +106,3 @@ BEGIN
   OFFSET (p_page_number - 1) * p_limit;
 END;
 $$;
-
--- ! Not implemented yet.
-CREATE OR REPLACE FUNCTION get_approved_leaves_by_date(p_date DATE)
-RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER AS $$
-DECLARE
-    result JSONB;
-BEGIN
-  SELECT COALESCE(
-    jsonb_agg(
-      jsonb_build_object(
-        'employee_id', applicant_id,
-        'leave_type', leave_type,
-        'leave_reason', leave_reason
-      )
-    ), '[]'::jsonb
-  ) INTO result
-  FROM leave_applications
-  WHERE leave_status = 'approved' 
-    AND p_date BETWEEN leave_from_date AND leave_to_date;
-
-  RETURN result;
-END;
-$$;

@@ -148,7 +148,7 @@ export const EmployeeAttendance = () => {
               </TableRow>
             )}
             {employeesAttendance?.map((employee) => (
-              <TableRow key={employee.employee_id} className="hover:bg-muted/30 transition-colors">
+              <TableRow key={employee.employee_id} className={`${employee.on_leave ? 'bg-red-700/80 hover:bg-red-700/60' : 'hover:bg-muted/30'} transition-colors`}>
                 <TableCell className="text-base text-muted-foreground font-light font-sans pl-3 py-3">
                   #{employee.employee_code}
                 </TableCell>

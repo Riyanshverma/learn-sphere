@@ -18,7 +18,14 @@ BEGIN
         'remarks', ea.remarks,
         'designation', e.designation,
         'employee_code', e.employee_code,
-        'full_name', u.full_name
+        'full_name', u.full_name,
+        'on_leave', EXISTS (
+          SELECT 1 
+          FROM leave_applications la 
+          WHERE la.applicant_id = e.id 
+            AND la.leave_status = 'approved' 
+            AND p_date BETWEEN la.leave_from_date AND la.leave_to_date
+        )
       )
     ),
     '[]'::jsonb
@@ -26,7 +33,7 @@ BEGIN
   FROM employees e
     JOIN identity i ON e.identity_id = i.id
     JOIN users u ON i.user_id = u.id
-    JOIN employee_attendance ea ON e.id = ea.employee_id AND ea.date = p_date
+    LEFT JOIN employee_attendance ea ON e.id = ea.employee_id AND ea.date = p_date
     WHERE i.active = true AND i.verified = true;
 
     RETURN result;

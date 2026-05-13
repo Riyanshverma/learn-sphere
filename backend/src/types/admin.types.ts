@@ -52,6 +52,7 @@ export interface EmployeesAttendanceResponse {
   designation: string;
   employee_code: number;
   full_name: string;
+  on_leave: boolean;
 }
 
 export interface CreateExistingUserAsSchoolStaffType {
