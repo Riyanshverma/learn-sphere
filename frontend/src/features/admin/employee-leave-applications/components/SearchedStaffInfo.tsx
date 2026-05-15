@@ -38,7 +38,7 @@ export const SearchedStaffInfo = ({ staffs, onSelect }: SearchedStaffsInfoProps)
                   </div>
                   {[
                     { label: "Email", value: staff.email, transform: "none" },
-                    { label: "Leaves", value: `${staff.leaves.leaves_taken} / ${staff.leaves.total_leaves_per_year}`, transform: "none" }
+                    { label: "Leaves", value: `${staff.leaves.leaves_taken} / ${staff.leaves.total_leaves_per_month}`, transform: "none" }
                   ].map((field) => (
                     <div key={field.label} className="flex items-center justify-between w-full text-xs font-light">
                       <span className="text-muted-foreground">{field.label}</span>

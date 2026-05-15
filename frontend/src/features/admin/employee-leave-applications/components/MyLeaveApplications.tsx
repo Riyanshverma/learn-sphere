@@ -58,7 +58,7 @@ export const MyLeaveApplications = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-          {([{ label: "Total Leave", value: admin?.leaves.total_leaves_per_year || 0, color: "text-blue-600" }, { label: "Leaves Taken", value: admin?.leaves.leaves_taken || 0, color: "text-red-600" }, { label: "Leaves Left", value: (admin?.leaves.total_leaves_per_year || 0) - (admin?.leaves.leaves_taken || 0), color: "text-green-600" }] as const).map((stat) => (
+          {([{ label: "Total Leave", value: admin?.leaves.total_leaves_per_month || 0, color: "text-blue-600" }, { label: "Leaves Taken", value: admin?.leaves.leaves_taken || 0, color: "text-red-600" }, { label: "Leaves Left", value: (admin?.leaves.total_leaves_per_month || 0) - (admin?.leaves.leaves_taken || 0), color: "text-green-600" }] as const).map((stat) => (
             <div key={stat.label} className="px-6 py-2 rounded-full border bg-card/80 flex flex-col justify-center">
               <h3 className="text-xl font-heading text-muted-foreground font-normal flex items-center justify-between">
                 {stat.label}

@@ -34,7 +34,7 @@ export interface EmployeeLeaveApplicationsResponse {
   designation: string;
   employee_code: number;
   leaves: {
-    total_leaves_per_year: number;
+    total_leaves_per_month: number;
     leaves_taken: number;
   };
   email: string;
@@ -129,7 +129,7 @@ export interface SearchedStaffsResponse {
   designation: string;
   employee_code: number;
   leaves: {
-    total_leaves_per_year: number;
+    total_leaves_per_month: number;
     leaves_taken: number;
   };
 }

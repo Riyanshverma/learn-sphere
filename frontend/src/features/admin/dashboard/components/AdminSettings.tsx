@@ -33,7 +33,7 @@ export const AdminSettings = () => {
   }
 
   useEffect(() => {
-    if(!myAttendance) {
+    if (!myAttendance) {
       fetchMyAttendance()
     }
   }, [myAttendance])
@@ -65,15 +65,15 @@ export const AdminSettings = () => {
             <Badge className={`font-sans font-light capitalize text-lg px-4 py-3 ${getRoleColor(admin.role)}`}>
               {admin.role}
             </Badge>
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className={`font-sans font-light text-lg px-4 py-3 ${admin.verified ? 'bg-green-950 text-green-300 border-green-300' : 'bg-yellow-950 text-yellow-300 border-yellow-300'}`}
             >
               {admin.verified ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
               {admin.verified ? 'Verified' : 'Unverified'}
             </Badge>
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className={`font-sans font-light text-lg px-4 py-3 ${admin.active ? 'bg-green-950 text-green-300 border-green-300' : 'bg-red-950 text-red-300 border-red-300'}`}
             >
               {admin.active ? 'Active' : 'Inactive'}
@@ -113,7 +113,7 @@ export const AdminSettings = () => {
                 <DetailItem label="Qualification" value={admin.qualification} capitalize />
                 <DetailItem label="Experience" value={`${admin.experience_years} Years`} />
                 <DetailItem label="Monthly Salary" value={`₹${admin.monthly_salary.toLocaleString()}`} />
-                <DetailItem label="Specialization" value={admin.specialization} capitalize className="col-span-2"/>
+                <DetailItem label="Specialization" value={admin.specialization} capitalize className="col-span-2" />
                 <DetailItem label="Timings" value={`${admin.timings.days.join(", ")} | ${admin.timings.from} - ${admin.timings.to}`} className="col-span-2 capitalize" />
               </div>
             </CardContent>
@@ -141,18 +141,18 @@ export const AdminSettings = () => {
               <div className="flex flex-col md:flex-row gap-6 items-center">
                 <div className="flex-1 w-full space-y-2">
                   <div className="flex items-center justify-between">
-                    <DetailItem label="Leaves Taken - " value={`${admin.leaves.leaves_taken} / ${admin.leaves.total_leaves_per_year} days`} capitalize className="flex gap-2"/>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
+                    <DetailItem label="Leaves Taken - " value={`${admin.leaves.leaves_taken} / ${admin.leaves.total_leaves_per_month} days`} capitalize className="flex gap-2" />
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => navigate('/admin/leave-applications', { state: { subTab: 'my-leaves' } })}
                       className="rounded-full hover:bg-primary group"
                     >
                       <ArrowUpRight className="text-foreground group-hover:text-primary transition-colors" />
                     </Button>
                   </div>
-                  <Progress 
-                    value={(admin.leaves.leaves_taken / admin.leaves.total_leaves_per_year) * 100} 
+                  <Progress
+                    value={(admin.leaves.leaves_taken / admin.leaves.total_leaves_per_month) * 100}
                     indicatorClassName="bg-destructive"
                     className="h-2 bg-destructive/10"
                   />
@@ -166,33 +166,33 @@ export const AdminSettings = () => {
                       <Spinner className="size-6 text-primary" />
                     </div>
                   ) : myAttendance.length === 0 ? (
-                      <p className="text-muted-foreground font-sans font-light text-base">
-                        No attendance data recorded yet.
-                      </p>
+                    <p className="text-muted-foreground font-sans font-light text-base">
+                      No attendance data recorded yet.
+                    </p>
                   ) : (() => {
-                      const presentCount = myAttendance.filter(a => a.status === 'present').length;
-                      const totalCount = myAttendance.length;
-                      return (
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <DetailItem label="Attendance - " value={`${presentCount} / ${totalCount} days`} capitalize className="flex gap-2"/>
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              onClick={() => navigate('/admin/my-attendance')}
-                              className="rounded-full hover:bg-primary group"
-                            >
-                              <ArrowUpRight className="text-foreground group-hover:text-primary transition-colors" />
-                            </Button>
-                          </div>
-                          <Progress 
-                            value={(presentCount / totalCount) * 100} 
-                            indicatorClassName="bg-primary"
-                            className="h-2 bg-primary/10"
-                          />
+                    const presentCount = myAttendance.filter(a => a.status === 'present').length;
+                    const totalCount = myAttendance.length;
+                    return (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <DetailItem label="Attendance - " value={`${presentCount} / ${totalCount} days`} capitalize className="flex gap-2" />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => navigate('/admin/my-attendance')}
+                            className="rounded-full hover:bg-primary group"
+                          >
+                            <ArrowUpRight className="text-foreground group-hover:text-primary transition-colors" />
+                          </Button>
                         </div>
-                      )
-                    })()}
+                        <Progress
+                          value={(presentCount / totalCount) * 100}
+                          indicatorClassName="bg-primary"
+                          className="h-2 bg-primary/10"
+                        />
+                      </div>
+                    )
+                  })()}
                 </div>
               </div>
             </CardContent>
@@ -214,15 +214,15 @@ export const AdminSettings = () => {
                 <DetailItem label="UPI ID" value={admin.bank_details?.upi_id} />
                 <div className="space-y-1">
                   <p className="text-base text-muted-foreground font-light">Cancelled Cheque</p>
-                    <a 
-                      href={admin.bank_details.cancelled_cheque_url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-base text-primary group"
-                    >
-                      View Document
-                      <ExternalLink className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
+                  <a
+                    href={admin.bank_details.cancelled_cheque_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-base text-primary group"
+                  >
+                    View Document
+                    <ExternalLink className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
                 </div>
               </div>
             </CardContent>
@@ -238,28 +238,28 @@ export const AdminSettings = () => {
                 <DetailItem label="Aadhar Card Number" value={admin.identity_proof?.aadhar_card.number} />
                 <div className="space-y-1">
                   <p className="text-base text-muted-foreground font-light">Aadhar Document</p>
-                    <a 
-                      href={admin.identity_proof.aadhar_card.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-base text-primary group"
-                    >
-                      View Aadhar
-                      <ExternalLink className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
+                  <a
+                    href={admin.identity_proof.aadhar_card.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-base text-primary group"
+                  >
+                    View Aadhar
+                    <ExternalLink className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
                 </div>
                 <DetailItem label="PAN Card Number" value={admin.identity_proof?.pan_card.number} />
                 <div className="space-y-1">
                   <p className="text-base text-muted-foreground font-light">PAN Document</p>
-                    <a 
-                      href={admin.identity_proof.pan_card.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-base text-primary group"
-                    >
-                      View PAN
-                      <ExternalLink className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
+                  <a
+                    href={admin.identity_proof.pan_card.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-base text-primary group"
+                  >
+                    View PAN
+                    <ExternalLink className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
                 </div>
               </div>
             </CardContent>

@@ -46,7 +46,7 @@ export interface CreateAdminResponse {
     to: string;
   };
   leaves: {
-    total_leaves_per_year: number;
+    total_leaves_per_month: number;
     leaves_taken: number;
   };
   identity_proof: {

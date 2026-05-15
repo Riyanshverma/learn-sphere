@@ -134,7 +134,7 @@ export const EmployeesLeaveApplications = () => {
                     <div className="flex items-center gap-2 font-sans font-light">
                       <span className="text-muted-foreground text-base block">Leaves Taken:</span>
                       <span className="text-foreground text-base">
-                        {Math.max(0, app.leaves.leaves_taken - days)} / {app.leaves.total_leaves_per_year}
+                        {Math.max(0, app.leaves.leaves_taken - days)} / {app.leaves.total_leaves_per_month}
                       </span>
                     </div>
 

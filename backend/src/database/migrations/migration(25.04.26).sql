@@ -45,7 +45,7 @@ CREATE TABLE employees (
   monthly_salary NUMERIC(10,2) NOT NULL,
   experience_years NUMERIC(4,1),
   timings JSONB NOT NULL,
-  leaves JSONB NOT NULL DEFAULT '{"total_leaves_per_year": 20, "leaves_taken": 0}'::JSONB,
+  leaves JSONB NOT NULL DEFAULT '{"total_leaves_per_month": 20, "leaves_taken": 0}'::JSONB, -- TODO: Updatae this in supabase
   identity_proof JSONB NOT NULL,
   bank_details JSONB NOT NULL,
   razorpay_contact_id TEXT NOT NULL,
