@@ -1,6 +1,6 @@
 import { type Context } from "elysia";
 import type { EmployeeSignupType, IdentityIdType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getAdminIdentityDetails } from "../../services";
+import { createDatabaseUser, uploadDocument, getDocumentURL, createAdmin, getAdminIdentityDetails, razorpayService } from "../../services";
 import { type User } from "@supabase/supabase-js";
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
 import { setRoleCookie } from "../../utils";
@@ -25,7 +25,12 @@ export const adminSignup = async (context: Context<{ body: EmployeeSignupType }>
 
     const bank_details = { account_holder_name: bank_account_holder_name, branch_name: bank_branch_name, bank_name, account_number: bank_account_number, ifsc_code: bank_ifsc_code, cancelled_cheque_url: bank_cancelled_cheque_url, upi_id: bank_upi_id, account_type: bank_account_type }
 
-    const admin = await createAdmin({ id: user.id, email: user.email ?? email, phone: user.phone ?? phone, date_of_birth, blood_group, gender, full_name: user.user_metadata.full_name, emergency_contact, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timings, identity_proof, bank_details })
+    const razorpay_contact_id = await razorpayService.createRazorpayContact({ name: bank_account_holder_name, email: user.email as string, contact: (user.phone as string).slice(2), type: 'employee', reference_id: user.id, notes: { role: 'admin' } })
+    
+
+    const razorpay_fund_account_id = await razorpayService.createRazorpayFundAccount({ contact_id: razorpay_contact_id, account_type: 'bank_account', bank_account: { name: bank_account_holder_name, ifsc: bank_ifsc_code, account_number: bank_account_number } })
+
+    const admin = await createAdmin({ id: user.id, email: user.email ?? email, phone: user.phone ?? phone, date_of_birth, blood_group, gender, full_name: user.user_metadata.full_name, emergency_contact, address, city, state, pincode, qualifications, specialization, monthly_salary, experience_years, timings, identity_proof, bank_details, razorpay_contact_id, razorpay_fund_account_id })
 
     // TODO: Send reset password link
 

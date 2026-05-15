@@ -28,7 +28,7 @@ export const SearchedTeachersInfo = ({ teachers, onSelect }: SearchedTeacherInfo
               >
                 <div className="flex flex-col w-full gap-1.5">
                   <span className="font-light text-foreground text-sm">
-                    {capitalizeWords(teacher.full_name)} (+{teacher.phone_number}) | EMP{teacher.employee_code}
+                    {capitalizeWords(teacher.full_name)} (+{teacher.phone}) | EMP{teacher.employee_code}
                   </span>
                   {[
                     { label: "Email", value: teacher.email, transform: "none" },

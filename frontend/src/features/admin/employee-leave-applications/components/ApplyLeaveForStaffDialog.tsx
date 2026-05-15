@@ -75,7 +75,7 @@ export const ApplyLeaveForStaffDialog = ({ dialogOpen, setDialogOpen, fetchEmplo
     setValueLeave("applicant_id", staff.employee_id)
     setValueLeave("staff_full_name", staff.full_name)
     setValueLeave("staff_email", staff.email)
-    setValueLeave("staff_phone", `+${staff.phone_number}`)
+    setValueLeave("staff_phone", `+${staff.phone}`)
     setValueLeave("staff_leaves_taken", staff.leaves.leaves_taken)
   }
 

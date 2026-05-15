@@ -128,7 +128,7 @@ export const EmployeesLeaveApplications = () => {
 
                     <div className="flex items-center gap-2 font-sans font-light">
                       <span className="text-muted-foreground text-base block">Phone Number:</span>
-                      <span className="text-foreground text-base">{app.phone_number.slice(2)}</span>
+                      <span className="text-foreground text-base">{app.phone.slice(2)}</span>
                     </div>
 
                     <div className="flex items-center gap-2 font-sans font-light">

@@ -61,6 +61,7 @@ export const InvitationJWTSchema = z.strictObject({
   user_id: uuid,
   email: email,
   full_name: word.regex(/^[A-Za-z ]+$/, 'Must contain only alphabets and spaces'),
+  phone: phone,
 })
 export type InvitationJWTType = z.infer<typeof InvitationJWTSchema>
 

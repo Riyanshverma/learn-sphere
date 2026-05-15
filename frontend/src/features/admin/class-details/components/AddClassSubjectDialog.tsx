@@ -64,7 +64,7 @@ export const AddClassSubjectDialog = ({ dialogOpen, setDialogOpen, classDetails 
     setValueSubject("academic_year", classDetails.academic_year)
     setValueSubject("teacher_full_name", teacher.full_name)
     setValueSubject("teacher_email", teacher.email)
-    setValueSubject("teacher_phone", `+${teacher.phone_number}`)
+    setValueSubject("teacher_phone", `+${teacher.phone}`)
     setValueSubject("teacher_qualification", teacher.qualification)
     setValueSubject("teacher_specialization", teacher.specialization)
   }

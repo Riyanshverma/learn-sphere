@@ -13,5 +13,7 @@ declare module 'bun' {
     DB_SECRET_KEY: string;
     JWT_SECRET_KEY: string;
     RESEND_API_KEY: string;
+    RAZORPAY_KEY_ID: string;
+    RAZORPAY_SECRET_KEY: string;
   }
 }

@@ -1,8 +1,13 @@
 import { type Context } from "elysia";
+
 import type { InvitationJWTType, TeacherSignupResendType, TeacherSignupSupabaseType, IdentityIdType } from "../../validations";
-import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkInvitationAllowed } from "../../services";
+
+import { uploadDocument, getDocumentURL, updateDatabaseUser, createNewTeacher, createExistingUserAsTeacher, checkInvitationAllowed, razorpayService } from "../../services";
+
 import { type User } from "@supabase/supabase-js";
+
 import { type JWTPayloadSpec } from "@elysiajs/jwt";
+
 import { setRoleCookie } from "../../utils";
 
 export const teacherSignupWithSupabase = async (context: Context<{body: TeacherSignupSupabaseType}>) => {
@@ -27,7 +32,11 @@ export const teacherSignupWithSupabase = async (context: Context<{body: TeacherS
 
       const bank_details = { account_holder_name: bank_account_holder_name, branch_name: bank_branch_name, bank_name, account_number: bank_account_number, ifsc_code: bank_ifsc_code, cancelled_cheque_url: bank_cancelled_cheque_url, upi_id: bank_upi_id, account_type: bank_account_type }
 
-      await createNewTeacher({ id: updated_user.id, email: updated_user.email as string, phone: updated_user.phone as string, date_of_birth, blood_group, gender, full_name: updated_user.user_metadata.full_name, emergency_contact, address, city, state, pincode, qualifications, specialization, experience_years, timings, identity_proof, bank_details, monthly_salary: 15000 })
+      const razorpay_contact_id = await razorpayService.createRazorpayContact({ name: bank_account_holder_name, email: updated_user.email as string, contact: (updated_user.phone as string).slice(2), type: 'employee', reference_id: user_id, notes: { role: 'teacher' }})
+
+      const razorpay_fund_account_id = await razorpayService.createRazorpayFundAccount({ contact_id: razorpay_contact_id, account_type: 'bank_account', bank_account: { name: bank_account_holder_name, ifsc: bank_ifsc_code, account_number: bank_account_number } })
+
+      await createNewTeacher({ id: updated_user.id, email: updated_user.email as string, phone: updated_user.phone as string, date_of_birth, blood_group, gender, full_name: updated_user.user_metadata.full_name, emergency_contact, address, city, state, pincode, qualifications, specialization, experience_years, timings, identity_proof, bank_details, monthly_salary: 15000, razorpay_contact_id, razorpay_fund_account_id })
       
       return context.status(201, { success: true, message: "Teacher signed up successfully" });
     } catch (error: any) {
@@ -37,7 +46,7 @@ export const teacherSignupWithSupabase = async (context: Context<{body: TeacherS
 
 export const teacherSignupWithResend = async (context: Context<{body: TeacherSignupResendType}>) => {
     try {
-      const { user_id } = (context as any).user as InvitationJWTType
+      const { user_id, email, phone } = (context as any).user as InvitationJWTType
 
       const { aadhar_card_photo, pan_card_photo, bank_cancelled_cheque_photo, timings_days, timings_from, timings_to, aadhar_card_number, pan_card_number, bank_account_holder_name, bank_branch_name, bank_name, bank_account_number, bank_ifsc_code, bank_upi_id, bank_account_type, qualifications, specialization, experience_years } = context.body
 
@@ -53,7 +62,11 @@ export const teacherSignupWithResend = async (context: Context<{body: TeacherSig
 
       const bank_details = { account_holder_name: bank_account_holder_name, branch_name: bank_branch_name, bank_name, account_number: bank_account_number, ifsc_code: bank_ifsc_code, cancelled_cheque_url: bank_cancelled_cheque_url, upi_id: bank_upi_id, account_type: bank_account_type }
 
-      await createExistingUserAsTeacher({ user_id, qualifications, specialization, experience_years, timings, identity_proof, bank_details, monthly_salary: 15000 })
+      const razorpay_contact_id = await razorpayService.createRazorpayContact({ name: bank_account_holder_name, email, contact: phone.slice(2), type: 'employee', reference_id: user_id, notes: { role: 'teacher' } })
+
+      const razorpay_fund_account_id = await razorpayService.createRazorpayFundAccount({ contact_id: razorpay_contact_id, account_type: 'bank_account', bank_account: { name: bank_account_holder_name, ifsc: bank_ifsc_code, account_number: bank_account_number }})
+
+      await createExistingUserAsTeacher({ user_id, qualifications, specialization, experience_years, timings, identity_proof, bank_details, monthly_salary: 15000, razorpay_contact_id, razorpay_fund_account_id })
 
       return context.status(201, { success: true, message: "Teacher signed up successfully" });
     } catch (error: any) {

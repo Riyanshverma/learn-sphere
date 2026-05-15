@@ -61,7 +61,7 @@ DECLARE
   v_identity_id UUID;
   v_parent_id UUID;
 BEGIN
-  INSERT INTO users (id, email, phone_number, full_name, date_of_birth, blood_group, gender, emergency_contact, address, city, state, pincode)
+  INSERT INTO users (id, email, phone, full_name, date_of_birth, blood_group, gender, emergency_contact, address, city, state, pincode)
   VALUES (p_id, p_email, p_phone, p_full_name, p_date_of_birth, p_blood_group, p_gender, p_emergency_contact, p_address, p_city, p_state, p_pincode);
 
   INSERT INTO identity (user_id, role)

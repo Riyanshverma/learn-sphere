@@ -19,7 +19,9 @@ CREATE OR REPLACE FUNCTION create_new_school_staff(
   p_experience_years NUMERIC,
   p_timings JSONB,
   p_identity_proof JSONB,
-  p_bank_details JSONB
+  p_bank_details JSONB,
+  p_razorpay_contact_id TEXT,
+  p_razorpay_fund_account_id TEXT
 )
 RETURNS VOID
 LANGUAGE plpgsql
@@ -28,15 +30,15 @@ AS $$
 DECLARE
   v_identity_id UUID;
 BEGIN
-  INSERT INTO users (id, email, phone_number, full_name, date_of_birth, blood_group, gender, emergency_contact, address, city, state, pincode)
+  INSERT INTO users (id, email, phone, full_name, date_of_birth, blood_group, gender, emergency_contact, address, city, state, pincode)
   VALUES (p_id, p_email, p_phone, p_full_name, p_date_of_birth, p_blood_group, p_gender, p_emergency_contact, p_address, p_city, p_state, p_pincode);
 
   INSERT INTO identity (user_id, role)
   VALUES (p_id, 'staff')
   RETURNING id INTO v_identity_id;
 
-  INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details)
-  VALUES (v_identity_id, p_qualifications, p_specialization, 'staff', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details);
+  INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details, razorpay_contact_id, razorpay_fund_account_id)
+  VALUES (v_identity_id, p_qualifications, p_specialization, 'staff', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details, p_razorpay_contact_id, p_razorpay_fund_account_id);
 END;
 $$;
 
@@ -48,7 +50,9 @@ CREATE OR REPLACE FUNCTION create_existing_user_as_school_staff(
   p_experience_years NUMERIC,
   p_timings JSONB,
   p_identity_proof JSONB,
-  p_bank_details JSONB
+  p_bank_details JSONB,
+  p_razorpay_contact_id TEXT,
+  p_razorpay_fund_account_id TEXT
 )
 RETURNS VOID
 LANGUAGE plpgsql
@@ -65,7 +69,7 @@ BEGIN
   VALUES (p_id, 'staff')
   RETURNING id INTO v_identity_id;
 
-  INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details)
-  VALUES (v_identity_id, p_qualifications, p_specialization, 'staff', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details);
+  INSERT INTO employees (identity_id, qualification, specialization, designation, monthly_salary, experience_years, timings, identity_proof, bank_details, razorpay_contact_id, razorpay_fund_account_id)
+  VALUES (v_identity_id, p_qualifications, p_specialization, 'staff', p_monthly_salary, p_experience_years, p_timings, p_identity_proof, p_bank_details, p_razorpay_contact_id, p_razorpay_fund_account_id);
 END;
 $$;

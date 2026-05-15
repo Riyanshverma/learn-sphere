@@ -93,7 +93,7 @@ BEGIN
       'employee_code', e.employee_code,
       'leaves', e.leaves,
       'email', u.email,
-      'phone_number', u.phone,
+      'phone', u.phone,
       'full_name', u.full_name
     )
   FROM leave_applications la

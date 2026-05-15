@@ -46,7 +46,9 @@ export const createNewSchoolStaff = async (params: CreateEmployeeType): Promise<
       p_experience_years: params.experience_years,
       p_timings: params.timings,
       p_identity_proof: params.identity_proof,
-      p_bank_details: params.bank_details
+      p_bank_details: params.bank_details,
+      p_razorpay_contact_id: params.razorpay_contact_id,
+      p_razorpay_fund_account_id: params.razorpay_fund_account_id
     });
 
     if (error) {
@@ -69,7 +71,9 @@ export const createExistingUserAsSchoolStaff = async (params: CreateExistingUser
       p_experience_years: params.experience_years,
       p_timings: params.timings,
       p_identity_proof: params.identity_proof,
-      p_bank_details: params.bank_details
+      p_bank_details: params.bank_details,
+      p_razorpay_contact_id: params.razorpay_contact_id,
+      p_razorpay_fund_account_id: params.razorpay_fund_account_id
     });
 
     if (error) {
@@ -81,9 +85,9 @@ export const createExistingUserAsSchoolStaff = async (params: CreateExistingUser
   }
 };
 
-export const checkExistingUser = async (email: string, full_name: string): Promise<{ id: string; full_name: string; } | null> => {
+export const checkExistingUser = async (email: string, full_name: string): Promise<{ id: string; full_name: string; phone: string } | null> => {
   try {
-    const { data, error } = await supabaseAdmin.from("users").select("id, full_name").eq("email", email).eq("full_name", full_name).maybeSingle();
+    const { data, error } = await supabaseAdmin.from("users").select("id, full_name, phone").eq("email", email).eq("full_name", full_name).maybeSingle();
 
     if (error) {
       throw error;
@@ -118,9 +122,9 @@ export const sendTeacherInvitationBySupabase = async (email: string, full_name: 
   }
 }
 
-export const sendTeacherInvitationByResend = async (jwt: any, email: string, full_name: string, user_id: string): Promise<void> => {
+export const sendTeacherInvitationByResend = async (jwt: any, email: string, full_name: string, user_id: string, phone: string | null): Promise<void> => {
   try {
-    const token = await signJWT(jwt, { user_id, email, full_name });
+    const token = await signJWT(jwt, { user_id, email, full_name, phone });
 
     const { error } = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',

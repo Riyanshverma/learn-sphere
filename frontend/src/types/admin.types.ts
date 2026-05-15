@@ -38,7 +38,7 @@ export interface EmployeeLeaveApplicationsResponse {
     leaves_taken: number;
   };
   email: string;
-  phone_number: string;
+  phone: string;
   full_name: string;
 }
 
@@ -112,7 +112,7 @@ export interface AllClassesDetailsResponse {
 export interface SearchedTeachersResponse {
   email: string;
   full_name: string;
-  phone_number: string;
+  phone: string;
   identity_id: string;
   employee_id: string;
   qualification: string;
@@ -123,7 +123,7 @@ export interface SearchedTeachersResponse {
 export interface SearchedStaffsResponse {
   email: string;
   full_name: string;
-  phone_number: string;
+  phone: string;
   identity_id: string;
   employee_id: string;
   designation: string;

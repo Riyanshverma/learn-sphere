@@ -168,7 +168,9 @@ export const createAdmin = async (params: CreateEmployeeType): Promise<CreateEmp
       p_experience_years: params.experience_years,
       p_timings: params.timings,
       p_identity_proof: params.identity_proof,
-      p_bank_details: params.bank_details
+      p_bank_details: params.bank_details,
+      p_razorpay_contact_id: params.razorpay_contact_id,
+      p_razorpay_fund_account_id: params.razorpay_fund_account_id
     });
 
     if (error) {
@@ -282,7 +284,9 @@ export const createNewTeacher = async (params: CreateEmployeeType): Promise<void
       p_experience_years: params.experience_years,
       p_timings: params.timings,
       p_identity_proof: params.identity_proof,
-      p_bank_details: params.bank_details
+      p_bank_details: params.bank_details,
+      p_razorpay_contact_id: params.razorpay_contact_id,
+      p_razorpay_fund_account_id: params.razorpay_fund_account_id
     });
 
     if (error) {
@@ -305,7 +309,9 @@ export const createExistingUserAsTeacher = async (params: CreateExistingUserAsTe
       p_experience_years: params.experience_years,
       p_timings: params.timings,
       p_identity_proof: params.identity_proof,
-      p_bank_details: params.bank_details
+      p_bank_details: params.bank_details,
+      p_razorpay_contact_id: params.razorpay_contact_id,
+      p_razorpay_fund_account_id: params.razorpay_fund_account_id
     });
 
     if (error) {

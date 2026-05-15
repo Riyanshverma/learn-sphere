@@ -67,6 +67,8 @@ export interface CreateEmployeeType {
     upi_id?: string;
     account_type: account_type;
   };
+  razorpay_contact_id: string;
+  razorpay_fund_account_id: string;
 }
 
 export interface CreateEmployeeResponse {
@@ -157,6 +159,8 @@ export interface CreateExistingUserAsTeacherType {
     account_type: account_type;
   };
   monthly_salary: number;
+  razorpay_contact_id: string;
+  razorpay_fund_account_id: string;
 }
 
 export interface CreateNewStudentType {
@@ -184,5 +188,24 @@ export interface CreateNewStudentType {
   student_blood_group: blood_group;
   student_gender: gender;
   student_medical_notes: string;
+}
+
+export interface RazorpayContactParams {
+  name: string;
+  email: string;
+  contact: string;
+  type: 'employee' | 'customer' | 'self' | 'vendor';
+  reference_id?: string;
+  notes?: Record<string, string>;
+}
+
+export interface RazorpayFundAccountParams {
+  contact_id: string;
+  account_type: 'bank_account' | 'vpa';
+  bank_account: {
+    name: string;
+    ifsc: string;
+    account_number: string;
+  };
 }
 

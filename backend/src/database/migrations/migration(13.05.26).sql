@@ -36,7 +36,7 @@ AS $$
       jsonb_build_object(
         'email', email,
         'full_name', full_name,
-        'phone_number', phone,
+        'phone', phone,
         'identity_id', identity_id,
         'employee_id', employee_id,
         'designation', designation,

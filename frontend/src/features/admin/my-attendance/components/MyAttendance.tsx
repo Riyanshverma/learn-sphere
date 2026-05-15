@@ -131,94 +131,92 @@ export const MyAttendance = () => {
           {/* Charts & Calendar Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Pie Chart Section */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl font-heading font-normal">
-                  Attendance Distribution
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-[400px]">
-                {stats.total > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={[
-                          { name: 'Present', value: stats.present, color: 'var(--color-primary)' },
-                          { name: 'Absent', value: stats.absent, color: 'var(--color-destructive)' }
-                        ]}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={110}
-                        outerRadius={150}
-                        paddingAngle={5}
-                        dataKey="value"
-                        animationBegin={0}
-                        animationDuration={1500}
-                      >
-                        {[
-                          { name: 'Present', value: stats.present, color: 'var(--color-primary)' },
-                          { name: 'Absent', value: stats.absent, color: 'var(--color-destructive)' }
-                        ].map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
-                        ))}
-                      </Pie>
-                      <Tooltip
-                        contentStyle={{ 
-                          backgroundColor: 'hsl(var(--card))', 
-                          border: '1px solid hsl(var(--primary)/0.1)', 
-                          borderRadius: '12px',
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '16px',
-                          fontWeight: 300
-                        }}
-                        itemStyle={{ 
-                          color: 'hsl(var(--foreground))',
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '16px',
-                          fontWeight: 300
-                        }}
-                      />
-                      <Legend 
-                        verticalAlign="bottom" 
-                        height={36} 
-                        formatter={(value) => <span className="font-sans text-base font-light text-foreground flex">{value}</span>}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
+            <div className="space-y-4">
+              <h3 className="text-xl font-heading font-normal text-foreground">Attendance Distribution</h3>
+              <Card className="bg-card/40 backdrop-blur-sm border-primary/10 overflow-hidden rounded-3xl">
+                <CardContent className="h-[426px]">
+                  {stats.total > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: 'Present', value: stats.present, color: 'var(--color-primary)' },
+                            { name: 'Absent', value: stats.absent, color: 'var(--color-destructive)' }
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={110}
+                          outerRadius={150}
+                          paddingAngle={5}
+                          dataKey="value"
+                          animationBegin={0}
+                          animationDuration={1500}
+                        >
+                          {[
+                            { name: 'Present', value: stats.present, color: 'var(--color-primary)' },
+                            { name: 'Absent', value: stats.absent, color: 'var(--color-destructive)' }
+                          ].map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                          ))}
+                        </Pie>
+                        <Tooltip
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))', 
+                            border: '1px solid hsl(var(--primary)/0.1)', 
+                            borderRadius: '12px',
+                            fontFamily: 'var(--font-sans)',
+                            fontSize: '16px',
+                            fontWeight: 300
+                          }}
+                          itemStyle={{ 
+                            color: 'hsl(var(--foreground))',
+                            fontFamily: 'var(--font-sans)',
+                            fontSize: '16px',
+                            fontWeight: 300
+                          }}
+                        />
+                        <Legend 
+                          verticalAlign="bottom" 
+                          height={36} 
+                          formatter={(value) => <span className="font-sans text-base font-light text-foreground flex">{value}</span>}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  ) : (
                   <div className="text-muted-foreground font-sans font-light text-base">
-                    No data for this month to visualize
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                      No data for this month to visualize
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Calendar Section */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl font-heading font-normal">Attendance Calendar</CardTitle>
-              </CardHeader>
-              <CardContent className="flex justify-center">
-                <Calendar
-                  mode="single"
-                  month={currentMonth}
-                  onMonthChange={setCurrentMonth}
-                  disableNavigation
+            <div className="space-y-4">
+              <h3 className="text-xl font-heading font-normal text-foreground">Attendance Calendar</h3>
+              <Card className="bg-card/40 backdrop-blur-sm border-primary/10 rounded-3xl overflow-hidden">
+                <CardContent>
+                  <Calendar
+                    mode="single"
+                    month={currentMonth}
+                    onMonthChange={setCurrentMonth}
+                    disableNavigation
                   className="font-sans w-full max-w-full flex justify-center [--cell-size:40px] [--cell-radius:20px]"
-                  classNames={{
-                    week: "flex w-full mt-4 justify-center gap-4",
-                  }}
-                  modifiers={{
-                    present: monthlyData.filter(a => a.status === 'present').map(a => new Date(a.date)),
-                    absent: monthlyData.filter(a => a.status === 'absent').map(a => new Date(a.date)),
-                  }}
-                  modifiersClassNames={{
-                    present: "bg-primary text-primary-foreground hover:bg-primary/60",
-                    absent: "bg-destructive text-destructive-foreground hover:bg-destructive/60",
-                  }}
-                />
-              </CardContent>
-            </Card>
+                    classNames={{
+                      week: "flex w-full mt-4 justify-center gap-4",
+                    }}
+                    modifiers={{
+                      present: monthlyData.filter(a => a.status === 'present').map(a => new Date(a.date)),
+                      absent: monthlyData.filter(a => a.status === 'absent').map(a => new Date(a.date)),
+                    }}
+                    modifiersClassNames={{
+                      present: "bg-primary text-primary-foreground hover:bg-primary/60",
+                      absent: "bg-destructive text-destructive-foreground hover:bg-destructive/60",
+                    }}
+                  />
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       )}

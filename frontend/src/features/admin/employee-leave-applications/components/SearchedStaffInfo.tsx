@@ -30,7 +30,7 @@ export const SearchedStaffInfo = ({ staffs, onSelect }: SearchedStaffsInfoProps)
                 <div className="flex flex-col w-full gap-1.5">
                   <div className="flex items-center justify-between w-full">
                     <span className="font-light text-foreground text-sm">
-                      {capitalizeWords(staff.full_name)} (+{staff.phone_number}) | EMP{staff.employee_code}
+                      {capitalizeWords(staff.full_name)} (+{staff.phone}) | EMP{staff.employee_code}
                     </span>
                     <Badge variant="outline" className="font-sans font-light capitalize h-5 text-sm">
                       {staff.designation}

@@ -49,7 +49,6 @@ BEGIN
   WHERE i.role = 'parent';
 
   RETURN v_result;
-
 END;
 $$;
 
@@ -112,7 +111,6 @@ BEGIN
 
   INSERT INTO students (date_of_birth, full_name, blood_group, gender, parent_id, medical_notes, class_id, class_roll_number)
   VALUES (p_student_date_of_birth, p_student_full_name, p_student_blood_group, p_student_gender, v_parent_id, p_student_medical_notes, v_class_id, v_roll_number);
-  
 END;
 $$;
 
@@ -173,6 +171,5 @@ BEGIN
 
   INSERT INTO students (date_of_birth, full_name, blood_group, gender, parent_id, medical_notes, class_id, class_roll_number)
   VALUES (p_student_date_of_birth, p_student_full_name, p_student_blood_group, p_student_gender, v_parent_id, p_student_medical_notes, v_class_id, v_roll_number);
-
 END;
 $$;
