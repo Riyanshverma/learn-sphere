@@ -5,7 +5,7 @@ import { CreditCard, Banknote } from "lucide-react"
 export const SchoolFinanceSubHeader = ({ activeTab, setActiveTab }: HeaderProps) => {
   return (
     <div className="flex items-center gap-2 rounded-full shadow-sm">
-      {([{ name: "Students Fees", key: "school-students-fees", icon: CreditCard }, { name: "Employees Payrolls", key: "school-employees-payrolls", icon: Banknote }] as const).map((tab) => {
+      {([{ name: "Employees Payrolls", key: "school-employees-payrolls", icon: Banknote }, { name: "Students Fees", key: "school-students-fees", icon: CreditCard }] as const).map((tab) => {
         return (
           <Button
             key={tab.key}

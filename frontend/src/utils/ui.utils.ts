@@ -66,3 +66,14 @@ export const getLeaveTypeColor = (type: string) => {
     default: return colors.yellow;
   }
 }
+
+export const getPayrollStatusColor = (status: string) => {
+  switch (status) {
+    case "pending": return colors.yellow;
+    case "processing": return colors.blue;
+    case "paid": return colors.green;
+    case "failed": return colors.red;
+    case "reversed": return colors.orange;
+    default: return colors.gray;
+  }
+}

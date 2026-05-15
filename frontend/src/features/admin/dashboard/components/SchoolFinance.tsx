@@ -4,7 +4,7 @@ import { SchoolFinanceSubHeader, SchoolStudentsFees, SchoolEmployeesPayrolls } f
 
 export const SchoolFinance = () => {
   const location = useLocation()
-  const [activeFinanceTab, setActiveFinanceTab] = useState("school-students-fees")
+  const [activeFinanceTab, setActiveFinanceTab] = useState("school-employees-payrolls")
 
   useEffect(() => {
     if (location.state?.subTab) {

@@ -51,6 +51,8 @@ import { SearchedTeachersInfo } from "./class-details/components/SearchedTeacher
 import { SchoolStudentsFees } from "./dashboard/components/school-finance/SchoolStudentsFees";
 import { SchoolEmployeesPayrolls } from "./dashboard/components/school-finance/SchoolEmployeesPayrolls";
 import { SchoolFinanceSubHeader } from "./dashboard/components/school-finance/SchoolFinanceSubHeader";
+import { EmployeesPayrollsByCashDialog } from "./dashboard/components/school-finance/EmployeesPayrollsByCashDialog";
+import { EmployeesPayrollsByOnlineDialog } from "./dashboard/components/school-finance/EmployeesPayrollsByOnlineDialog";
 import { EmployeesLeaveApplications } from "./employee-leave-applications/components/EmployeesLeaveApplications";
 import { MyLeaveApplications } from "./employee-leave-applications/components/MyLeaveApplications";
 import { LeaveApplicationsSubHeader } from "./employee-leave-applications/components/LeaveApplicationsSubHeader";
@@ -59,4 +61,4 @@ import { ApplyLeaveForStaffDialog } from "./employee-leave-applications/componen
 import { SearchedStaffInfo } from "./employee-leave-applications/components/SearchedStaffInfo";
 import { EmployeeLeaveApplicationReview } from "./employee-leave-applications/components/EmployeeLeaveApplicationReview";
 
-export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo, SchoolStudentsFees, SchoolEmployeesPayrolls, SchoolFinanceSubHeader, EmployeesLeaveApplications, MyLeaveApplications, LeaveApplicationsSubHeader, ApplyForLeaveDialog, ApplyLeaveForStaffDialog, SearchedStaffInfo, EmployeeLeaveApplicationReview }
+export { SchoolPeopleSubHeader, SchoolTeachers, SchoolStudents, SchoolStaff, SchoolAcademicsSubHeader, SchoolClasses, SchoolEnrollments, SchoolExamsAndResults, AddSchoolStaffSubHeader, AddNewSchoolStaff, AddExistingUserStaff, TeacherInvitations, ParentInvitations, AddStudentSubHeader, AddStudentWithNewParent, AddStudentWithExistingUserParent, AddTeacherInvitation, AddStudentInvitation, TeacherInvitationDetailsDialog, ParentInvitationDetailsDialog, StudentSelectClassDialog, AddClassSubjectDialog, SearchedTeachersInfo, SchoolStudentsFees, SchoolEmployeesPayrolls, SchoolFinanceSubHeader, EmployeesPayrollsByCashDialog, EmployeesPayrollsByOnlineDialog, EmployeesLeaveApplications, MyLeaveApplications, LeaveApplicationsSubHeader, ApplyForLeaveDialog, ApplyLeaveForStaffDialog, SearchedStaffInfo, EmployeeLeaveApplicationReview }

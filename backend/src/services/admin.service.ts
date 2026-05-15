@@ -2,7 +2,7 @@ import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
 import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -547,3 +547,21 @@ export const getMyAttendance = async (employee_id: string): Promise<MyAttendance
     throw error;
   }
 };
+
+export const getEmployeesPayrollsDetails = async (page_number: number, limit: number): Promise<EmployeesPayrollsDetailsResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc('get_employees_payrolls_details', {
+      p_page_number: page_number,
+      p_limit: limit
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}

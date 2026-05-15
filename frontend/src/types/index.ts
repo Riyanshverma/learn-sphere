@@ -7,5 +7,5 @@ export type { UserLoginResponse, CreateAdminResponse, role, account_type }
 import type { HeaderProps } from "./user.types"
 export type { HeaderProps }
 
-import type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, attendance_status, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse } from "./admin.types"
-export type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, attendance_status, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse }
+import type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, attendance_status, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse } from "./admin.types"
+export type { TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, attendance_status, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse }

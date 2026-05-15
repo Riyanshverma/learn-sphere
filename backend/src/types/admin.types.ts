@@ -4,6 +4,7 @@ type invitation_status = "pending" | "accepted" | "allowed" | "expired" | "revok
 type attendance_status = "present" | "absent" | "late" | "half_day" | "holiday" | "pending";
 type leave_type = 'sick' | 'casual' | 'maternity' | 'paternity' | 'unpaid' | 'bereavement' | 'other';
 type leave_status = 'pending' | 'approved' | 'rejected' | 'cancelled';
+type payroll_status = 'pending' | 'processing' | 'paid' | 'failed' | 'reversed';
 
 export interface MyLeaveApplicationsResponse {
   leave_application_id: string;
@@ -217,4 +218,43 @@ export interface MyAttendanceResponse {
   date: Date;
   status: attendance_status;
   remarks: string | null;
+}
+
+export interface EmployeesPayrollsDetailsResponse {
+  payroll_id: string;
+  employee_id: string;
+  payroll_month: string;
+  due_date: string;
+  base_salary: number;
+  deductions: number | null;
+  net_salary: number | null;
+  payment_status: payroll_status;
+  payment_method: 'cash' | 'online' | null;
+  razorpay_payout_id: string | null;
+  paid_at: string | null;
+  identity_id: string;
+  qualification: string;
+  designation: string;
+  joined_date: string;
+  employee_code: number;
+  monthly_salary: number;
+  leaves: {
+    total_leaves_per_month: number;
+    leaves_taken: number;
+  };
+  bank_details: {
+    account_holder_name: string;
+    account_number: string;
+    bank_name: string;
+    branch_name: string;
+    ifsc_code: string;
+    upi_id: string;
+    account_type: string;
+    cancelled_cheque_url: string;
+  };
+  razorpay_contact_id: string;
+  razorpay_fund_account_id: string;
+  email: string;
+  phone: string;
+  full_name: string;
 }
