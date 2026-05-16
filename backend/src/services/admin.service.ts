@@ -1,6 +1,6 @@
 import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
-import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType } from "../validations";
+import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType, ConfirmEmployeePayrollByCashType } from "../validations";
 
 import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse } from "../types";
 
@@ -560,6 +560,24 @@ export const getEmployeesPayrollsDetails = async (page_number: number, limit: nu
     }
 
     return data;
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const confirmEmployeePayrollByCash = async (params: ConfirmEmployeePayrollByCashType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('confirm_employee_payroll_by_cash', {
+      p_employee_id: params.employee_id,
+      p_payroll_id: params.payroll_id,
+      p_deductions: params.deductions,
+      p_net_salary: params.net_salary
+    });
+
+    if (error) {
+      throw error;
+    }
   } catch(error: any) {
     console.error(error.message);
     throw error;

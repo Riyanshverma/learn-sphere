@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByCashType } from "@/types";
 
 import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType, UpdateEmployeeLeaveApplicationStatusType } from "@/validation";
 
@@ -251,6 +251,16 @@ class AdminService {
   async getEmployeesPayrollsDetails(page_number: number, limit: string): Promise<ApiSuccessResponse<EmployeesPayrollsDetailsResponse[]> | ApiErrorResponse> {
     try {
       const response = await this.apiClient.get<ApiSuccessResponse<EmployeesPayrollsDetailsResponse[]>>('/finance/employees-payrolls-details', { params: { page_number, limit } });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async confirmEmployeePayrollByCash(data: ConfirmEmployeePayrollByCashType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.patch<ApiSuccessResponse>('/finance/employee-payroll-by-cash', data);
 
       return response.data;
     } catch (error: any) {

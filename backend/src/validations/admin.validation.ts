@@ -197,3 +197,11 @@ export const UpdateEmployeeLeaveApplicationStatusSchema = z.strictObject({
   reviewed_by: uuid,
 })
 export type UpdateEmployeeLeaveApplicationStatusType = z.infer<typeof UpdateEmployeeLeaveApplicationStatusSchema>
+
+export const ConfirmEmployeePayrollByCashSchema = z.strictObject({
+  employee_id: uuid,
+  payroll_id: uuid,
+  deductions: number,
+  net_salary: number,
+})
+export type ConfirmEmployeePayrollByCashType = z.infer<typeof ConfirmEmployeePayrollByCashSchema>

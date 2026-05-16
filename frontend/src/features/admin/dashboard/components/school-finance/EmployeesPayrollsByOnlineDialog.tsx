@@ -8,9 +8,10 @@ interface EmployeesPayrollsByOnlineDialogProps {
   dialogOpen: boolean
   setDialogOpen: (open: "cash" | "online" | null) => void
   employeepayrollDetails: EmployeesPayrollsDetailsResponse | null
+  fetchEmployeesPayrollsDetails: () => Promise<void>
 }
 
-export const EmployeesPayrollsByOnlineDialog = ({ dialogOpen, setDialogOpen, employeepayrollDetails }: EmployeesPayrollsByOnlineDialogProps) => {
+export const EmployeesPayrollsByOnlineDialog = ({ dialogOpen, setDialogOpen, employeepayrollDetails, fetchEmployeesPayrollsDetails }: EmployeesPayrollsByOnlineDialogProps) => {
   if (!employeepayrollDetails) return null;
 
   const getMonthName = (dateString: string) => {

@@ -156,7 +156,7 @@ export interface EmployeesPayrollsDetailsResponse {
   payroll_month: string;
   due_date: string;
   base_salary: number;
-  deductions: number | null
+  deductions: number | null;
   net_salary: number | null;
   payroll_status: payroll_status;
   payment_method: 'cash' | 'online' | null;
@@ -187,4 +187,11 @@ export interface EmployeesPayrollsDetailsResponse {
   email: string;
   phone: string;
   full_name: string;
+}
+
+export interface ConfirmEmployeePayrollByCashType {
+  employee_id: string;
+  payroll_id: string;
+  deductions: number;
+  net_salary: number;
 }

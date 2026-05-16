@@ -3,14 +3,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import { adminService } from "@/services"
 
 interface EmployeesPayrollsByCashDialogProps {
   dialogOpen: boolean
   setDialogOpen: (open: "cash" | "online" | null) => void
   employeepayrollDetails: EmployeesPayrollsDetailsResponse | null
+  fetchEmployeesPayrollsDetails: () => Promise<void>
 }
 
-export const EmployeesPayrollsByCashDialog = ({ dialogOpen, setDialogOpen, employeepayrollDetails }: EmployeesPayrollsByCashDialogProps) => {
+export const EmployeesPayrollsByCashDialog = ({ dialogOpen, setDialogOpen, employeepayrollDetails, fetchEmployeesPayrollsDetails }: EmployeesPayrollsByCashDialogProps) => {
   if (!employeepayrollDetails) return null;
 
   const getMonthName = (dateString: string) => {
@@ -27,6 +30,23 @@ export const EmployeesPayrollsByCashDialog = ({ dialogOpen, setDialogOpen, emplo
       <span className="text-foreground text-base">{value}</span>
     </div>
   )
+
+  const handleEmployeePayrollByCash = async () => {
+    try {
+      const id = toast.loading("Confirming transaction...")
+      const result = await adminService.confirmEmployeePayrollByCash({ payroll_id: employeepayrollDetails.payroll_id, employee_id: employeepayrollDetails.employee_id, deductions, net_salary: netSalary });
+      if (!result.success) {
+        toast.dismiss(id);
+        throw new Error(result.error, { cause: result.code })
+      }
+
+      setDialogOpen(null);
+      toast.success(result.message, { id });
+      await fetchEmployeesPayrollsDetails();
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause });
+    }
+  }
 
   return (
     <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(null)}>
@@ -84,7 +104,8 @@ export const EmployeesPayrollsByCashDialog = ({ dialogOpen, setDialogOpen, emplo
           <div className="text-xl font-heading font-normal text-foreground">
             Total: ₹{netSalary.toLocaleString()}
           </div>
-          <Button 
+          <Button
+            onClick={handleEmployeePayrollByCash}
             className="h-10 px-8 rounded-lg font-sans font-normal text-base hover:bg-primary/60"
           >
             Pay Cash

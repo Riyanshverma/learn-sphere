@@ -240,11 +240,13 @@ export const SchoolEmployeesPayrolls = () => {
         dialogOpen={employeesPayrollsDialogOpen === "cash"} 
         setDialogOpen={setEmployeesPayrollsDialogOpen} 
         employeepayrollDetails={selectedEmployeePayrollDetailsRef.current}
+        fetchEmployeesPayrollsDetails={fetchEmployeesPayrollsDetails}
       />
       <EmployeesPayrollsByOnlineDialog 
         dialogOpen={employeesPayrollsDialogOpen === "online"} 
         setDialogOpen={setEmployeesPayrollsDialogOpen} 
         employeepayrollDetails={selectedEmployeePayrollDetailsRef.current}
+        fetchEmployeesPayrollsDetails={fetchEmployeesPayrollsDetails}
       />
     </div>
   )
