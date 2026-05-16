@@ -2,7 +2,7 @@ import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
 import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType, ConfirmEmployeePayrollByCashType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByOnlineType } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -574,6 +574,53 @@ export const confirmEmployeePayrollByCash = async (params: ConfirmEmployeePayrol
       p_deductions: params.deductions,
       p_net_salary: params.net_salary
     });
+
+    if (error) {
+      throw error;
+    }
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const confirmEmployeePayrollByOnline = async (params: ConfirmEmployeePayrollByOnlineType): Promise<void> => {
+  try {
+    const { error } = await supabaseAdmin.rpc('confirm_employee_payroll_by_online', {
+      p_employee_id: params.employee_id,
+      p_payroll_id: params.payroll_id,
+      p_deductions: params.deductions,
+      p_net_salary: params.net_salary,
+      p_razorpay_payout_id: params.razorpay_payout_id,
+      p_status: params.status,
+      p_utr_id: params.utr_id,
+      p_paid_at: params.paid_at.toISOString()
+    });
+
+    if (error) {
+      throw error;
+    }
+  } catch(error: any) {
+    console.error(error.message);
+    throw error;
+  }
+}
+
+export const updateEmployeePayrollStatusFromWebhook = async (params: { razorpay_payout_id: string, status: string, utr_id: string | null }): Promise<void> => {
+  try {
+    let mappedStatus = params.status;
+    if (params.status === 'processed') mappedStatus = 'paid';
+    else if (params.status === 'queued') mappedStatus = 'processing';
+    else if (params.status === 'rejected') mappedStatus = 'failed';
+    
+    const { error } = await supabaseAdmin
+      .from('employee_payrolls')
+      .update({ 
+        status: mappedStatus,
+        utr_id: params.utr_id,
+        updated_at: new Date().toISOString()
+      })
+      .eq('razorpay_payout_id', params.razorpay_payout_id);
 
     if (error) {
       throw error;

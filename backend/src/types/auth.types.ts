@@ -209,3 +209,15 @@ export interface RazorpayFundAccountParams {
   };
 }
 
+export interface RazorpayPayoutType {
+  account_number: string;
+  fund_account_id: string;
+  amount: number;
+  currency: 'INR';
+  mode: 'NEFT' | 'RTGS' | 'IMPS';
+  purpose: 'refund' | 'cashback' | 'payout' | 'salary' | 'utility bill' | 'vendor bill';
+  queue_if_low_balance: boolean;
+  reference_id: string;
+  narration: string;
+  notes?: Record<string, string>;
+}

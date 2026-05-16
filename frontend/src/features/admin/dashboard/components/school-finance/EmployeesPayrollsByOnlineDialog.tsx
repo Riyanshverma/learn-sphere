@@ -3,6 +3,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import { adminService } from "@/services"
 
 interface EmployeesPayrollsByOnlineDialogProps {
   dialogOpen: boolean
@@ -28,6 +30,30 @@ export const EmployeesPayrollsByOnlineDialog = ({ dialogOpen, setDialogOpen, emp
       <span className="text-foreground text-base">{value}</span>
     </div>
   )
+
+  const handleEmployeePayrollByOnline = async () => {
+    try {
+      const id = toast.loading("Confirming transaction...");
+      const result = await adminService.confirmEmployeePayrollByOnline({ 
+        employee_id: employeepayrollDetails.employee_id,
+        payroll_id: employeepayrollDetails.payroll_id,
+        deductions,
+        net_salary: netSalary,
+        razorpay_contact_id: employeepayrollDetails.razorpay_contact_id,
+        razorpay_fund_account_id: employeepayrollDetails.razorpay_fund_account_id
+      });
+      if (!result.success) {
+        toast.dismiss(id);
+        throw new Error(result.error, { cause: result.code })
+      }
+
+      setDialogOpen(null);
+      await fetchEmployeesPayrollsDetails();
+      toast.success(result.message, { id });
+    } catch (error: any) {
+      toast.error(error.message, { description: error.cause });
+    }
+  }
 
   return (
     <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(null)}>
@@ -93,6 +119,7 @@ export const EmployeesPayrollsByOnlineDialog = ({ dialogOpen, setDialogOpen, emp
           </div>
           <Button 
             className="h-10 px-8 rounded-lg font-sans font-normal text-base hover:bg-primary/60"
+            onClick={handleEmployeePayrollByOnline}
           >
             Deposit Online
           </Button>

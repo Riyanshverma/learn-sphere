@@ -258,3 +258,14 @@ export interface EmployeesPayrollsDetailsResponse {
   phone: string;
   full_name: string;
 }
+
+export interface ConfirmEmployeePayrollByOnlineType {
+  payroll_id: string;
+  employee_id: string;
+  net_salary: number;
+  deductions: number;
+  razorpay_payout_id: string;
+  status: string;
+  utr_id: string | null;
+  paid_at: Date;
+}

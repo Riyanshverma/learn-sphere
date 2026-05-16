@@ -1,15 +1,26 @@
 import { Elysia } from "elysia";
+
 import { adminRouter } from "./admin";
+
 import { parentRouter } from "./parent";
+
 import { staffRouter } from "./staff";
+
 import { teacherRouter } from "./teacher";
+
 import { userLoginWithPassword, userLogout, userLoginWithOtp, userOtpVerification } from "../utils";
+
 import { UserLoginWithPasswordSchema, UserLoginWithOtpSchema, UserOtpVerificationSchema } from "../validations";
+
 import { globalPlugin, authenticationPlugin, authorizationPlugin } from "../plugins";
+
+import { employeePayrollByOnlineWebhook } from "../controllers";
 
 const apiRouter = new Elysia({ prefix: "/api" })
 
 apiRouter.use(globalPlugin)
+
+apiRouter.post('/webhooks/employee-payroll-by-online', employeePayrollByOnlineWebhook)
 
 apiRouter.post('/auth/log-in-with-password', userLoginWithPassword, { body: UserLoginWithPasswordSchema })
 

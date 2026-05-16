@@ -195,3 +195,12 @@ export interface ConfirmEmployeePayrollByCashType {
   deductions: number;
   net_salary: number;
 }
+
+export interface ConfirmEmployeePayrollByOnlineType {
+  employee_id: string;
+  payroll_id: string;
+  deductions: number;
+  net_salary: number;
+  razorpay_contact_id: string;
+  razorpay_fund_account_id: string;
+}

@@ -205,3 +205,13 @@ export const ConfirmEmployeePayrollByCashSchema = z.strictObject({
   net_salary: number,
 })
 export type ConfirmEmployeePayrollByCashType = z.infer<typeof ConfirmEmployeePayrollByCashSchema>
+
+export const ConfirmEmployeePayrollByOnlineSchema = z.strictObject({
+  employee_id: uuid,
+  payroll_id: uuid,
+  deductions: number,
+  net_salary: number,
+  razorpay_contact_id: z.string(),
+  razorpay_fund_account_id: z.string(),
+})
+export type ConfirmEmployeePayrollByOnlineType = z.infer<typeof ConfirmEmployeePayrollByOnlineSchema>

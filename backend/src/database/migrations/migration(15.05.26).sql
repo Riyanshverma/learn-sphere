@@ -13,6 +13,7 @@ CREATE TABLE employee_payrolls (
   status payroll_status DEFAULT 'pending',
   payment_method payment_method_type,
   razorpay_payout_id TEXT,
+  utr_id TEXT,
   paid_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),

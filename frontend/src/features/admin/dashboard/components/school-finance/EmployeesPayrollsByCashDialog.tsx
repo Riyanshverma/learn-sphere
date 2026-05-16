@@ -41,8 +41,8 @@ export const EmployeesPayrollsByCashDialog = ({ dialogOpen, setDialogOpen, emplo
       }
 
       setDialogOpen(null);
-      toast.success(result.message, { id });
       await fetchEmployeesPayrollsDetails();
+      toast.success(result.message, { id });
     } catch (error: any) {
       toast.error(error.message, { description: error.cause });
     }

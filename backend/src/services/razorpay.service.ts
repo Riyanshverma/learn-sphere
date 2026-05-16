@@ -1,5 +1,8 @@
 import axios, { type AxiosInstance } from 'axios';
-import type { RazorpayContactParams, RazorpayFundAccountParams } from '../types';
+
+import type { RazorpayContactParams, RazorpayFundAccountParams, RazorpayPayoutType } from '../types';
+
+import { ConfirmEmployeePayrollByOnlineType } from '../validations';
 
 class RazorpayService {
   apiClient: AxiosInstance;
@@ -19,9 +22,9 @@ class RazorpayService {
 
   async createRazorpayContact(params: RazorpayContactParams): Promise<string> {
     try {  
-      const response = await this.apiClient.post('/contacts', params);
+      const { data } = await this.apiClient.post('/contacts', params);
 
-      return response.data.id;
+      return data.id;
     } catch (error: any) {
       console.error(error.message)
       throw error
@@ -30,9 +33,34 @@ class RazorpayService {
   
   async createRazorpayFundAccount(params: RazorpayFundAccountParams): Promise<string> {
     try {
-      const response = await this.apiClient.post('/fund_accounts', params);
+      const { data } = await this.apiClient.post('/fund_accounts', params);
 
-      return response.data.id;
+      return data.id;
+    } catch (error: any) {
+      console.error(error.message)
+      throw error
+    }
+  }
+
+  async createRazorpayPayout(params: ConfirmEmployeePayrollByOnlineType): Promise<any> {
+    try {
+      const { data } = await this.apiClient.post('/payouts', {
+        account_number: Bun.env.RAZORPAY_CUSTOMER_IDENTIFIER,
+        fund_account_id: params.razorpay_fund_account_id,
+        amount: params.net_salary * 100,
+        currency: "INR",
+        mode: "IMPS",
+        purpose: "salary",
+        queue_if_low_balance: true, 
+        reference_id: params.employee_id,
+        narration: "Salary Payout",
+      }, {
+        headers: {
+          'X-Payout-Idempotency': params.payroll_id,
+        },
+      });
+
+      return data;
     } catch (error: any) {
       console.error(error.message)
       throw error

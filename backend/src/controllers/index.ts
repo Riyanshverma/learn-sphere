@@ -13,5 +13,5 @@ export { teacherSignupWithSupabase, teacherSignupWithResend, teacherIdentityDeta
 import { studentSignupWithSupabase, studentSignupWithResend, parentIdentityDetails } from "./parent/auth.controller";
 export { studentSignupWithSupabase, studentSignupWithResend, parentIdentityDetails }
 
-import { fetchEmployeesPayrollsDetails, employeePayrollByCash } from "./admin/finance.controller";
-export { fetchEmployeesPayrollsDetails, employeePayrollByCash }
+import { fetchEmployeesPayrollsDetails, employeePayrollByCash, employeePayrollByOnline, employeePayrollByOnlineWebhook } from "./admin/finance.controller";
+export { fetchEmployeesPayrollsDetails, employeePayrollByCash, employeePayrollByOnline, employeePayrollByOnlineWebhook }

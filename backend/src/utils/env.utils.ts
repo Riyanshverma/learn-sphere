@@ -15,5 +15,7 @@ declare module 'bun' {
     RESEND_API_KEY: string;
     RAZORPAY_KEY_ID: string;
     RAZORPAY_SECRET_KEY: string;
+    RAZORPAY_CUSTOMER_IDENTIFIER: string;
+    RAZORPAY_WEBHOOK_SECRET: string;
   }
 }
