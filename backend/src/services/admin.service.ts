@@ -2,7 +2,7 @@ import { supabaseAdmin, supabaseUser, createUserClient } from "../database";
 
 import type { AddStudentToClassAndAcceptInvitationType, ApplyForLeaveType, CreateSchoolClassType, UpdateClassTeacherType, UpdateInvitationStatusType, UpdateSingleEmployeeAttendanceType, PaginationType, UpdateEmployeeLeaveApplicationStatusType, ConfirmEmployeePayrollByCashType } from "../validations";
 
-import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByOnlineType } from "../types";
+import type { CreateEmployeeType, CreateExistingUserAsSchoolStaffType, role, TeacherInvitationsResponse, ParentInvitationsResponse, CreateNewStudentByAdmin, CreateStudentWithExistingUserParentByAdmin, AllClassesDetailsResponse, SearchedTeachersResponse, CreateClassSubjectType, EmployeesAttendanceResponse, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, SearchedStaffsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByOnlineType, UpdateEmployeePayrollStatusFromWebhookType, payroll_status } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
 
@@ -606,21 +606,20 @@ export const confirmEmployeePayrollByOnline = async (params: ConfirmEmployeePayr
   }
 }
 
-export const updateEmployeePayrollStatusFromWebhook = async (params: { razorpay_payout_id: string, status: string, utr_id: string | null }): Promise<void> => {
+export const updateEmployeePayrollStatusFromWebhook = async (params: UpdateEmployeePayrollStatusFromWebhookType): Promise<void> => {
   try {
-    let mappedStatus = params.status;
-    if (params.status === 'processed') mappedStatus = 'paid';
-    else if (params.status === 'queued') mappedStatus = 'processing';
-    else if (params.status === 'rejected') mappedStatus = 'failed';
+    let new_status: payroll_status;
+    if(params.status === 'processed') {
+      new_status = 'paid'
+    } else if(params.status === 'queued') {
+      new_status = 'processing'
+    } else if(params.status === 'reversed'){
+      new_status = 'reversed'
+    } else {
+      new_status = 'failed'
+    }
     
-    const { error } = await supabaseAdmin
-      .from('employee_payrolls')
-      .update({ 
-        status: mappedStatus,
-        utr_id: params.utr_id,
-        updated_at: new Date().toISOString()
-      })
-      .eq('razorpay_payout_id', params.razorpay_payout_id);
+    const { error } = await supabaseAdmin.from('employee_payrolls').update({ status: new_status, utr_id: params.utr_id, updated_at: new Date().toISOString(), paid_at: params.paid_at.toISOString(), }).eq('razorpay_payout_id', params.razorpay_payout_id);
 
     if (error) {
       throw error;

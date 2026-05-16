@@ -27,8 +27,6 @@ export const employeePayrollByCash = async (context: Context<({body: ConfirmEmpl
 export const employeePayrollByOnline = async (context: Context<({body: ConfirmEmployeePayrollByOnlineType})>) => {
   try {
     const employee_payout = await razorpayService.createRazorpayPayout(context.body);
-
-    console.log(employee_payout);
     
     await confirmEmployeePayrollByOnline({ 
       payroll_id: context.body.payroll_id, 
@@ -49,37 +47,14 @@ export const employeePayrollByOnline = async (context: Context<({body: ConfirmEm
 
 export const employeePayrollByOnlineWebhook = async (context: Context) => {
   try {
-    console.log('webhook hit', Date.now());
-    console.log(context.body);
+    await updateEmployeePayrollStatusFromWebhook({
+      razorpay_payout_id: (context as any).webhook_data.id,
+      status: (context as any).webhook_data.status,
+      utr_id: (context as any).webhook_data.utr,
+      paid_at: new Date((context as any).webhook_data.created_at * 1000),
+    });
 
-    const secret = Bun.env.RAZORPAY_WEBHOOK_SECRET;
-    const signature = context.headers['x-razorpay-signature'];
-    
-    if (!signature || !secret) {
-      return context.status(400, { success: false, message: "Missing signature or secret" });
-    }
-
-    const payload = JSON.stringify(context.body);
-    const expectedSignature = new Bun.CryptoHasher("sha256", secret).update(payload).digest("hex");
-
-    // NOTE: Skipping signature match by default during dev because stringify might change JSON spacing
-    // To strictly verify:
-    // if (expectedSignature !== signature) return context.status(400, { success: false, message: "Invalid signature" });
-
-    const body: any = context.body;
-    const event = body.event;
-    
-    if (event === 'payout.processed' || event === 'payout.rejected' || event === 'payout.reversed' || event === 'payout.failed') {
-      const payout = body.payload.payout.entity;
-      await updateEmployeePayrollStatusFromWebhook({
-        razorpay_payout_id: payout.id,
-        status: payout.status,
-        utr_id: payout.utr || null
-      });
-    }
-
-    return context.status(200, { success: true });
-    
+    return context.status(200, { success: true, message: "Employee payroll by online webhook updated successfully" });
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error"});
   }

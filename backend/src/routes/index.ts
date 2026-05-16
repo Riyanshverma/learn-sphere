@@ -12,7 +12,7 @@ import { userLoginWithPassword, userLogout, userLoginWithOtp, userOtpVerificatio
 
 import { UserLoginWithPasswordSchema, UserLoginWithOtpSchema, UserOtpVerificationSchema } from "../validations";
 
-import { globalPlugin, authenticationPlugin, authorizationPlugin } from "../plugins";
+import { globalPlugin, authenticationPlugin, authorizationPlugin, webhookAuthorizationPlugin } from "../plugins";
 
 import { employeePayrollByOnlineWebhook } from "../controllers";
 
@@ -20,7 +20,7 @@ const apiRouter = new Elysia({ prefix: "/api" })
 
 apiRouter.use(globalPlugin)
 
-apiRouter.post('/webhooks/employee-payroll-by-online', employeePayrollByOnlineWebhook)
+apiRouter.group('/webhooks', (app) => app.use(webhookAuthorizationPlugin).post('/employee-payroll-by-online', employeePayrollByOnlineWebhook))
 
 apiRouter.post('/auth/log-in-with-password', userLoginWithPassword, { body: UserLoginWithPasswordSchema })
 

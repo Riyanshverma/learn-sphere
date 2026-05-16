@@ -4,7 +4,7 @@ type invitation_status = "pending" | "accepted" | "allowed" | "expired" | "revok
 type attendance_status = "present" | "absent" | "late" | "half_day" | "holiday" | "pending";
 type leave_type = 'sick' | 'casual' | 'maternity' | 'paternity' | 'unpaid' | 'bereavement' | 'other';
 type leave_status = 'pending' | 'approved' | 'rejected' | 'cancelled';
-type payroll_status = 'pending' | 'processing' | 'paid' | 'failed' | 'reversed';
+export type payroll_status = 'pending' | 'processing' | 'paid' | 'failed' | 'reversed';
 
 export interface MyLeaveApplicationsResponse {
   leave_application_id: string;
@@ -264,6 +264,13 @@ export interface ConfirmEmployeePayrollByOnlineType {
   employee_id: string;
   net_salary: number;
   deductions: number;
+  razorpay_payout_id: string;
+  status: string;
+  utr_id: string | null;
+  paid_at: Date;
+}
+
+export interface UpdateEmployeePayrollStatusFromWebhookType {
   razorpay_payout_id: string;
   status: string;
   utr_id: string | null;

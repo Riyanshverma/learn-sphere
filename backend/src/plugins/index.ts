@@ -9,3 +9,6 @@ export { authorizationPlugin }
 
 import { jwtPlugin } from "./jwt.plugin";
 export { jwtPlugin }
+
+import { webhookAuthorizationPlugin } from "./webhookauthorization.plugin";
+export { webhookAuthorizationPlugin }
