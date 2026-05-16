@@ -72,9 +72,9 @@ export const CreateSchoolClassSchema = z.strictObject({
 })
 export type CreateSchoolClassType = z.infer<typeof CreateSchoolClassSchema>
 
-export const UpdateClassTeacherSchema = z.strictObject({
+export const UpdateClassTeacherSchema = z.object({
   class_id: uuid,
-  employee_id: uuid,
+  class_teacher: uuid,
 })
 export type UpdateClassTeacherType = z.infer<typeof UpdateClassTeacherSchema>
 

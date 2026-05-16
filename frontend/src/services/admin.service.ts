@@ -2,7 +2,7 @@ import axios, { type AxiosInstance, type AxiosError } from "axios";
 
 import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByCashType, ConfirmEmployeePayrollByOnlineType } from "@/types";
 
-import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType, UpdateEmployeeLeaveApplicationStatusType } from "@/validation";
+import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType, UpdateEmployeeLeaveApplicationStatusType, UpdateClassTeacherType } from "@/validation";
 
 class AdminService {
   apiClient: AxiosInstance;
@@ -131,7 +131,7 @@ class AdminService {
 
   async getSearchTeachers(data: SearchType): Promise<ApiSuccessResponse<SearchedTeachersResponse[]> | ApiErrorResponse> {
     try {
-      const response = await this.apiClient.get<ApiSuccessResponse>('/school-academic/search-teachers', { params: data });
+      const response = await this.apiClient.get<ApiSuccessResponse<SearchedTeachersResponse[]>>('/school-academic/search-teachers', { params: data });
 
       return response.data;
     } catch (error: any) {
@@ -271,6 +271,26 @@ class AdminService {
   async confirmEmployeePayrollByOnline(data: ConfirmEmployeePayrollByOnlineType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
       const response = await this.apiClient.patch<ApiSuccessResponse>('/finance/employee-payroll-by-online', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+   async getSearchTeachersForClassTeacher(data: SearchType): Promise<ApiSuccessResponse<SearchedTeachersResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse<SearchedTeachersResponse[]>>('/school-academic/search-teachers-for-class-teacher', { params: data });
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+   }
+
+  async updateClassTeacher(data: UpdateClassTeacherType): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-class-teacher', data);
 
       return response.data;
     } catch (error: any) {

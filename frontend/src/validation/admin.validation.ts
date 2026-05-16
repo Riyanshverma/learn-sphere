@@ -74,3 +74,14 @@ export const UpdateEmployeeLeaveApplicationStatusSchema = z.strictObject({
   reviewed_by: uuid,
 })
 export type UpdateEmployeeLeaveApplicationStatusType = z.infer<typeof UpdateEmployeeLeaveApplicationStatusSchema>
+
+export const UpdateClassTeacherSchema = z.strictObject({
+  class_id: uuid,
+  class_teacher: uuid,
+  teacher_email: email,
+  teacher_full_name: word,
+  teacher_qualification: word,
+  teacher_specialization: word,
+  teacher_phone: phone,
+})
+export type UpdateClassTeacherType = z.infer<typeof UpdateClassTeacherSchema>

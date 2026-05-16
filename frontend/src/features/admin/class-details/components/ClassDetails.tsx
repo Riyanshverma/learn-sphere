@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
-import { DoorOpen, Plus } from "lucide-react"
+import { DoorOpen, Plus, UserRoundPen } from "lucide-react"
 import type { AllClassesDetailsResponse } from "@/types"
 import { useState } from "react"
-import { AddClassSubjectDialog } from "@/features/admin"
+import { AddClassSubjectDialog, UpdateClassTeacherDialog } from "@/features/admin"
 import { toast } from "sonner"
 
 export const ClassDetails = ({ classDetails }: { classDetails: AllClassesDetailsResponse }) => {
   const navigate = useNavigate()
   const [addClassSubjectDialogOpen, setAddClassSubjectDialogOpen] = useState(false)
+  const [updateClassTeacherDialogOpen, setUpdateClassTeacherDialogOpen] = useState(false)
 
   const fetchClassSubjectsAndStudents = async () => {
     try {
@@ -24,6 +25,14 @@ export const ClassDetails = ({ classDetails }: { classDetails: AllClassesDetails
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <h1 className="text-4xl font-heading">Class {classDetails.class_standard} - {classDetails.class_section}</h1>
           <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 px-4 h-10 text-sm font-sans font-normal rounded-full transition-all text-muted-foreground border border-foreground/20 hover:bg-foreground/10"
+              onClick={() => setUpdateClassTeacherDialogOpen(true)}
+            >
+              <UserRoundPen className="h-4 w-4" />
+              Update Class Teacher
+            </Button>
             <Button
               variant="ghost"
               className="flex items-center gap-2 px-4 h-10 text-sm font-sans font-normal rounded-full transition-all text-muted-foreground border border-foreground/20 hover:bg-foreground/10"
@@ -70,6 +79,11 @@ export const ClassDetails = ({ classDetails }: { classDetails: AllClassesDetails
       <AddClassSubjectDialog 
         dialogOpen={addClassSubjectDialogOpen} 
         setDialogOpen={setAddClassSubjectDialogOpen} 
+        classDetails={classDetails}
+      />
+      <UpdateClassTeacherDialog
+        dialogOpen={updateClassTeacherDialogOpen}
+        setDialogOpen={setUpdateClassTeacherDialogOpen}
         classDetails={classDetails}
       />
     </>

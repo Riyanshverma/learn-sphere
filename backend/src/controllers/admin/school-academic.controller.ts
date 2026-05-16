@@ -1,6 +1,8 @@
 import { type Context } from "elysia";
+
 import type { EmployeeSignupType, ExistingUserAsStaffType, CreateSchoolClassType, SendInvitationType, UpdateInvitationStatusType, UpdateClassTeacherType, AddClassSubjectType, StudentWithExistingUserParentType, StudentWithNewParentType, AddStudentToClassAndAcceptInvitationType, SearchType } from "../../validations";
-import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus, getAllClassesDetails, getSearchedTeachers, createClassSubject, razorpayService } from "../../services";
+
+import { createDatabaseUser, uploadDocument, getDocumentURL, getDatabaseUserId, createExistingUserAsSchoolStaff, createNewSchoolStaff, checkExistingUser, sendTeacherInvitationBySupabase, sendTeacherInvitationByResend, createInvitation, getTeacherInvitations, updateInvitationStatus, createClass, updateClassTeacher, sendStudentInvitationByResend, sendStudentInvitationBySupabase, getParentInvitations, createStudentWithExistingUserParentByAdmin, createNewStudentByAdmin, updateStudentClassAndInvitationStatus, getAllClassesDetails, getSearchedTeachers, createClassSubject, razorpayService, getSearchedTeachersForClassTeacher } from "../../services";
 
 export const addNewSchoolStaff = async (context: Context<{ body: EmployeeSignupType }>) => {
   try {
@@ -247,6 +249,16 @@ export const addClassSubject = async (context: Context<{ body: AddClassSubjectTy
     })
 
     return context.status(201, { success: true, message: "Class subject added successfully" })
+  } catch (error: any) {
+    return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
+  }
+}
+
+export const searchTeachersForClassTeacher = async (context: Context<{query: SearchType}>) => {
+  try {
+    const searched_teachers = await getSearchedTeachersForClassTeacher(context.query.search)
+    
+    return context.status(200, { success: true, message: "Searched teachers fetched successfully", data: searched_teachers })
   } catch (error: any) {
     return context.status(error.status || 500, { success: false, error: error.message || "Internal server error", code: error.code || "internal_server_error" });
   }
