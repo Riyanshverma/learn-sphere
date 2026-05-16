@@ -155,12 +155,12 @@ export interface EmployeesPayrollsDetailsResponse {
   employee_id: string;
   payroll_month: string;
   due_date: string;
-  base_salary: number; //
-  deductions: number | null; //
-  net_salary: number | null; //
+  base_salary: number;
+  deductions: number | null
+  net_salary: number | null;
   payroll_status: payroll_status;
   payment_method: 'cash' | 'online' | null;
-  razorpay_payout_id: string | null; //
+  razorpay_payout_id: string | null;
   paid_at: string | null;
   identity_id: string;
   qualification: string;
@@ -182,8 +182,8 @@ export interface EmployeesPayrollsDetailsResponse {
     account_type: string;
     cancelled_cheque_url: string;
   };
-  razorpay_contact_id: string; //
-  razorpay_fund_account_id: string; // 
+  razorpay_contact_id: string;
+  razorpay_fund_account_id: string;
   email: string;
   phone: string;
   full_name: string;

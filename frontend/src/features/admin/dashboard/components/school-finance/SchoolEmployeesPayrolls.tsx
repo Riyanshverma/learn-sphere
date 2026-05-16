@@ -1,5 +1,5 @@
 import { adminService } from "@/services"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useRef } from "react"
 import { toast } from "sonner"
 import type { EmployeesPayrollsDetailsResponse } from "@/types"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
@@ -32,6 +32,7 @@ export const SchoolEmployeesPayrolls = () => {
   const [employeesPayrollsDetails, setEmployeesPayrollsDetails] = useState<EmployeesPayrollsDetailsResponse[] | null>(null);
   const [employeesPayrollsDialogOpen, setEmployeesPayrollsDialogOpen] = useState<"cash" | "online" | null>(null)
   const [filter, setFilter] = useState<"all" | "today" | "upcoming" | "due">("all")
+  const selectedEmployeePayrollDetailsRef = useRef<EmployeesPayrollsDetailsResponse | null>(null)
 
   const filteredPayrolls = useMemo(() => {
     if (!employeesPayrollsDetails) return null
@@ -105,70 +106,81 @@ export const SchoolEmployeesPayrolls = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {filteredPayrolls.map((payroll) => (
-            <Card key={payroll.payroll_id}>
-              <CardHeader className="flex flex-row items-start justify-between space-y-0">
-                <div className="space-y-1 w-full">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <CardTitle className="text-xl font-heading font-normal capitalize">
-                        {payroll.full_name}
-                      </CardTitle>
-                      <Badge variant="outline" className="font-sans font-light text-sm capitalize">
-                        {payroll.designation.replace("_", " ")}
+          {filteredPayrolls.map((payroll) => {
+            return (
+              <Card key={payroll.payroll_id}>
+                <CardHeader className="flex flex-row items-start justify-between space-y-0">
+                  <div className="space-y-1 w-full">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <CardTitle className="text-xl font-heading font-normal capitalize">
+                          {payroll.full_name}
+                        </CardTitle>
+                        <Badge variant="outline" className="font-sans font-light text-sm capitalize">
+                          {payroll.designation.replace("_", " ")}
+                        </Badge>
+                        <span className="text-xl font-heading font-normal">EMP{payroll.employee_code}</span>
+                      </div>
+                      <Badge className={`font-sans font-light text-sm capitalize px-4 py-1 rounded-full ${getPayrollStatusColor(payroll.payroll_status)}`}>
+                        {payroll.payroll_status}
                       </Badge>
-                      <span className="text-xl font-heading font-normal">EMP{payroll.employee_code}</span>
                     </div>
-                    <Badge className={`font-sans font-light text-sm capitalize px-4 py-1 rounded-full ${getPayrollStatusColor(payroll.payroll_status)}`}>
-                      {payroll.payroll_status}
-                    </Badge>
+
+                    <CardDescription className="font-sans font-light text-base flex items-center justify-between">
+                      <span className="text-destructive font-light">
+                        Due Date: {new Date(payroll.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                      <span>
+                        Paid At: {payroll.paid_at ? new Date(payroll.paid_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "N/A"}
+                      </span>
+                    </CardDescription>
                   </div>
+                </CardHeader>
 
-                  <CardDescription className="font-sans font-light text-base flex items-center justify-between">
-                    <span className="text-destructive font-light">
-                      Due Date: {new Date(payroll.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </span>
-                    <span>
-                      Paid At: {payroll.paid_at ? new Date(payroll.paid_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "N/A"}
-                    </span>
-                  </CardDescription>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <PayrollDetailItem label="Phone Number" value={payroll.phone.slice(2)} />
-                  <PayrollDetailItem label="Email" value={payroll.email} />
-                  <PayrollDetailItem label="Qualifications" value={capitalizeWords(payroll.qualification)} />
-                  <PayrollDetailItem label="Joined Date" value={new Date(payroll.joined_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} />
-                  <PayrollDetailItem label="Monthly Salary" value={`₹${payroll.monthly_salary.toLocaleString()}`} />
-                  <PayrollDetailItem label="Leaves Taken" value={`${payroll.leaves.leaves_taken} / ${payroll.leaves.total_leaves_per_month}`} />
-                  <PayrollDetailItem label="Account Name" value={payroll.bank_details.account_holder_name} className="capitalize" />
-                  <PayrollDetailItem label="Account Number" value={payroll.bank_details.account_number} />
-                  <PayrollDetailItem label="IFSC Code" value={payroll.bank_details.ifsc_code} />
-                  <PayrollDetailItem label="Bank & Branch" value={`${payroll.bank_details.bank_name} (${payroll.bank_details.branch_name})`} className="col-span-2 capitalize" />
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-end gap-2">
-                <Button 
-                  className="h-10 px-8 rounded-lg font-sans font-normal text-base hover:bg-primary/60"
-                  onClick={() => {
-                    setEmployeesPayrollsDialogOpen("cash");
-                  }}
-                >
-                  Pay Cash
-                </Button>
-                <Button 
-                  className="h-10 px-8 rounded-lg font-sans font-normal text-base hover:bg-primary/60"
-                  onClick={() => {
-                    setEmployeesPayrollsDialogOpen("online");
-                  }}
-                >
-                  Deposit Online
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <PayrollDetailItem label="Phone Number" value={payroll.phone.slice(2)} />
+                    <PayrollDetailItem label="Email" value={payroll.email} />
+                    <PayrollDetailItem label="Qualifications" value={capitalizeWords(payroll.qualification)} />
+                    <PayrollDetailItem label="Joined Date" value={new Date(payroll.joined_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} />
+                    <PayrollDetailItem label="Monthly Salary" value={`₹${payroll.monthly_salary.toLocaleString()}`} />
+                    <PayrollDetailItem label="Leaves Taken" value={`${payroll.leaves.leaves_taken} / ${payroll.leaves.total_leaves_per_month}`} />
+                    <PayrollDetailItem label="Account Name" value={payroll.bank_details.account_holder_name} className="capitalize" />
+                    <PayrollDetailItem label="Account Number" value={payroll.bank_details.account_number} />
+                    <PayrollDetailItem label="IFSC Code" value={payroll.bank_details.ifsc_code} />
+                    <PayrollDetailItem label="Bank & Branch" value={`${payroll.bank_details.bank_name} (${payroll.bank_details.branch_name})`} className="col-span-2 capitalize" />
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between items-center gap-2">
+                  <div className="text-2xl font-heading font-normal text-foreground">
+                    Total: ₹{(payroll.base_salary - ((Math.max(0, payroll.leaves.leaves_taken - payroll.leaves.total_leaves_per_month)) * 500)).toLocaleString()}
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <Button 
+                      className="h-10 px-8 rounded-lg font-sans font-normal text-base hover:bg-primary/60"
+                      disabled={payroll.payroll_status !== "pending" && payroll.payroll_status !== "failed"}
+                      onClick={() => {
+                        selectedEmployeePayrollDetailsRef.current = payroll;
+                        setEmployeesPayrollsDialogOpen("cash");
+                      }}
+                    >
+                      Pay Cash
+                    </Button>
+                    <Button 
+                      className="h-10 px-8 rounded-lg font-sans font-normal text-base hover:bg-primary/60"
+                      disabled={payroll.payroll_status !== "pending" && payroll.payroll_status !== "failed"}
+                      onClick={() => {
+                        selectedEmployeePayrollDetailsRef.current = payroll;
+                        setEmployeesPayrollsDialogOpen("online");
+                      }}
+                    >
+                      Deposit Online
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            );
+          })}
         </div>
       )}
 
@@ -227,10 +239,12 @@ export const SchoolEmployeesPayrolls = () => {
       <EmployeesPayrollsByCashDialog 
         dialogOpen={employeesPayrollsDialogOpen === "cash"} 
         setDialogOpen={setEmployeesPayrollsDialogOpen} 
+        employeepayrollDetails={selectedEmployeePayrollDetailsRef.current}
       />
       <EmployeesPayrollsByOnlineDialog 
         dialogOpen={employeesPayrollsDialogOpen === "online"} 
         setDialogOpen={setEmployeesPayrollsDialogOpen} 
+        employeepayrollDetails={selectedEmployeePayrollDetailsRef.current}
       />
     </div>
   )
