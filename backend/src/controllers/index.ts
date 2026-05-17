@@ -15,3 +15,6 @@ export { studentSignupWithSupabase, studentSignupWithResend, parentIdentityDetai
 
 import { fetchEmployeesPayrollsDetails, employeePayrollByCash, employeePayrollByOnline, employeePayrollByOnlineWebhook } from "./admin/finance.controller";
 export { fetchEmployeesPayrollsDetails, employeePayrollByCash, employeePayrollByOnline, employeePayrollByOnlineWebhook }
+
+import { fetchAllSchoolTeachers } from "./admin/school-people.controller";
+export { fetchAllSchoolTeachers }

@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 
-import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByCashType, ConfirmEmployeePayrollByOnlineType } from "@/types";
+import type { ApiSuccessResponse, ApiErrorResponse, TeacherInvitationsResponse, ParentInvitationsResponse, AllClassesDetailsResponse, SearchedTeachersResponse, SearchedStaffsResponse, EmployeesAttendanceResponse, UpdateSingleEmployeeAttendanceType, MyLeaveApplicationsResponse, EmployeeLeaveApplicationsResponse, MyAttendanceResponse, EmployeesPayrollsDetailsResponse, ConfirmEmployeePayrollByCashType, ConfirmEmployeePayrollByOnlineType, AllSchoolTeachersResponse } from "@/types";
 
 import type { InvitationType, SelectStudentClassType, StudentWithExistingUserParentType, StudentWithNewParentType, SearchType, ApplyForLeaveType, UpdateEmployeeLeaveApplicationStatusType, UpdateClassTeacherType } from "@/validation";
 
@@ -291,6 +291,16 @@ class AdminService {
   async updateClassTeacher(data: UpdateClassTeacherType): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
       const response = await this.apiClient.patch<ApiSuccessResponse>('/school-academic/update-class-teacher', data);
+
+      return response.data;
+    } catch (error: any) {
+      return (error as AxiosError<ApiErrorResponse>).response?.data as ApiErrorResponse;
+    }
+  }
+
+  async getAllSchoolTeachers(): Promise<ApiSuccessResponse<AllSchoolTeachersResponse[]> | ApiErrorResponse> {
+    try {
+      const response = await this.apiClient.get<ApiSuccessResponse<AllSchoolTeachersResponse[]>>('/school-people/all-school-teachers');
 
       return response.data;
     } catch (error: any) {

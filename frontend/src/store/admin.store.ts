@@ -1,11 +1,12 @@
 import { create } from "zustand"
 import { devtools, persist } from "zustand/middleware"
-import type { CreateAdminResponse, AllClassesDetailsResponse, MyAttendanceResponse } from "@/types"
+import type { CreateAdminResponse, AllClassesDetailsResponse, MyAttendanceResponse, AllSchoolTeachersResponse } from "@/types"
 
 type adminState = {
   admin: CreateAdminResponse | null
   allClassesDetails: AllClassesDetailsResponse[] | null
   myAttendance: MyAttendanceResponse[] | null
+  allSchoolTeachers: AllSchoolTeachersResponse[] | null
 }
 
 type adminActions = {
@@ -13,6 +14,7 @@ type adminActions = {
   updateLeavesTaken: (days: number) => void
   setAllClassesDetails: (allClassesDetails: AllClassesDetailsResponse[]) => void
   setMyAttendance: (myAttendance: MyAttendanceResponse[]) => void
+  setAllSchoolTeachers: (teachers: AllSchoolTeachersResponse[] | null) => void
   reset: () => void
 }
 
@@ -20,6 +22,7 @@ const adminStore = (set: any): adminState & adminActions => ({
   admin: null,
   allClassesDetails: null,
   myAttendance: null,
+  allSchoolTeachers: null,
 
   setAdmin: (admin) => set({ admin }),
   updateLeavesTaken: (days) => set((state: adminState) => {
@@ -36,8 +39,9 @@ const adminStore = (set: any): adminState & adminActions => ({
   }),
   setAllClassesDetails: (allClassesDetails) => set({ allClassesDetails }),
   setMyAttendance: (myAttendance) => set({ myAttendance }),
+  setAllSchoolTeachers: (allSchoolTeachers) => set({ allSchoolTeachers }),
 
-  reset: () => set({ admin: null, allClassesDetails: null, myAttendance: null }),
+  reset: () => set({ admin: null, allClassesDetails: null, myAttendance: null, allSchoolTeachers: null }),
 })
 
 export const useAdminStore = create<adminState & adminActions>()(devtools(persist(adminStore, { name: "adminStore" })))

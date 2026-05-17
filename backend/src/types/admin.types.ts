@@ -276,3 +276,32 @@ export interface UpdateEmployeePayrollStatusFromWebhookType {
   utr_id: string | null;
   paid_at: Date;
 }
+
+export interface AllSchoolTeachersResponse {
+  email: string;
+  full_name: string;
+  identity_id: string;
+  employee_id: string;
+  qualification: string;
+  specialization: string;
+  designation: string;
+  joined_date: string;
+  employee_code: number;
+  monthly_salary: number;
+  leaves: {
+    total_leaves_per_month: number;
+    leaves_taken: number;
+  };
+  class: {
+    class_id: string;
+    class_standard: number;
+    class_section: string;
+  } | null;
+  subjects: {
+    id: string;
+    name: string;
+    subject_code: string;
+    class_id: string;
+    academic_year: string;
+  }[];
+}

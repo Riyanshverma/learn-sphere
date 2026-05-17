@@ -32,6 +32,7 @@ import type {
   ConfirmEmployeePayrollByOnlineType,
   UpdateEmployeePayrollStatusFromWebhookType,
   payroll_status,
+  AllSchoolTeachersResponse
 } from "../types";
 
 import { CustomAuthError, type User } from "@supabase/supabase-js";
@@ -850,6 +851,21 @@ export const updateEmployeePayrollStatusFromWebhook = async (
 export const getSearchedTeachersForClassTeacher = async (search: string): Promise<SearchedTeachersResponse[]> => {
   try {
     const { data, error } = await supabaseAdmin.rpc("get_searched_teachers_for_class_teacher", { p_search: search });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+export const getAllSchoolTeachers = async (): Promise<AllSchoolTeachersResponse[]> => {
+  try {
+    const { data, error } = await supabaseAdmin.rpc("get_all_school_teachers");
 
     if (error) {
       throw error;
